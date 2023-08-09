@@ -1,0 +1,4 @@
+datasets==2.13.1
+lxml==4.9.3
+tokenizers==0.13.3
+transformers==4.30.2
