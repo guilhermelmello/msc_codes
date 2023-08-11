@@ -1,9 +1,9 @@
 #!/bin/bash -l
 
-#SBATCH -p devwork
-#SBATCH -n 32
+#SBATCH -p arandu
+#SBATCH -n 64
 #SBATCH --gres=gpu:0
-#SBATCH --output=script.log
+#SBATCH --output=main.log
 
 
 # Print the name of the worker node to the output file
@@ -23,6 +23,7 @@ mkdir -p /output/gmello/tokenizer_bpe/results
 # Call Docker and run the code
 docker run \
     --ipc=host --rm \
+    --user "$(id -u):$(id -g)" \
     -v /output/gmello/tokenizer_bpe:/workspace/tokenizer_bpe \
     -v /output/gmello/hf_cache:/workspace/hf_cache \
     -w /workspace/tokenizer_bpe \
@@ -30,7 +31,7 @@ docker run \
     python main.py
 
 # move project results back to home directory
-mv /output/gmello/tokenizer_bpe/results /home/gmello/tokenizer_bpe
+cp -r /output/gmello/tokenizer_bpe/results /home/gmello/msc_codes/tokenizer_bpe
 rm -r /output/gmello/tokenizer_bpe
 
 
