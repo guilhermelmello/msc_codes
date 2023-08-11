@@ -13,6 +13,8 @@ from tokenizers import (
     trainers,
 )
 
+import os
+
 
 # TRAINING ARGUMENTS
 VOCAB_SIZE = 50000
@@ -25,6 +27,7 @@ DATASET_STREAMING = False   # to load the dataset in streaming mode
 # ------- #
 # DATASET #
 # ------- #
+print("Loading the dataset...")
 
 # load dataset
 dataset = load_dataset(
@@ -56,13 +59,16 @@ def get_batch_from_cache(dataset, batch_size):
 # ------------------ #
 # TOKENIZER PIPELINE #
 # ------------------ #
+print("Creating the tokenization pipeline...")
 
 # Tokenization model
+print("Setting the tokenizer model.")
 tokenizer = Tokenizer(model=models.BPE())
 
 # Normalization: since it is a BPE tokenizer
 # in byte level, only the accents are normalized,
 # since accents have an important role in portuguese.
+print("Setting the normalizer.")
 tokenizer.normalizer = normalizers.Sequence([
     normalizers.NFKD()
 ])
@@ -76,6 +82,7 @@ tokenizer.normalizer = normalizers.Sequence([
 # in the middle of a sentence keep the preceding space,
 # this is set to `True` as an attempt to reduce the size
 # of the final vocabulary.
+print("Setting the pre-tokenizer.")
 tokenizer.pre_tokenizer = pre_tokenizers.ByteLevel(
     add_prefix_space=True,
 )
@@ -87,6 +94,7 @@ tokenizer.pre_tokenizer = pre_tokenizers.ByteLevel(
 # vocabulary. Otherwise, the model will create
 # tokens that does not appear in the vocab and
 # will need an <UNK> token.
+print("Setting the trainer.")
 alphabet = tokenizer.pre_tokenizer.alphabet()
 trainer = trainers.BpeTrainer(
     special_tokens=SPECIAL_TOKENS,
@@ -94,6 +102,7 @@ trainer = trainers.BpeTrainer(
     initial_alphabet=alphabet,
     min_frequency=MIN_TOKEN_FREQ)
 
+print("Training the new tokenizer.")
 if DATASET_STREAMING:
     batch_it = get_batch_from_streaming(dataset, 1000)
 else:
@@ -111,6 +120,7 @@ tokenizer.train_from_iterator(batch_it, trainer=trainer)
 # In this script, the token type id is set to 0 for sentences
 # A and B because the model will use only MLM loss, but it
 # can be changed if needed.
+print("Defining the post processor template.")
 tokenizer.post_processor = processors.TemplateProcessing(
     single="<cls>:0 $A:0 <sep>:0",
     pair="<cls>:0 $A:0 <sep>:0 $B:0 <sep>:0",
@@ -125,14 +135,18 @@ tokenizer.post_processor = processors.TemplateProcessing(
 # some scripts that use this information to truncate the
 # dataset. The following command enable the tokenizer to
 # truncate at a max length.
+print("Enabling truncation.")
 tokenizer.enable_truncation(max_length=512)
 
 # Decoder: byte level decoder are needed
 # when using a byte level pretokenization,
+print("Setting the decoder.")
 tokenizer.decoder = decoders.ByteLevel()
 
 # save the tokenizer's vocabulary
-tokenizer.save(f'{OUTPUT_DIR}/tokenizer.json')
+vocab_path = os.path.abspath(os.path.join(OUTPUT_DIR, 'tokenizer.json'))
+print("Saving new vocabulary to: ", vocab_path)
+tokenizer.save(vocab_path)
 
 
 # --------------------------------------- #
