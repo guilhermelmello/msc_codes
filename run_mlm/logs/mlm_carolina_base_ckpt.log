@@ -1,0 +1,122 @@
+Running on dgx01
+Starting time: Mon Jun 26 10:00:13 -03 2023
+Running on GPU(s) 0,1,2,3,4,5,6,7
+sending incremental file list
+
+sent 18 bytes  received 12 bytes  60.00 bytes/sec
+total size is 0  speedup is 0.00
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 23.04 (build 58180998)
+PyTorch Version 2.1.0a0+fe05266
+
+Container image Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+Copyright (c) 2014-2023 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+NOTE: CUDA Forward Compatibility mode ENABLED.
+  Using CUDA 12.1 driver version 530.30.02 with kernel driver version 470.182.03.
+  See https://docs.nvidia.com/deploy/cuda-compatibility/ for details.
+
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_processes` was set to a value of `8`
+		More than one GPU was found, enabling multi-GPU training.
+		If this was unintended please pass in `--num_processes=1`.
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+06/26/2023 13:00:35 - INFO - __main__ - Distributed environment: MULTI_GPU  Backend: nccl
+Num processes: 8
+Process index: 7
+Local process index: 7
+Device: cuda:7
+
+Mixed precision type: fp16
+
+06/26/2023 13:00:35 - INFO - __main__ - Distributed environment: MULTI_GPU  Backend: nccl
+Num processes: 8
+Process index: 6
+Local process index: 6
+Device: cuda:6
+
+Mixed precision type: fp16
+
+06/26/2023 13:00:35 - INFO - __main__ - Distributed environment: MULTI_GPU  Backend: nccl
+Num processes: 8
+Process index: 4
+Local process index: 4
+Device: cuda:4
+
+Mixed precision type: fp16
+
+06/26/2023 13:00:35 - INFO - __main__ - Distributed environment: MULTI_GPU  Backend: nccl
+Num processes: 8
+Process index: 2
+Local process index: 2
+Device: cuda:2
+
+Mixed precision type: fp16
+
+06/26/2023 13:00:35 - INFO - __main__ - Distributed environment: MULTI_GPU  Backend: nccl
+Num processes: 8
+Process index: 1
+Local process index: 1
+Device: cuda:1
+
+Mixed precision type: fp16
+
+06/26/2023 13:00:35 - INFO - __main__ - Distributed environment: MULTI_GPU  Backend: nccl
+Num processes: 8
+Process index: 5
+Local process index: 5
+Device: cuda:5
+
+Mixed precision type: fp16
+
+06/26/2023 13:00:35 - INFO - __main__ - Distributed environment: MULTI_GPU  Backend: nccl
+Num processes: 8
+Process index: 0
+Local process index: 0
+Device: cuda:0
+
+Mixed precision type: fp16
+
+06/26/2023 13:00:35 - INFO - __main__ - Distributed environment: MULTI_GPU  Backend: nccl
+Num processes: 8
+Process index: 3
+Local process index: 3
+Device: cuda:3
+
+Mixed precision type: fp16
+
+slurmstepd-dgx01: error: *** JOB 1366 ON dgx01 CANCELLED AT 2023-06-26T10:00:42 ***
+WARNING:torch.distributed.elastic.agent.server.api:Received 15 death signal, shutting down workers
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 179 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 180 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 181 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 182 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 183 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 184 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 185 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 187 closing signal SIGTERM
