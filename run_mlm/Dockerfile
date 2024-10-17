@@ -4,12 +4,12 @@
 #   --build-arg GROUP_ID=$(id -g ${USER}) \
 #   --build-arg USER_NAME=$(id -nu ${USER}) \
 #   --build-arg GROUP_NAME=$(id -ng ${USER}) \
-#   -t gmello_run_mlm:1.0 .
+#   -t gmello_mlm:1.0 .
 #
 # HOW TO RUN:
 # docker run -it --rm \
 #     --user "$(id -u):$(id -g)" \
-#     gmello_run_mlm:1.0
+#     gmello_mlm:1.0
 
 FROM nvcr.io/nvidia/pytorch:23.04-py3
 
