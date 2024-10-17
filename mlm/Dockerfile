@@ -25,9 +25,9 @@ USER ${USER_NAME}
 
 
 COPY requirements.txt /tmp/requirements.txt
-ENV HF_DATASETS_CACHE /workspace/hf_cache
+ENV HF_DATASETS_CACHE=/workspace/hf_cache
 RUN pip install --upgrade pip
 RUN pip install -r /tmp/requirements.txt
 
 # pip is using this folder
-ENV PATH /home/gmello/.local/bin:$PATH
+ENV PATH=/home/gmello/.local/bin:$PATH
