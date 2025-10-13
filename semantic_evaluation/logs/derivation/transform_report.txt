@@ -1,0 +1,7 @@
+Function: _transform_derivation_row
+Input: ./data/morphynet/por.derivational.v1.tsv
+Output: ./logs/derivation
+total: 11774 rows processed
+success: 97.68% (11501 rows)
+failure: 00.25% (30 rows)
+skipped: 02.06% (243 rows)

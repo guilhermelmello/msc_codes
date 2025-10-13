@@ -1,0 +1,2 @@
+ipython==9.6.0
+pyenchant==3.3.0

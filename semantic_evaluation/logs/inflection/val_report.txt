@@ -1,0 +1,15 @@
+Input: ./data/morphynet/pt.inflectional.v1.tsv
+skipped: 58847 rows not processed
+total: 317494 rows processed
+
+Portuguese
+Success: 94.64% (300463)
+Failure: 05.36% (17031)
+
+Brazilian
+Success: 94.43% (299807)
+Failure: 05.57% (17687)
+
+European
+Success: 78.61% (249580)
+Failure: 21.39% (67914)

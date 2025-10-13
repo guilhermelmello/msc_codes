@@ -1,0 +1,15 @@
+Input: ./data/morphynet/por.derivational.v1.tsv
+skipped: 0 rows not processed
+total: 11774 rows processed
+
+Portuguese
+Success: 98.35% (11580)
+Failure: 01.65% (194)
+
+Brazilian
+Success: 97.94% (11531)
+Failure: 02.06% (243)
+
+European
+Success: 88.84% (10460)
+Failure: 11.16% (1314)

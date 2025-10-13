@@ -1,0 +1,7 @@
+Function: _transform_inflection_row
+Input: ./data/morphynet/pt.inflectional.v1.tsv
+Output: ./logs/inflection/
+total: 376341 rows processed
+success: 79.66% (299807 rows)
+failure: 00.00% (0 rows)
+skipped: 20.34% (76534 rows)
