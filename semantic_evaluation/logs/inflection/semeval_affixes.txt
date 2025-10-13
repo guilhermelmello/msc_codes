@@ -1,0 +1,164 @@
+Total: 162
+
+26881 s
+11857 e
+10745 a
+8508 amos
+7853 emos
+7825 em
+7198 ada
+7198 aria
+7196 ado
+7176 ava
+7169 ares
+7169 armos
+7169 ardes
+7169 arem
+7168 ara
+7168 asse
+7166 aram
+5436 es
+4921 am
+4265 as
+4258 o
+4256 ais
+3892 eis
+3889 ei
+3600 ará
+3598 arei
+3598 aremos
+3598 areis
+3598 arão
+3598 arias
+3598 aríamos
+3598 aríeis
+3598 ariam
+3597 arás
+3587 avas
+3587 ai
+3586 ávamos
+3586 áveis
+3586 avam
+3585 ou
+3583 aste
+3583 astes
+3583 aras
+3583 áramos
+3583 áreis
+3583 asses
+3583 ássemos
+3583 ásseis
+3583 assem
+1979 ões
+1152 ia
+1096 ido
+1096 ida
+ 812 i
+ 710 era
+ 710 esse
+ 709 eram
+ 694 is
+ 682 eres
+ 682 ermos
+ 682 erdes
+ 682 erem
+ 664 iria
+ 644 irmos
+ 644 irdes
+ 633 íamos
+ 633 íeis
+ 616 eria
+ 579 ias
+ 576 iam
+ 543 ires
+ 543 irem
+ 539 imos
+ 534 iram
+ 534 ira
+ 534 isse
+ 366 ns
+ 355 estes
+ 355 eras
+ 355 esses
+ 355 essem
+ 354 este
+ 332 irei
+ 332 irás
+ 332 irá
+ 332 iremos
+ 332 ireis
+ 332 irão
+ 332 irias
+ 332 iríamos
+ 332 iríeis
+ 332 iriam
+ 319 iu
+ 319 íramos
+ 319 íreis
+ 319 íssemos
+ 319 ísseis
+ 308 erei
+ 308 erás
+ 308 erá
+ 308 eremos
+ 308 ereis
+ 308 erão
+ 308 erias
+ 308 eríamos
+ 308 eríeis
+ 308 eriam
+ 288 eu
+ 286 êramos
+ 286 êreis
+ 286 êssemos
+ 286 êsseis
+ 268 iste
+ 267 istes
+ 267 iras
+ 267 isses
+ 267 issem
+ 141 er
+ 116 ído
+ 116 ída
+ 116 ía
+ 110 í
+ 104 ímos
+ 104 íram
+ 104 íra
+ 104 ísse
+ 101 íres
+ 101 írem
+  74 esa
+  58 íam
+  55 ías
+  52 ís
+  52 íste
+  52 ístes
+  52 íras
+  52 ísses
+  52 íssem
+  52 des
+  42 osto
+  42 osta
+  42 oria
+  40 ona
+  22 omos
+  21 ores
+  21 ormos
+  21 ordes
+  21 orem
+  21 orias
+  21 oríamos
+  21 oríeis
+  21 oriam
+  21 íssimo
+  17 ói
+  17 oa
+  15 éns
+  11 imo
+   6 ir
+   5 ã
+   4 ar
+   3 isa
+   1 ando
+   1 és

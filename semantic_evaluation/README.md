@@ -93,5 +93,46 @@ python morphynet.py \
 - *transform_report.txt*: report the results obtained during transformation.
 
 
-### Affixes:
 ## Semantic Evaluation:
+
+Scripts of Semantic Evaluation (SemEval).
+
+### Affixes:
+
+Extract every affix and its frequency, creating a file order by the frequency.
+
+**How to run:**
+
+```bash
+python semeval.py \
+    --affixes --derivation \
+    --output-dir=./logs/derivation/
+```
+```bash
+python morphynet.py \
+    --affixes --inflection \
+    --output-dir=./logs/inflection/
+```
+
+**Generated Files:**
+- *affixes.txt*: list every affix, order by its frequency.
+
+### Evaluate:
+
+Semantic Evaluation Metrics.
+
+**How to run**
+
+```bash
+python semeval.py \
+    --evaluate --derivation \
+    --model-name=[MODEL_NAME]
+```
+```bash
+python morphynet.py \
+    --evaluate --inflection \
+    --model-name=[MODEL_NAME]
+```
+
+Metrics are only reported in the standard output.
+No file is generated.
