@@ -3,10 +3,12 @@ from typing import Union, List
 from .downstream_tasks import DownstreamTaskBase
 from datasets import DatasetDict
 from optuna import Trial
-from transformers import AutoModelForSequenceClassification
-from transformers import EvalPrediction
-from transformers import PreTrainedTokenizerBase
-from transformers import TrainingArguments, Trainer
+from transformers import (
+    AutoModelForSequenceClassification,
+    Trainer,
+    TrainingArguments,
+    PreTrainedTokenizerBase,
+)
 from transformers.trainer_utils import BestRun
 
 import gc
@@ -81,7 +83,7 @@ def optuna_search(
     task: DownstreamTaskBase,
     dataset: DatasetDict,
     tokenizer: PreTrainedTokenizerBase,
-) -> Union[dict[str, float], None]:
+) -> dict[str, float]:
     '''Hyperparameter Search with Optuna.
 
     `Trainer.hyperparameter_search` only returns the last epoch metric as

@@ -7,6 +7,11 @@ from datasets import DatasetDict
 
 
 class DownstreamTaskBase(NamedTuple):
+    @property
+    @abstractmethod
+    def name(self) -> str:
+        raise NotImplementedError
+
     @staticmethod
     def filtered_columns(func):
         '''Decorator to remove datasets extra columns'''

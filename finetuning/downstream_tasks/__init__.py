@@ -9,9 +9,9 @@ from . import assin2
 
 
 _tasks_map = {
-    'assin_rte': assin.RecognisingTextualEntailment(),
+    'assin-rte': assin.RecognisingTextualEntailment(),
     # 'assin_sts': assin.SemanticTextualSimilarity(),
-    'assin2_rte': assin2.RecognisingTextualEntailment(),
+    'assin2-rte': assin2.RecognisingTextualEntailment(),
     # 'assin2_sts': assin2.SemanticTextualSimilarity(),
     # 'bpsad_polarity': load_bpsad_polarity,
     # 'bpsad_rating': load_bpsad_rating,

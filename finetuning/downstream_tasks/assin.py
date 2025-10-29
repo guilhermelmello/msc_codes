@@ -13,6 +13,10 @@ import numpy as np
 class RecognisingTextualEntailment(DownstreamTaskBase):
     '''Assin dataset for Recognising Textual Entailment (RTE).'''
 
+    @property
+    def name(self) -> str:
+        return 'assin-rte'
+
     @DownstreamTaskBase.filtered_columns
     def load_dataset(self, name: str = 'full', split : Union[str, None] = None):
         dataset = load_dataset('nilc-nlp/assin', name, split=split)
