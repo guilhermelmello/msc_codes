@@ -1,6 +1,13 @@
 """
 Load datasets from huggingface with standard column names for training.
 """
+from typing import Callable
+from datasets import Dataset
+from transformers import (
+    BatchEncoding,
+    PreTrainedTokenizerBase,
+)
+
 
 # datasets
 from .downstream_task_base import DownstreamTaskBase
@@ -16,6 +23,26 @@ _tasks_map = {
     # 'bpsad_polarity': load_bpsad_polarity,
     # 'bpsad_rating': load_bpsad_rating,
 }
+
+
+def get_tokenizer_map(
+    tokenizer: PreTrainedTokenizerBase,
+    is_sentence_pair : bool
+) -> Callable[[Dataset], BatchEncoding]:
+    '''Defines the tokenization mapper'''
+    if is_sentence_pair:
+        return lambda examples: tokenizer(
+            text=examples['text'],
+            text_pair=examples['text_pair'],
+            padding="max_length",
+            truncation=True,
+        )
+
+    return lambda examples: tokenizer(
+        text=examples['text'],
+        padding="max_length",
+        truncation=True,
+    )
 
 
 def load_task(name) -> DownstreamTaskBase:
