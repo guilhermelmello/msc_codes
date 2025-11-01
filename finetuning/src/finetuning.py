@@ -16,7 +16,7 @@ import pprint
 import time
 import torch
 
-from downstream_tasks import DownstreamTaskBase
+from .downstream_tasks import DownstreamTaskBase
 
 
 def finetune(

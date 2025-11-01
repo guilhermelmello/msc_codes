@@ -1,9 +1,9 @@
 from typing import Union, List
 from transformers import AutoTokenizer
 
-import downstream_tasks as tasks
-import finetuning
-import hp_search
+from src import downstream_tasks as tasks
+from src import finetuning
+from src import hp_search
 
 
 def run(
