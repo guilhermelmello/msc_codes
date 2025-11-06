@@ -1,3 +1,3 @@
 from . import downstream_tasks
-from . import hp_search
+from . import hyperparameters
 from . import finetuning

@@ -1,24 +1,27 @@
 from .downstream_task_base import DownstreamTaskBase
 from datasets import load_dataset
 from transformers import EvalPrediction
-from typing import Union
+from typing import Optional
 
 from transformers import AutoModelForSequenceClassification
 from transformers import PreTrainedModel
 
 import evaluate
-import numpy as np
 
 
 class RecognisingTextualEntailment(DownstreamTaskBase):
     '''Assin dataset for Recognising Textual Entailment (RTE).'''
+
+    def __init__(self):
+        self._f1_metric = evaluate.load('f1')
+        self._acc_metric = evaluate.load('accuracy')
 
     @property
     def name(self) -> str:
         return 'assin-rte'
 
     @DownstreamTaskBase.filtered_columns
-    def load_dataset(self, name: str = 'full', split : Union[str, None] = None):
+    def load_dataset(self, name: str = 'full', split : Optional[str] = None):
         dataset = load_dataset('nilc-nlp/assin', name, split=split)
 
         # renamed columns
@@ -28,28 +31,24 @@ class RecognisingTextualEntailment(DownstreamTaskBase):
             'entailment_judgment': 'label',
         })
 
-    def compute_metrics(self, eval_pred: EvalPrediction) -> dict:
-        logits, references = eval_pred
-        predictions = np.argmax(logits, axis=-1)
+    def compute_metrics(self, eval_pred: Optional[EvalPrediction]=None) -> dict[str, float] | None:
+        if eval_pred is None:
+            f1 = self._f1_metric.compute(average='macro') or {}
+            acc = self._acc_metric.compute() or {}
+            return {**f1, **acc}
 
-        f1_metric = evaluate.load('f1')
-        acc_metric = evaluate.load('accuracy')
-        
-        f1 = f1_metric.compute(
+        logits, references = eval_pred
+        predictions = logits.argmax(axis=-1) # type: ignore
+
+        self._f1_metric.add_batch(
             predictions=predictions,
             references=references,
-            average='macro'
-        ) or {}
-        acc = acc_metric.compute(
+        )
+        self._acc_metric.add_batch(
             predictions=predictions,
-            references=references
-        )or {}
+            references=references,
+        )
 
-        return {
-            'f1': f1.get('f1'),
-            'accuracy': acc.get('accuracy')
-        }
-    
     @property
     def objective_metric_name(self) -> str:
         return 'f1'

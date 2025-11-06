@@ -1,24 +1,27 @@
 from transformers import EvalPrediction
 from .downstream_task_base import DownstreamTaskBase
-from typing import Union
+from typing import Optional
 from datasets import load_dataset
 
 from transformers import AutoModelForSequenceClassification
 from transformers.models.auto.auto_factory import _BaseAutoModelClass
 
 import evaluate
-import numpy as np
 
 
 class RecognisingTextualEntailment(DownstreamTaskBase):
     '''Assin 2 dataset for Recognising Textual Entailment (RTE).'''
+
+    def __init__(self):
+        self._f1_metric = evaluate.load("f1")
+        self._acc_metric = evaluate.load("accuracy")
 
     @property
     def name(self) -> str:
         return 'assin-rte'
 
     @DownstreamTaskBase.filtered_columns
-    def load_dataset(self, split : Union[str, None] = None):
+    def load_dataset(self, split : Optional[str] = None):
         dataset = load_dataset('nilc-nlp/assin2', 'default', split=split)
 
         # renamed columns
@@ -28,24 +31,23 @@ class RecognisingTextualEntailment(DownstreamTaskBase):
             'entailment_judgment': 'label',
         })
     
-    def compute_metrics(self, eval_pred: EvalPrediction) -> dict:
-        f1_metric = evaluate.load("f1")
-        acc_metric = evaluate.load("accuracy")
+    def compute_metrics(self, eval_pred: Optional[EvalPrediction]=None) -> dict[str, float] | None:
+        if eval_pred is None:
+            f1 = self._f1_metric.compute(average='binary') or {}
+            acc = self._acc_metric.compute() or {}
+            return {**f1, **acc}
         
         logits, references = eval_pred
-        predictions = np.argmax(logits, axis=-1)
+        predictions = logits.argmax(axis=-1) # type: ignore
 
-        f1 = f1_metric.compute(
-            predictions=predictions,
-            references=references,
-            average='binary'
-        )
-        acc = acc_metric.compute(
+        self._f1_metric.add_batch(
             predictions=predictions,
             references=references
         )
-
-        return {'f1': f1, 'accuracy': acc}
+        self._acc_metric.add_batch(
+            predictions=predictions,
+            references=references
+        )
     
     @property
     def objective_metric_name(self) -> str:

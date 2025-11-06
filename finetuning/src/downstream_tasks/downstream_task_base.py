@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 from transformers import EvalPrediction
 from transformers import PreTrainedModel
 
@@ -39,7 +39,7 @@ class DownstreamTaskBase(NamedTuple):
         raise NotImplementedError
 
     @abstractmethod
-    def compute_metrics(self, eval_pred: EvalPrediction) -> dict:
+    def compute_metrics(self, eval_pred: Optional[EvalPrediction]=None) -> dict[str, float] | None:
         '''Compute task evalutation metrics.'''
         raise NotImplementedError
 
