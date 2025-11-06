@@ -4,7 +4,73 @@ from src import hyperparameters
 from transformers import AutoTokenizer
 from typing import Optional
 
+import argparse
 import pprint
+
+
+def read_arguments():
+    """
+    Read command-line arguments for model finetuning.
+
+    Returns
+    -------
+    argparse.Namespace
+        An object containing:
+            - task_name (str): name of the downstream task (e.g. 'assin-rte')
+            - model_name (str): model identifier from Hugging Face hub
+            - n_trials (int): number of hyperparameter trials
+            - n_epochs (int): number of training epochs
+            - seed (Optional[int]): random seed for reproducibility
+            - save_dir (Optional[str]): output directory for checkpoints
+    """
+    parser = argparse.ArgumentParser(
+        description="Finetune a pre-trained model from HuggingFace's Hub on a given NLP task."
+    )
+
+    parser.add_argument(
+        "--task-name",
+        type=str,
+        required=True,
+        help="Name of the downstream task (e.g., 'assin-rte', 'assin-sts')."
+    )
+
+    parser.add_argument(
+        "--model-name",
+        type=str,
+        required=True,
+        help="Model name or path (e.g., 'neuralmind/bert-base-portuguese-cased')."
+    )
+
+    parser.add_argument(
+        "--n-trials",
+        type=int,
+        default=3,
+        help="Number of hyperparameter trials to run (default: 3)."
+    )
+
+    parser.add_argument(
+        "--n-epochs",
+        type=int,
+        default=5,
+        help="Number of epochs to train each model (default: 5)."
+    )
+
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Random seed for reproducibility (default: None)."
+    )
+
+    parser.add_argument(
+        "--save-dir",
+        type=str,
+        default=None,
+        help="Directory to save model checkpoints (default: None). If 'None', the model wont be saved."
+    )
+
+    args = parser.parse_args()
+    return args
 
 
 def run(
@@ -63,10 +129,12 @@ def run(
 
 
 if __name__ == '__main__':
+    args = read_arguments()
     run(
-        task_name='assin-rte',
-        model_name='google-bert/bert-base-uncased',
-        n_trials=3,
-        n_epochs=5,
-        seed=42,
+        task_name=args.task_name,
+        model_name=args.model_name,
+        n_trials=args.n_trials,
+        n_epochs=args.n_epochs,
+        save_dir=args.save_dir,
+        seed=args.seed,
     )
