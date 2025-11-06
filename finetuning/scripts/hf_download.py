@@ -9,6 +9,6 @@ def cache_dataset(repo_id, **kwargs):
 def cache_model(repo_id, **kwargs):
     snapshot_download(repo_id=repo_id, repo_type='model', **kwargs)
 
-# cache_dataset('nilc-nlp/assin')
-# cache_dataset('nilc-nlp/assin2')
-# cache_model('google-bert/bert-base-uncased')
+cache_dataset('nilc-nlp/assin')
+cache_dataset('nilc-nlp/assin2')
+cache_model('google-bert/bert-base-uncased')
