@@ -13,6 +13,7 @@ def run(
     n_trials: int = 3,
     n_epochs: int = 5,
     seed: Optional[int]=None,
+    save_dir: Optional[str]=None,
 ):
     print(f'>>> Running Task: {task_name}')
     task = tasks.load_task(task_name)
@@ -45,7 +46,7 @@ def run(
     pprint.pprint(hparams)
 
     print('>>> Model Finetuning')
-    finetuning.finetune(
+    model = finetuning.finetune(
         seed=seed,
         task=task,
         model_name=model_name,
@@ -54,6 +55,11 @@ def run(
         n_epochs=n_epochs,
         hyperparameters=hparams,
     )
+
+    if save_dir != None:
+        print(f'Saving model and tokenizer at {save_dir}')
+        model.save_pretrained(save_dir)
+        tokenizer.save_pretrained(save_dir)
 
 
 if __name__ == '__main__':
