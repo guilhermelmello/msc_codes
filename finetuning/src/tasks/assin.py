@@ -1,4 +1,4 @@
-from .downstream_task_base import DownstreamTaskBase
+from .task_base import TaskBase
 from datasets import load_dataset
 from transformers import EvalPrediction
 from typing import Optional
@@ -9,7 +9,7 @@ from transformers import PreTrainedModel
 import evaluate
 
 
-class RecognisingTextualEntailment(DownstreamTaskBase):
+class RecognisingTextualEntailment(TaskBase):
     '''Assin dataset for Recognising Textual Entailment (RTE).'''
 
     def __init__(self):
@@ -20,7 +20,7 @@ class RecognisingTextualEntailment(DownstreamTaskBase):
     def name(self) -> str:
         return 'assin-rte'
 
-    @DownstreamTaskBase.filtered_columns
+    @TaskBase.filtered_columns
     def load_dataset(self, name: str = 'full', split : Optional[str] = None):
         dataset = load_dataset('nilc-nlp/assin', name, split=split)
 

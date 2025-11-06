@@ -1,5 +1,5 @@
 from transformers import EvalPrediction
-from .downstream_task_base import DownstreamTaskBase
+from .task_base import TaskBase
 from typing import Optional
 from datasets import load_dataset
 
@@ -9,7 +9,7 @@ from transformers.models.auto.auto_factory import _BaseAutoModelClass
 import evaluate
 
 
-class RecognisingTextualEntailment(DownstreamTaskBase):
+class RecognisingTextualEntailment(TaskBase):
     '''Assin 2 dataset for Recognising Textual Entailment (RTE).'''
 
     def __init__(self):
@@ -20,7 +20,7 @@ class RecognisingTextualEntailment(DownstreamTaskBase):
     def name(self) -> str:
         return 'assin-rte'
 
-    @DownstreamTaskBase.filtered_columns
+    @TaskBase.filtered_columns
     def load_dataset(self, split : Optional[str] = None):
         dataset = load_dataset('nilc-nlp/assin2', 'default', split=split)
 

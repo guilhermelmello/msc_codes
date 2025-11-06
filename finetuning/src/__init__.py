@@ -1,3 +1,3 @@
-from . import downstream_tasks
+from . import tasks
 from . import hyperparameters
 from . import finetuning

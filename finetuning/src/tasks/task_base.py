@@ -1,12 +1,12 @@
 from abc import abstractmethod
-from typing import NamedTuple, Optional
+from typing import Optional
 from transformers import EvalPrediction
 from transformers import PreTrainedModel
 
 from datasets import DatasetDict
 
 
-class DownstreamTaskBase(NamedTuple):
+class TaskBase:
     @property
     @abstractmethod
     def name(self) -> str:

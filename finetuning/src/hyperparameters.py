@@ -1,5 +1,5 @@
 from . import trainer
-from .downstream_tasks import DownstreamTaskBase
+from .tasks import TaskBase
 from datasets import DatasetDict
 from optuna import Trial
 from transformers import (
@@ -26,7 +26,7 @@ def search(
     model_name: str,
     n_trials: int,
     n_epochs: int,
-    task: DownstreamTaskBase,
+    task: TaskBase,
     dataset: DatasetDict,
     tokenizer: PreTrainedTokenizerBase,
     seed: Optional[int]=None

@@ -2,7 +2,7 @@
 Finetuning script
 """
 from . import trainer
-from .downstream_tasks import DownstreamTaskBase
+from .tasks import TaskBase
 from datasets import DatasetDict
 from transformers import PreTrainedTokenizerBase
 from typing import Optional
@@ -17,7 +17,7 @@ def finetune(
     n_epochs: int,
     hyperparameters: dict,
     dataset: DatasetDict,
-    task: DownstreamTaskBase,
+    task: TaskBase,
     tokenizer: PreTrainedTokenizerBase,
     seed: Optional[int]=None,
 ):

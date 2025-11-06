@@ -1,4 +1,4 @@
-from src import downstream_tasks as tasks
+from src import tasks
 from src import finetuning
 from src import hyperparameters
 from transformers import AutoTokenizer

@@ -9,7 +9,7 @@ from transformers import (
 )
 
 # datasets
-from .downstream_task_base import DownstreamTaskBase
+from .task_base import TaskBase
 from . import assin
 from . import assin2
 
@@ -42,7 +42,7 @@ def get_tokenizer_map(
     )
 
 
-def load_task(name) -> DownstreamTaskBase:
+def load_task(name) -> TaskBase:
     '''Return a downstream task.'''
     try:
         TaskCls = _tasks_map[name]
