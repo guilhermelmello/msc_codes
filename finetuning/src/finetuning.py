@@ -5,6 +5,7 @@ from . import trainer
 from .downstream_tasks import DownstreamTaskBase
 from datasets import DatasetDict
 from transformers import PreTrainedTokenizerBase
+from typing import Optional
 
 import gc
 import pprint
@@ -18,8 +19,12 @@ def finetune(
     dataset: DatasetDict,
     task: DownstreamTaskBase,
     tokenizer: PreTrainedTokenizerBase,
+    seed: Optional[int]=None,
 ):
     '''Model Finetuning.'''
+    if seed is not None:
+        torch.manual_seed(seed)
+
     # hyperparameters
     batch_size = hyperparameters['batch_size']
     lr = hyperparameters['learning_rate']

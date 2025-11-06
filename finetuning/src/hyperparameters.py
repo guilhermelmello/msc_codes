@@ -6,6 +6,7 @@ from transformers import (
     AutoModelForSequenceClassification,
     PreTrainedTokenizerBase,
 )
+from typing import Optional
 
 import gc
 import optuna
@@ -28,6 +29,7 @@ def search(
     task: DownstreamTaskBase,
     dataset: DatasetDict,
     tokenizer: PreTrainedTokenizerBase,
+    seed: Optional[int]=None
 ) -> dict[str, float]:
     '''Hyperparameter Search with Optuna.
 
@@ -37,6 +39,9 @@ def search(
     custom objective implementation that loads the best model at the end of the
     trial and report its evaluation metrics for the trial.
     '''
+    if seed is not None:
+        torch.manual_seed(seed)
+
     def optuna_objective(trial: Trial):
         print(f'=== Trial {trial.number}', '=' * 40)
 

@@ -1,9 +1,10 @@
-from typing import Union, List
-from transformers import AutoTokenizer
-
 from src import downstream_tasks as tasks
 from src import finetuning
 from src import hyperparameters
+from transformers import AutoTokenizer
+from typing import Optional
+
+import pprint
 
 
 def run(
@@ -11,7 +12,7 @@ def run(
     model_name: str,
     n_trials: int = 3,
     n_epochs: int = 5,
-    seed: Union[int, List[int]]=42,
+    seed: Optional[int]=None,
 ):
     print(f'>>> Running Task: {task_name}')
     task = tasks.load_task(task_name)
@@ -32,6 +33,7 @@ def run(
 
     print('>>> Hyperparameter Search')
     hparams = hyperparameters.search(
+        seed=seed,
         model_name=model_name,
         n_trials=n_trials,
         n_epochs=n_epochs,
@@ -40,19 +42,18 @@ def run(
         task=task,
     )
     print('Selected Hyperparameters')
-    print(hparams)
+    pprint.pprint(hparams)
 
     print('>>> Model Finetuning')
-    seed = [seed] if isinstance(seed, int) else seed
-    for seed_i in seed:
-        finetuning.finetune(
-            task=task,
-            model_name=model_name,
-            dataset=dataset,
-            tokenizer=tokenizer,
-            n_epochs=n_epochs,
-            hyperparameters=hparams,
-        )
+    finetuning.finetune(
+        seed=seed,
+        task=task,
+        model_name=model_name,
+        dataset=dataset,
+        tokenizer=tokenizer,
+        n_epochs=n_epochs,
+        hyperparameters=hparams,
+    )
 
 
 if __name__ == '__main__':
