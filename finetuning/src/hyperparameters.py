@@ -10,7 +10,6 @@ from typing import Optional
 
 import gc
 import optuna
-import time
 import torch
 
 
@@ -91,7 +90,6 @@ def search(
             del model
             torch.cuda.empty_cache()
             gc.collect()
-            time.sleep(2)
 
     direction = 'maximize' if task.is_maximization else 'minimize'
     study = optuna.create_study(direction=direction)

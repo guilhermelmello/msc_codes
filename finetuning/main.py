@@ -5,8 +5,8 @@ from transformers import AutoTokenizer
 from typing import Optional
 
 import argparse
+import os
 import pprint
-
 
 def read_arguments():
     """
@@ -124,6 +124,7 @@ def run(
 
     if save_dir != None:
         print(f'Saving model and tokenizer at {save_dir}')
+        os.makedirs(save_dir, exist_ok=True)
         model.save_pretrained(save_dir)
         tokenizer.save_pretrained(save_dir)
 

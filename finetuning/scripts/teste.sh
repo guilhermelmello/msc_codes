@@ -1,31 +1,36 @@
 #!/bin/bash
 #PBS -N teste_job
 #PBS -q testegpu
-#PBS -j oe
-#PBS -o logs/teste.out
+#PBS -e logs/assin-rte/bert-base-uncased.err
+#PBS -o logs/assin-rte/bert-base-uncased.out
 
 echo "Staring Time: $(date)"
+echo "Root directory $PBS_O_WORKDIR"
 echo "Node: $(hostname)"
-echo "CPUs: $(getconf _NPROCESSORS_ONLN 2>/dev/null || nproc 2>/dev/null || echo 'N/D')"
-echo "PBS Output Directory: $PBS_O_WORKDIR"
-cd ~/msc_codes/finetuning
-pwd
+cd $PBS_O_WORKDIR
 
-# python setup
-module load python/3.10.10-gcc-9.4.0
+
+unset CUDA_VISIBLE_DEVICES
 source .venv/bin/activate
+
 
 # set HF to offline mode
 export HF_HUB_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export HF_EVALUATE_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
 
-# gpu usage
-# nvidia-smi pmon >> logs/usogpu.out &
 
 # run python script
 echo "Running python script"
-python main.py
+python main.py \
+    --task-name assin-rte \
+    --model-name google-bert/bert-base-uncased \
+    --save-dir models/assin-rte/bert-base-uncased/ \
+    --n-trials 3 \
+    --n-epochs 5 \
+    --seed 42
 
-# virtual environment
+
 deactivate
-
 echo "Ending Time: $(date)"
