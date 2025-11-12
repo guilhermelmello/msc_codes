@@ -2,7 +2,7 @@
 #PBS -N tokenizer
 #PBS -q par128
 #PBS -j oe
-#PBS -o logs/tokenizer_train_50000.log
+#PBS -o logs/tokenizer_50000.log
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -24,7 +24,7 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python tokenizer_train.py \
     --vocab-size 50000 \
-    --output-dir tokenizer-50000
+    --output-dir models/tokenizer-50000
 
 
 deactivate
