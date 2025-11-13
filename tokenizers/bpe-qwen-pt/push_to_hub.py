@@ -2,11 +2,20 @@ import os
 import huggingface_hub
 from transformers import AutoTokenizer
 
-repository_path = 'guilhermelmello/bpe-pt-30000'
-tokenizer_path = './models/tokenizer-30000.json'
+model_names = [
+    ('bpe10k', 'tokenizer-bpe-pt-10k'),
+    ('bpe30k', 'tokenizer-bpe-pt-30k'),
+    ('bpe50k', 'tokenizer-bpe-pt-50k'),
+]
 
-tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
-
-# huggingface_hub.notebook_login()
 huggingface_hub.login(os.environ['HF_TOKEN'])
-tokenizer.push_to_hub(repository_path)
+
+for local_name, repo_id in model_names:
+    tokenizer_path = os.path.join('models', local_name)
+
+    print('Saving tokenizer:')
+    print('Local Path:', tokenizer_path)
+    print('Hub ID:', repo_id)
+
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
+    tokenizer.push_to_hub(repo_id, private=True)

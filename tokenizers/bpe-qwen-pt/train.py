@@ -51,7 +51,7 @@ def read_arguments():
     )
 
     parser.add_argument(
-        "--model",
+        "--model-type",
         required=True,
         type=ModelType,
         choices=list(ModelType),

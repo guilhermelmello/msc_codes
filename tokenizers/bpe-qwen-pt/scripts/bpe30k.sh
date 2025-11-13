@@ -24,7 +24,7 @@ export TRANSFORMERS_OFFLINE=1
 # run python script
 echo "Running python script"
 python train.py \
-    --model BPE \
+    --model-type BPE \
     --vocab-size 30000 \
     --output-dir models/bpe30k
 

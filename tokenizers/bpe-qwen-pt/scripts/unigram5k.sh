@@ -1,8 +1,8 @@
 #!/bin/bash
-#PBS -N bpe10k
+#PBS -N unigram5k
 #PBS -q par128
 #PBS -j oe
-#PBS -o logs/bpe10k.log
+#PBS -o logs/unigram5k.log
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -24,9 +24,9 @@ export TRANSFORMERS_OFFLINE=1
 # run python script
 echo "Running python script"
 python train.py \
-    --model-type BPE \
-    --vocab-size 10000 \
-    --output-dir models/bpe10k
+    --model-type UNIGRAM \
+    --vocab-size 5000 \
+    --output-dir models/unigram5k
 
 
 deactivate
