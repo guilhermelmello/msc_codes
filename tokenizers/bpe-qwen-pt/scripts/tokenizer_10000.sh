@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N tokenizer
+#PBS -N tokenizer10k
 #PBS -q par128
 #PBS -j oe
 #PBS -o logs/tokenizer_10000.log
@@ -20,9 +20,10 @@ export HF_DATASETS_OFFLINE=1
 export HF_EVALUATE_OFFLINE=1
 export TRANSFORMERS_OFFLINE=1
 
+
 # run python script
 echo "Running python script"
-python tokenizer_train.py \
+python train.py \
     --vocab-size 10000 \
     --output-dir models/tokenizer-10000
 
