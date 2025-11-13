@@ -3,6 +3,7 @@ This script creates a Byte-Pair Encoding tokenizer
 for brazilian portuguese based on Carolina corpus.
 """
 from datasets import load_dataset
+from enum import Enum
 from transformers import PreTrainedTokenizerFast
 from tokenizers import (
     decoders,
@@ -24,7 +25,13 @@ MAX_LENGTH = 2048
 PAD_TOKEN = '[PAD]'
 SEP_TOKEN = '[SEP]'
 EOS_TOKEN = '[EOS]'
-SPECIAL_TOKENS = [PAD_TOKEN, SEP_TOKEN, EOS_TOKEN]
+UNK_TOKEN = '[UNK]'
+SPECIAL_TOKENS = [PAD_TOKEN, SEP_TOKEN, EOS_TOKEN, UNK_TOKEN]
+
+
+class ModelType(str, Enum):
+    BPE = 'BPE'
+    UNIGRAM = 'UNIGRAM'
 
 
 def read_arguments():
@@ -35,11 +42,20 @@ def read_arguments():
     -------
     argparse.Namespace
         An object containing:
+            - model (str): model type to train (BPE or UNIGRAM)
             - vocab_size (Optional[int]): maximum vocabulary size (default: 30000)
             - output_dir (Optional[str]): path to save pre-trained tokenizer (default: ./tokenizer)
     """
     parser = argparse.ArgumentParser(
         description="Create a new pre-trained byte-level BPE tokenizer."
+    )
+
+    parser.add_argument(
+        "--model",
+        required=True,
+        type=ModelType,
+        choices=list(ModelType),
+        help="Tokenizer model type to train."
     )
 
     parser.add_argument(
@@ -60,7 +76,40 @@ def read_arguments():
     return args
 
 
-def main(vocab_size: int, output_dir: str):
+def get_tokenizer_model(model_type: ModelType):
+    if model_type == ModelType.BPE:
+        return models.BPE()
+    elif model_type == ModelType.UNIGRAM:
+        return models.Unigram()
+
+    raise ValueError
+
+
+def get_tokenizer_trainer(model_type: ModelType, vocab_size: int):
+    bytes_alphabet = pre_tokenizers.ByteLevel().alphabet()
+
+    if model_type == ModelType.BPE:
+        return trainers.BpeTrainer(
+            initial_alphabet=bytes_alphabet,
+            special_tokens=SPECIAL_TOKENS,
+            min_frequency=MIN_TOKEN_FREQ,
+            vocab_size=vocab_size,
+            show_progress=True,
+        )
+    elif model_type == ModelType.UNIGRAM:
+        return trainers.UnigramTrainer(
+            initial_alphabet=bytes_alphabet,
+            special_tokens=SPECIAL_TOKENS,
+            shrinking_factor=0.05,
+            vocab_size=vocab_size,
+            unk_token=UNK_TOKEN,
+            # n_sub_iterations=,
+        )
+
+    raise ValueError
+
+
+def main(model_type: ModelType, vocab_size: int, output_dir: str):
     # load dataset
     print("Loading the dataset...")
     dataset = load_dataset(
@@ -70,9 +119,12 @@ def main(vocab_size: int, output_dir: str):
     )
     print(dataset)
 
-    print("Creating the tokenization pipeline...")
+    print(f'Creating the tokenization pipeline for {model_type}')
     print("Model setup.")
-    tokenizer = Tokenizer(model=models.BPE())
+    tokenizer_model = get_tokenizer_model(model_type)
+    tokenizer = Tokenizer(model=tokenizer_model)
+    print('Selected Model:')
+    print(tokenizer_model)
 
     print("Normalizer setup.")
     tokenizer.normalizer = normalizers.Sequence([
@@ -87,14 +139,12 @@ def main(vocab_size: int, output_dir: str):
     )
 
     print("Trainer setup.")
-    alphabet = tokenizer.pre_tokenizer.alphabet()
-    trainer = trainers.BpeTrainer(
-        initial_alphabet=alphabet,
-        special_tokens=SPECIAL_TOKENS,
-        min_frequency=MIN_TOKEN_FREQ,
-        vocab_size=vocab_size,
-        show_progress=True,
+    trainer = get_tokenizer_trainer(
+        model_type=model_type,
+        vocab_size=vocab_size
     )
+    print('Selected Trainer:')
+    print(trainer)
 
     print('Training Tokenizer')
     def get_batch_iterator(dataset, batch_size):
@@ -108,11 +158,11 @@ def main(vocab_size: int, output_dir: str):
     tokenizer.post_processor = processors.Sequence([
         processors.ByteLevel(trim_offsets=True),
         processors.TemplateProcessing(
-            single="$A:0 [EOS]:0",
-            pair="$A:0 [SEP]:0 $B:0 [EOS]:0",
+            single=f'$A:0 {EOS_TOKEN}:0',
+            pair=f'$A:0 {SEP_TOKEN}:0 $B:0 {EOS_TOKEN}:0',
             special_tokens=[
-                ("[SEP]", tokenizer.token_to_id("[SEP]")),
-                ("[EOS]", tokenizer.token_to_id("[EOS]")),
+                (SEP_TOKEN, tokenizer.token_to_id(SEP_TOKEN)),
+                (EOS_TOKEN, tokenizer.token_to_id(EOS_TOKEN)),
             ]
         ),
     ])
@@ -123,20 +173,16 @@ def main(vocab_size: int, output_dir: str):
     print("Decoder setup.")
     tokenizer.decoder = decoders.ByteLevel()
 
-
-    os.makedirs(output_dir, exist_ok=True)
-    # tokenizer_path = os.path.abspath(os.path.join(output_dir, f'tokenizer_{vocab_size}.json'))
-    # print("Saving vocabulary to: ", tokenizer_path)
-    # tokenizer.save(tokenizer_path)
-
     print('Saving tokenizer at', output_dir)
+    os.makedirs(output_dir, exist_ok=True)
     tokenizer_fast = PreTrainedTokenizerFast(
         tokenizer_object=tokenizer,
         model_max_length=2048,
         add_prefix_space=True,
-        pad_token='[PAD]',
-        eos_token='[EOS]',
-        sep_token='[SEP]',
+        pad_token=PAD_TOKEN,
+        eos_token=EOS_TOKEN,
+        sep_token=SEP_TOKEN,
+        unk_token=UNK_TOKEN,
     )
     tokenizer_fast.save_pretrained(output_dir)
 
@@ -145,6 +191,7 @@ def main(vocab_size: int, output_dir: str):
 if __name__ == '__main__':
     args = read_arguments()
     main(
+        model_type=args.model_type,
         vocab_size=args.vocab_size,
         output_dir=args.output_dir,
     )

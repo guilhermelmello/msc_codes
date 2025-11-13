@@ -1,8 +1,8 @@
 #!/bin/bash
-#PBS -N tokenizer50k
+#PBS -N bpe5k
 #PBS -q par128
 #PBS -j oe
-#PBS -o logs/tokenizer_50000.log
+#PBS -o logs/bpe5k.log
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -24,8 +24,9 @@ export TRANSFORMERS_OFFLINE=1
 # run python script
 echo "Running python script"
 python train.py \
-    --vocab-size 50000 \
-    --output-dir models/tokenizer-50000
+    --model BPE \
+    --vocab-size 5000 \
+    --output-dir models/bpe5k
 
 
 deactivate
