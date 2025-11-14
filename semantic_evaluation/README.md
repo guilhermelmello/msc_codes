@@ -99,7 +99,7 @@ Scripts of Semantic Evaluation (SemEval).
 
 ### Affixes:
 
-Extract every affix and its frequency, creating a file order by the frequency.
+Extract every affix and its frequency, creating a file ordered by frequency.
 
 **How to run:**
 
