@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N dataprep
-#PBS -q testes
+#PBS -q par128
 #PBS -e logs/dataprep.err
 #PBS -o logs/dataprep.out
 
