@@ -22,12 +22,16 @@ echo "Running Unigram Tokenizer"
 python src/dataprep.py \
     --tokenizer-name guilhermelmello/tokenizer-unigram-pt-10k \
     --max-seq-length 1024 \
+    --batch-size 256 \
+    --num-proc 128 \
     --seed 42
 
 echo "Running BPE Tokenizer"
 python src/dataprep.py \
     --tokenizer-name guilhermelmello/tokenizer-bpe-pt-10k \
     --max-seq-length 1024 \
+    --batch-size 256 \
+    --num-proc 128 \
     --seed 42
 
 

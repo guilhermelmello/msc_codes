@@ -19,6 +19,14 @@ def _parse_arguments():
         "--seed", type=int, default=None,
         help="Random seed for reproducibility (default: None)."
     )
+    parser.add_argument(
+        "--num-proc", type=int, default=None,
+        help="Number of process for parallel processing."
+    )
+    parser.add_argument(
+        "--batch-size", type=int, default=1000,
+        help="Batch size."
+    )
     return parser.parse_args()
 
 
@@ -73,7 +81,7 @@ def _get_group_texts_fn(tokenizer, max_seq_length):
     return group_texts
 
 
-def create_clm_dataset(tokenizer_name, max_seq_length, seed=None):
+def create_clm_dataset(tokenizer_name, max_seq_length, seed=None, num_proc=None, batch_size=1000):
     print('>>> Loading Raw Dataset')
     raw_dataset = load_dataset(
         'carolina-c4ai/corpus-carolina',
@@ -93,6 +101,8 @@ def create_clm_dataset(tokenizer_name, max_seq_length, seed=None):
     clm_dataset = raw_dataset.map(
         tokenize_dataset,
         remove_columns=raw_dataset['train'].column_names,
+        batch_size=batch_size,
+        num_proc=num_proc,
         batched=True,
     )
 
@@ -100,8 +110,10 @@ def create_clm_dataset(tokenizer_name, max_seq_length, seed=None):
     group_texts = _get_group_texts_fn(tokenizer, max_seq_length)
     clm_dataset = clm_dataset.map(
         group_texts,
+        remove_columns=clm_dataset['train'].column_names,
+        batch_size=batch_size,
+        num_proc=num_proc,
         batched=True,
-        remove_columns=clm_dataset['train'].column_names
     )
     print(clm_dataset)
     return clm_dataset
@@ -112,5 +124,7 @@ if __name__ == '__main__':
     create_clm_dataset(
         tokenizer_name=args.tokenizer_name,
         max_seq_length=args.max_seq_length,
+        batch_size=args.batch_size,
+        num_proc=args.num_proc,
         seed=args.seed,
     )
