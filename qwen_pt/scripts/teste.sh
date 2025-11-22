@@ -1,8 +1,8 @@
 #!/bin/bash
-#PBS -N test
+#PBS -N teste
 #PBS -q testegpu
-#PBS -e logs/test.err
-#PBS -o logs/test.out
+#PBS -e logs/teste.err
+#PBS -o logs/teste.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -31,7 +31,8 @@ python main.py \
     --learning-rate 0.0001 \
     --weight-decay 0.01 \
     --warmup-steps 100 \
-    --n-epochs 3
+    --n-epochs 3 \
+    --save-dir ./models/teste-qwen06B-unigram10k
 
 
 deactivate

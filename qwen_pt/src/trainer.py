@@ -123,7 +123,10 @@ def train_clm(
         for batch in validation_dataloader:
             batch = {k: v.to(device) for k, v in batch.items()}
             with torch.no_grad():
-                outputs = model(**batch)
+                outputs = model(
+                    input_ids=batch['input_ids'],
+                    attention_mask=batch['attention_mask'],
+                )                
             total_validation_loss += compute_loss(outputs.logits, batch['labels']).item()
             eval_progress_bar.update(1)
             del batch
@@ -149,3 +152,32 @@ def train_clm(
     del best_model_state
 
     return model
+
+
+def evaluate_clm(model, tokenizer, dataset, batch_size):
+    device_type = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = torch.device(device_type)
+    model.to(device)
+    
+    data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+    dataloader = DataLoader(dataset, batch_size=batch_size, collate_fn=data_collator)
+
+    total_loss = 0
+    progress_bar = tqdm(range(len(dataloader)), leave=False)
+
+    model.eval()
+    for batch in dataloader:
+        batch = {k: v.to(device) for k, v in batch.items()}
+        with torch.no_grad():
+            outputs = model(
+                input_ids=batch['input_ids'],
+                attention_mask=batch['attention_mask'],
+            )                
+        total_loss += compute_loss(outputs.logits, batch['labels']).item()
+        progress_bar.update(1)
+        del batch
+
+    progress_bar.close()
+
+    loss = total_loss / len(dataloader)
+    return loss

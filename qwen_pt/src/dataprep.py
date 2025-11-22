@@ -1,8 +1,9 @@
-from datasets import load_dataset
+from datasets import load_dataset, DatasetDict
 from itertools import chain
 from transformers import AutoTokenizer
 
 import argparse
+import os
 
 
 def _parse_arguments():
@@ -10,6 +11,10 @@ def _parse_arguments():
     parser.add_argument(
         "--tokenizer-name", type=str, required=True,
         help="Name or path of the tokenizer to load."
+    )
+    parser.add_argument(
+        "--save-path", type=str, required=True,
+        help="Local path to save CLM ready dataset."
     )
     parser.add_argument(
         "--max-seq-length", type=int, required=True,
@@ -81,6 +86,16 @@ def _get_group_texts_fn(tokenizer, max_seq_length):
     return group_texts
 
 
+def log_dataset(dataset):
+    print(dataset)
+    if isinstance(dataset, DatasetDict):
+        print('Dataset Fingerprint:')
+        for split in dataset:
+            print(split, dataset[split]._fingerprint)
+    else:
+        print('Dataset Fingerprint:', dataset._fingerprint)
+
+
 def create_clm_dataset(tokenizer_name, max_seq_length, seed=None, num_proc=None, batch_size=1000):
     print('>>> Loading Raw Dataset')
     raw_dataset = load_dataset(
@@ -88,8 +103,13 @@ def create_clm_dataset(tokenizer_name, max_seq_length, seed=None, num_proc=None,
         revision='v2.0.1',
         split='corpus',
     )
+    log_dataset(raw_dataset)
+
+    # creating validation split
     raw_dataset = raw_dataset.train_test_split(test_size=0.1, seed=seed)
-    print(raw_dataset)
+    val_ds = raw_dataset.pop('test')
+    raw_dataset['validation'] = val_ds
+    log_dataset(raw_dataset)
 
     print('>>> Loading Tokenizer')
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
@@ -105,6 +125,7 @@ def create_clm_dataset(tokenizer_name, max_seq_length, seed=None, num_proc=None,
         num_proc=num_proc,
         batched=True,
     )
+    log_dataset(clm_dataset)
 
     print(f'Reshaping dataset into sequences of {max_seq_length}')
     group_texts = _get_group_texts_fn(tokenizer, max_seq_length)
@@ -115,16 +136,20 @@ def create_clm_dataset(tokenizer_name, max_seq_length, seed=None, num_proc=None,
         num_proc=num_proc,
         batched=True,
     )
-    print(clm_dataset)
+    log_dataset(clm_dataset)
     return clm_dataset
 
 
 if __name__ == '__main__':
     args = _parse_arguments()
-    create_clm_dataset(
+    dataset = create_clm_dataset(
         tokenizer_name=args.tokenizer_name,
         max_seq_length=args.max_seq_length,
         batch_size=args.batch_size,
         num_proc=args.num_proc,
         seed=args.seed,
     )
+
+    print('saving dataset at', args.save_path)
+    os.makedirs(args.save_path)
+    dataset.save_to_disk(args.save_path)

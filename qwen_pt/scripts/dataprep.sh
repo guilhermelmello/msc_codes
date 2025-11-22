@@ -1,8 +1,11 @@
 #!/bin/bash
 #PBS -N dataprep
-#PBS -q par128
+#PBS -q testes
+#PBS -l nodes=1:ppn=4
 #PBS -e logs/dataprep.err
 #PBS -o logs/dataprep.out
+
+NUM_PROC=4
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -20,18 +23,20 @@ export TRANSFORMERS_OFFLINE=1
 
 echo "Running Unigram Tokenizer"
 python src/dataprep.py \
+    --save-path datasets/clm-1024-unigram-pt-10k \
     --tokenizer-name guilhermelmello/tokenizer-unigram-pt-10k \
     --max-seq-length 1024 \
     --batch-size 256 \
-    --num-proc 128 \
+    --num-proc $NUM_PROC \
     --seed 42
 
 echo "Running BPE Tokenizer"
 python src/dataprep.py \
+    --save-path datasets/clm-1024-bpe-pt-10k \
     --tokenizer-name guilhermelmello/tokenizer-bpe-pt-10k \
     --max-seq-length 1024 \
-    --batch-size 256 \
-    --num-proc 128 \
+    --batch-size 512 \
+    --num-proc $NUM_PROC \
     --seed 42
 
 

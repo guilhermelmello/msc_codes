@@ -1,0 +1,63 @@
+Staring Time: Sat Nov 22 14:26:36 -03 2025
+Root directory /home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt
+Node: adano58
+Running Unigram Tokenizer
+>>> Loading Raw Dataset
+Dataset({
+    features: ['meta', 'text'],
+    num_rows: 2108999
+})
+Dataset Fingerprint
+f0702f0c08f2cc11
+DatasetDict({
+    train: Dataset({
+        features: ['meta', 'text'],
+        num_rows: 1898099
+    })
+    validation: Dataset({
+        features: ['meta', 'text'],
+        num_rows: 210900
+    })
+})
+Dataset Fingerprint
+train 2d01fecad1ed61fa
+validation 161dad574fdc2e9b
+>>> Loading Tokenizer
+PreTrainedTokenizerFast(name_or_path='guilhermelmello/tokenizer-unigram-pt-10k', vocab_size=10000, model_max_length=2048, is_fast=True, padding_side='right', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'unk_token': '[UNK]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
+	0: AddedToken("[PAD]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	1: AddedToken("[SEP]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	2: AddedToken("[EOS]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	3: AddedToken("[UNK]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+}
+)
+>>> Creating dataset for Causal Language Model
+Dataset Tokenization
+DatasetDict({
+    train: Dataset({
+        features: ['input_ids', 'attention_mask', 'overflow_to_sample_mapping'],
+        num_rows: 1898099
+    })
+    validation: Dataset({
+        features: ['input_ids', 'attention_mask', 'overflow_to_sample_mapping'],
+        num_rows: 210900
+    })
+})
+Dataset Fingerprint
+train dfa5bfe34fb07b45
+validation c4f000b574141e41
+Reshaping dataset into sequences of 1024
+DatasetDict({
+    train: Dataset({
+        features: ['input_ids', 'attention_mask'],
+        num_rows: 2917072
+    })
+    validation: Dataset({
+        features: ['input_ids', 'attention_mask'],
+        num_rows: 332789
+    })
+})
+Dataset Fingerprint
+train afde362e4e2efea2
+validation 8add4b0542a776a0
+saving dataset at datasets/clm-1024-unigram-pt-10k_4
+Ending Time: Sat Nov 22 15:25:53 -03 2025
