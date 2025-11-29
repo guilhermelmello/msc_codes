@@ -53,17 +53,16 @@ def train_clm(
     # data preparation
     train_dataset.set_format('torch')
     validation_dataset.set_format('torch')
-    data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
     train_dataloader = DataLoader(
         train_dataset, # type: ignore
         batch_size=batch_size,
-        collate_fn=data_collator,
         shuffle=True,
+        pin_memory=True,
     )
     validation_dataloader = DataLoader(
         validation_dataset, # type: ignore
         batch_size=batch_size,
-        collate_fn=data_collator,
+        pin_memory=True,
     )
 
     # optimizer and weight decay
@@ -74,8 +73,8 @@ def train_clm(
     num_training_steps = n_epochs * len(train_dataloader)
     lr_scheduler = get_scheduler(
         name='linear',
-        num_warmup_steps=warmup_steps,
         optimizer=optimizer,
+        num_warmup_steps=warmup_steps,
         num_training_steps=num_training_steps,
     )
 
@@ -97,12 +96,12 @@ def train_clm(
         model.train()
         total_train_loss = 0
         for batch in train_dataloader:
-            batch = {k: v.to(device) for k, v in batch.items()}
+            batch = {k: v.to(device, non_blocking=True) for k, v in batch.items()}
             outputs = model(
                 input_ids=batch['input_ids'],
                 attention_mask=batch['attention_mask'],
             )
-            loss = compute_loss(outputs.logits, batch['labels'])
+            loss = compute_loss(outputs.logits, batch['input_ids'])
             loss.backward()
 
             optimizer.step()
