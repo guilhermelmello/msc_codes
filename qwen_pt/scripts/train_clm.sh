@@ -1,8 +1,8 @@
 #!/bin/bash
-#PBS -N hpsearch
+#PBS -N clm
 #PBS -q umagpu
-#PBS -e logs/hpsearch.err
-#PBS -o logs/hpsearch.out
+#PBS -e logs/train_clm.err
+#PBS -o logs/train_clm.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -23,22 +23,12 @@ echo "Sending data to /work/gmello"
 mkdir -p \
     /work/gmello/datasets/clm-1024-unigram-pt-10k/validation 
 rsync -av \
-    ./datasets/clm-1024-unigram-pt-10k/validation/ \
+    datasets/clm-1024-unigram-pt-10k/validation/ \
     /work/gmello/datasets/clm-1024-unigram-pt-10k/validation 
 
 
-
-echo "Running Hyperparameters Search"
-python src/hyperparameters.py \
-    --dataset-path /work/gmello/datasets/clm-1024-unigram-pt-10k/validation \
-    --tokenizer-name guilhermelmello/tokenizer-unigram-pt-10k \
-    --model-name Qwen/Qwen3-0.6B \
-    --weight-decay 0.1 \
-    --warmup-steps 100 \
-    --n-trials 10 \
-    --n-epochs 3 \
-    --n-workers 16 \
-    --seed 42
+echo "Starting Causal Language Model Training."
+python src/trainer.py
 
 
 deactivate

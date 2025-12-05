@@ -1,16 +1,18 @@
+import os
 import torch
+import utils
 
 from copy import deepcopy
-from datasets import Dataset
+from datasets import Dataset, load_from_disk
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from torch.nn import CrossEntropyLoss
 from tqdm.auto import tqdm
 from transformers import (
+    AutoTokenizer,
     DataCollatorForLanguageModeling,
     get_scheduler,
     PreTrainedModel,
-    PreTrainedTokenizerBase,
 )
 
 
@@ -41,7 +43,6 @@ def get_optimizer_parameters(model, weight_decay, no_decay=["bias", "LayerNorm.w
 
 def train_clm(
     model: PreTrainedModel,
-    tokenizer: PreTrainedTokenizerBase,
     train_dataset: Dataset,
     validation_dataset: Dataset,
     batch_size: int,
@@ -49,8 +50,9 @@ def train_clm(
     weight_decay: float,
     warmup_steps: int,
     n_epochs: int,
+    num_workers: int=None,
 ):
-    # data preparation
+    # dataloaders
     train_dataset.set_format('torch')
     validation_dataset.set_format('torch')
     train_dataloader = DataLoader(
@@ -58,6 +60,7 @@ def train_clm(
         batch_size=batch_size,
         shuffle=True,
         pin_memory=True,
+        num_workers=num_workers,
     )
     validation_dataloader = DataLoader(
         validation_dataset, # type: ignore
@@ -88,6 +91,7 @@ def train_clm(
     best_model_state = {}
 
     # training loop
+    print('>>> Model Training')
     progress_bar = tqdm(range(num_training_steps))
     for epoch in range(n_epochs):
         progress_bar.set_description(f'Epoch {epoch+1}/{n_epochs}')
@@ -96,12 +100,14 @@ def train_clm(
         model.train()
         total_train_loss = 0
         for batch in train_dataloader:
-            batch = {k: v.to(device, non_blocking=True) for k, v in batch.items()}
-            outputs = model(
-                input_ids=batch['input_ids'],
-                attention_mask=batch['attention_mask'],
-            )
-            loss = compute_loss(outputs.logits, batch['input_ids'])
+            with torch.autocast(device_type=device_type, dtype=torch.bfloat16):
+                input_ids = batch['input_ids'].to(device, non_blocking=True)
+                att_mask = batch['attention_mask'].to(device, non_blocking=True)
+                outputs = model(
+                    input_ids=input_ids,
+                    attention_mask=att_mask,
+                )
+                loss = compute_loss(outputs.logits, input_ids)
             loss.backward()
 
             optimizer.step()
@@ -120,13 +126,14 @@ def train_clm(
 
         # evaluation loop (validation)
         for batch in validation_dataloader:
-            batch = {k: v.to(device) for k, v in batch.items()}
+            input_ids = batch['input_ids'].to(device, non_blocking=True)
+            att_mask = batch['attention_mask'].to(device, non_blocking=True)
             with torch.no_grad():
                 outputs = model(
-                    input_ids=batch['input_ids'],
-                    attention_mask=batch['attention_mask'],
+                    input_ids=input_ids,
+                    attention_mask=att_mask,
                 )                
-            total_validation_loss += compute_loss(outputs.logits, batch['labels']).item()
+            total_validation_loss += compute_loss(outputs.logits, input_ids).item()
             eval_progress_bar.update(1)
             del batch
         eval_progress_bar.close()
@@ -166,13 +173,14 @@ def evaluate_clm(model, tokenizer, dataset, batch_size):
 
     model.eval()
     for batch in dataloader:
-        batch = {k: v.to(device) for k, v in batch.items()}
+        input_ids = batch['input_ids'].to(device, non_blocking=True)
+        att_mask = batch['attention_mask'].to(device, non_blocking=True)
         with torch.no_grad():
             outputs = model(
-                input_ids=batch['input_ids'],
-                attention_mask=batch['attention_mask'],
-            )                
-        total_loss += compute_loss(outputs.logits, batch['labels']).item()
+                input_ids=input_ids,
+                attention_mask=att_mask,
+            )
+        total_loss += compute_loss(outputs.logits, input_ids).item()
         progress_bar.update(1)
         del batch
 
@@ -180,3 +188,50 @@ def evaluate_clm(model, tokenizer, dataset, batch_size):
 
     loss = total_loss / len(dataloader)
     return loss
+
+
+if __name__ == '__main__':
+    print('>>> Loading CLM Dataset from Disk')
+    dataset = load_from_disk('/work/gmello/datasets/clm-1024-unigram-pt-10k/validation')
+    assert isinstance(dataset, Dataset)
+
+    print('>>> Creating train and test splits for hyperparameter search.')
+    dataset = dataset.train_test_split(test_size=0.1, seed=42)
+    print(dataset)
+
+    print('>>> Loading Tokenizer')
+    tokenizer = AutoTokenizer.from_pretrained('guilhermelmello/tokenizer-unigram-pt-10k')
+    print(tokenizer)
+
+    print('>>> Loading Model')
+    model = utils.initialize_clm_from_config('Qwen/Qwen3-0.6B', tokenizer)
+    model = torch.compile(model)
+    print(model)
+
+    model = train_clm(
+        model=model,
+        train_dataset=dataset['train'],
+        validation_dataset=dataset['test'],
+        batch_size=16,
+        learning_rate=0.00001,
+        weight_decay=0.1,
+        warmup_steps=100,
+        n_epochs=10,
+        num_workers=16,
+        max_steps=100,
+    )
+
+    loss = evaluate_clm(
+        model=model,
+        tokenizer=tokenizer,
+        dataset=dataset['test'],
+        batch_size=16,
+    )
+    print(f'final loss: {loss}')
+
+    output_path = './models/qwen-pt-unigram'
+    print(f'Saving model to {output_path}')
+
+    os.makedirs(output_path)
+    model.save_pretrained(output_path)
+    tokenizer.save_pretrained(output_path)

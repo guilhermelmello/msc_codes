@@ -1,4 +1,4 @@
-from datasets import Dataset, DatasetDict, load_from_disk
+from datasets import Dataset, load_from_disk
 from optuna import Trial
 from transformers import AutoTokenizer
 from transformers import PreTrainedTokenizerBase
@@ -23,7 +23,8 @@ def search(
     tokenizer: PreTrainedTokenizerBase,
     weight_decay: float,
     warmup_steps: int,
-    seed: Optional[int]=None
+    seed: Optional[int]=None,
+    num_workers: Optional[int]=None,
 ) -> dict[str, float]:
     '''Hyperparameter Search with Optuna.'''
     if seed is not None:
@@ -36,7 +37,7 @@ def search(
         try:
             # defines search space
             lr = trial.suggest_float('learning_rate', 1e-6, 1e-4, log=True)
-            batch_size = trial.suggest_categorical('batch_size', [5])
+            batch_size = trial.suggest_categorical('batch_size', [16])
 
             print(f'Running with hyperparameters: {{')
             print(f'\tlearning_rate: {lr}')
@@ -54,6 +55,7 @@ def search(
                 weight_decay=weight_decay,
                 warmup_steps=warmup_steps,
                 n_epochs=n_epochs,
+                num_workers=num_workers,
             )
 
             loss = trainer.evaluate_clm(
@@ -123,6 +125,10 @@ def _parse_arguments():
         help="Number of training epochs."
     )
     parser.add_argument(
+        "--n-workers", type=int, required=True,
+        help="Number of workers."
+    )
+    parser.add_argument(
         "--seed", type=int, default=None,
         help="Random seed for reproducibility (default: None)."
     )
@@ -159,6 +165,7 @@ if __name__ == '__main__':
         tokenizer=tokenizer,
         weight_decay=args.weight_decay,
         warmup_steps=args.warmup_steps,
+        num_workers=args.n_workers,
         seed=42,
     )
     print('\n\n\n', '=' * 40)
