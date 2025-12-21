@@ -4,6 +4,7 @@ from typing import Optional
 from datasets import load_dataset
 
 from transformers import AutoModelForSequenceClassification
+from transformers import PreTrainedModel
 from transformers.models.auto.auto_factory import _BaseAutoModelClass
 
 import evaluate
@@ -64,26 +65,47 @@ class RecognisingTextualEntailment(TaskBase):
         )
 
 
-# class SemanticTextualSimilarity(DownstreamTaskBase):
-#     '''Assin 2 dataset for Semantic Textual Similarity (STS).'''
+class SemanticTextualSimilarity(TaskBase):
+    '''Assin 2 dataset for Semantic Textual Similarity (STS).'''
 
-#     @DownstreamTaskBase.filtered_columns
-#     def load_dataset(self, split : Union[str, None] = None):
-#         dataset = load_dataset('assin2', 'default', split=split)
+    def __init__(self) -> None:
+        self._metrics = evaluate.combine(['mse', 'pearsonr'])
 
-#         # renamed columns
-#         return dataset.rename_columns({
-#             'premise': 'text',
-#             'hypothesis': 'text_pair',
-#             'relatedness_score': 'label',
-#         })
-    
-#     def compute_metrics(self, eval_pred: EvalPrediction) -> dict:
-#         logits, references = eval_pred
+    @property
+    def name(self) -> str:
+        return 'assin2-sts'
 
-#         metrics = evaluate.combine(['mse', 'pearsonr'])
-#         return metrics.compute(
-#             predictions=logits,
-#             references=references,
-#         )
+    @TaskBase.filtered_columns
+    def load_dataset(self, name: str = 'default', split : Optional[str] = None):
+        dataset = load_dataset('nilc-nlp/assin2', name, split=split)
 
+        # renamed columns
+        return dataset.rename_columns({
+            'premise': 'text',
+            'hypothesis': 'text_pair',
+            'relatedness_score': 'label'
+        })
+
+    def compute_metrics(self, eval_pred: Optional[EvalPrediction]=None) -> dict[str, float] | None:
+        if eval_pred is None:
+            return self._metrics.compute()
+
+        logits, references = eval_pred
+        self._metrics.add_batch(
+            predictions=logits,
+            references=references,
+        )
+
+    @property
+    def objective_metric_name(self) -> str:
+        return 'pearsonr'
+
+    @property
+    def is_maximization(self) -> bool:
+        return True
+
+    def load_pretrained_model(self, model_name: str, num_labels: int) -> PreTrainedModel:
+        return AutoModelForSequenceClassification.from_pretrained(
+            pretrained_model_name_or_path=model_name,
+            num_labels=num_labels,
+        )

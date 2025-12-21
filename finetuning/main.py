@@ -1,4 +1,5 @@
 from src import tasks
+from src import trainer
 from src import finetuning
 from src import hyperparameters
 from transformers import AutoTokenizer
@@ -127,6 +128,15 @@ def run(
         os.makedirs(save_dir, exist_ok=True)
         model.save_pretrained(save_dir)
         tokenizer.save_pretrained(save_dir)
+
+    print('>>> Results on Test Dataset')
+    results = trainer.evaluate(
+        model=model,
+        tokenizer=tokenizer,
+        dataset=dataset['test'],
+        compute_metrics=task.compute_metrics,
+    )
+    pprint.pprint(results)
 
 
 if __name__ == '__main__':

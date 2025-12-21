@@ -12,7 +12,7 @@ import evaluate
 class RecognisingTextualEntailment(TaskBase):
     '''Assin dataset for Recognising Textual Entailment (RTE).'''
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._f1_metric = evaluate.load('f1')
         self._acc_metric = evaluate.load('accuracy')
 
@@ -64,33 +64,47 @@ class RecognisingTextualEntailment(TaskBase):
         )
 
 
-# class SemanticTextualSimilarity(DownstreamTaskBase):
-#     '''Assin dataset for Semantic Textual Similarity (STS).'''
+class SemanticTextualSimilarity(TaskBase):
+    '''Assin dataset for Semantic Textual Similarity (STS).'''
 
-#     @DownstreamTaskBase.filtered_columns
-#     def load_dataset(self, name: str = 'full', split : Union[str, None] = None):
-#         dataset = load_dataset('nilc-nlp/assin', name, split=split)
+    def __init__(self) -> None:
+        self._metrics = evaluate.combine(['mse', 'pearsonr'])
 
-#         # renamed columns
-#         return dataset.rename_columns({
-#             'premise': 'text',
-#             'hypothesis': 'text_pair',
-#             'relatedness_score': 'label'
-#         })
+    @property
+    def name(self) -> str:
+        return 'assin-sts'
 
-#     def compute_metrics(self, eval_pred: EvalPrediction) -> dict:
-#         logits, references = eval_pred
+    @TaskBase.filtered_columns
+    def load_dataset(self, name: str = 'full', split : Optional[str] = None):
+        dataset = load_dataset('nilc-nlp/assin', name, split=split)
 
-#         metrics = evaluate.combine(['mse', 'pearsonr'])
-#         return metrics.compute(
-#             predictions=logits,
-#             references=references,
-#         )
+        # renamed columns
+        return dataset.rename_columns({
+            'premise': 'text',
+            'hypothesis': 'text_pair',
+            'relatedness_score': 'label'
+        })
 
-#     @property
-#     def objective_metric_name(self) -> str:
-#         return 'pearsonr'
+    def compute_metrics(self, eval_pred: Optional[EvalPrediction]=None) -> dict[str, float] | None:
+        if eval_pred is None:
+            return self._metrics.compute()
+
+        logits, references = eval_pred
+        self._metrics.add_batch(
+            predictions=logits,
+            references=references,
+        )
+
+    @property
+    def objective_metric_name(self) -> str:
+        return 'pearsonr'
+
+    @property
+    def is_maximization(self) -> bool:
+        return True
     
-#     @property
-#     def is_maximization(self) -> bool:
-#         return True
+    def load_pretrained_model(self, model_name: str, num_labels: int) -> PreTrainedModel:
+        return AutoModelForSequenceClassification.from_pretrained(
+            pretrained_model_name_or_path=model_name,
+            num_labels=num_labels,
+        )

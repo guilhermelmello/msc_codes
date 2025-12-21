@@ -1,6 +1,6 @@
 from . import trainer
 from .tasks import TaskBase
-from datasets import DatasetDict
+from datasets import ClassLabel, DatasetDict
 from optuna import Trial
 from transformers import (
     AutoModelForSequenceClassification,
@@ -47,16 +47,23 @@ def search(
         model = None
         try:
             # defines search space
-            lr = trial.suggest_float('learning_rate', 1e-6, 1e-4, log=True)
-            batch_size = trial.suggest_categorical('batch_size', [16, 32, 64])
+            lr = trial.suggest_float('learning_rate', 1e-6, 1e-1, log=True)
+            batch_size = trial.suggest_categorical('batch_size', [4, 8, 16])
 
             print(f'Running with hyperparameters: {{')
             print(f'\tlearning_rate: {lr}')
             print(f'\tbatch_size: {batch_size}')
             print(f'}}')
 
+            # target
+            label_feature = dataset['train'].features['label']
+            is_classification = isinstance(label_feature, ClassLabel)
+            if is_classification:
+                num_labels = dataset['train'].features['label'].num_classes
+            else:
+                num_labels = 1
+
             # model initialization
-            num_labels = dataset['train'].features['label'].num_classes
             model = task.load_pretrained_model(
                 model_name=model_name,
                 num_labels=num_labels,

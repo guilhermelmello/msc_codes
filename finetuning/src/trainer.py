@@ -1,7 +1,7 @@
 import torch
 
 from copy import deepcopy
-from datasets import Dataset
+from datasets import ClassLabel, Dataset
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from torch.nn import CrossEntropyLoss, MSELoss
@@ -55,6 +55,14 @@ def train(
     best_model_metric = float('-inf') if greater_is_better else float('inf')
     best_model_state = {}
 
+    # target
+    label_feature = train_dataset.features['label']
+    is_classification = isinstance(label_feature, ClassLabel)
+    if is_classification:
+        num_labels = train_dataset.features['label'].num_classes
+    else:
+        num_labels = 1
+
     # loss function for logging
     # using loss from models output may result in different values when
     # avereaging mini batches losses using different batch sizes for training
@@ -62,7 +70,6 @@ def train(
     # Examples:
     # 'mean' -> total_loss / len(dataloader) : unstable
     # 'sum' -> total_loss / len(dataloader.dataset) : more stable
-    num_labels = train_dataset.features['label'].num_classes
     loss_fn = CrossEntropyLoss(reduction='sum') if num_labels > 1 else MSELoss(reduction='sum')
 
     # training loop
@@ -161,7 +168,14 @@ def evaluate(
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     dataloader = DataLoader(dataset, batch_size=batch_size, collate_fn=data_collator) # type: ignore
 
-    num_labels = dataset.features['label'].num_classes
+    # target
+    label_feature = dataset.features['label']
+    is_classification = isinstance(label_feature, ClassLabel)
+    if is_classification:
+        num_labels = dataset.features['label'].num_classes
+    else:
+        num_labels = 1
+
     loss_fn = CrossEntropyLoss(reduction='sum') if num_labels > 1 else MSELoss(reduction='sum')
 
     total_loss = 0

@@ -23,6 +23,8 @@ def cache_model(name, **kwargs):
 # METRICS
 cache_metric('f1')
 cache_metric('accuracy')
+cache_metric('pearsonr')
+cache_metric('mse')
 
 # DATASETS
 cache_dataset('nilc-nlp/assin')
