@@ -20,7 +20,7 @@ import os
 
 
 MIN_TOKEN_FREQ = 3
-MAX_LENGTH = 2048
+MAX_LENGTH = 1024
 
 PAD_TOKEN = '[PAD]'
 SEP_TOKEN = '[SEP]'
@@ -32,6 +32,12 @@ SPECIAL_TOKENS = [PAD_TOKEN, SEP_TOKEN, EOS_TOKEN, UNK_TOKEN]
 class ModelType(str, Enum):
     BPE = 'BPE'
     UNIGRAM = 'UNIGRAM'
+
+class UnicodeNorm(str, Enum):
+    NFC = 'NFC'
+    NFD = 'NFD'
+    NFKC = 'NFKC'
+    NFKD = 'NFKD'
 
 
 def read_arguments():
@@ -59,6 +65,14 @@ def read_arguments():
     )
 
     parser.add_argument(
+        "--unicode-norm",
+        required=True,
+        type=UnicodeNorm,
+        choices=list(UnicodeNorm),
+        help="Unicode Normalization",
+    )
+
+    parser.add_argument(
         "--vocab-size",
         type=int,
         default=30000,
@@ -81,8 +95,19 @@ def get_tokenizer_model(model_type: ModelType):
         return models.BPE()
     elif model_type == ModelType.UNIGRAM:
         return models.Unigram()
+    raise ValueError(model_type)
 
-    raise ValueError
+
+def get_unicode_norm(unicode_norm: UnicodeNorm):
+    if unicode_norm == UnicodeNorm.NFC:
+        return normalizers.NFC()
+    elif unicode_norm == UnicodeNorm.NFD:
+        return normalizers.NFD()
+    elif unicode_norm == UnicodeNorm.NFKC:
+        return normalizers.NFKC()
+    elif unicode_norm == UnicodeNorm.NFKD:
+        return normalizers.NFKD()
+    raise ValueError(unicode_norm)
 
 
 def get_tokenizer_trainer(model_type: ModelType, vocab_size: int):
@@ -109,7 +134,12 @@ def get_tokenizer_trainer(model_type: ModelType, vocab_size: int):
     raise ValueError
 
 
-def main(model_type: ModelType, vocab_size: int, output_dir: str):
+def main(
+    model_type: ModelType,
+    vocab_size: int,
+    output_dir: str,
+    unicode_norm: UnicodeNorm,
+):
     # load dataset
     print("Loading the dataset...")
     dataset = load_dataset(
@@ -126,10 +156,10 @@ def main(model_type: ModelType, vocab_size: int, output_dir: str):
     print('Selected Model:')
     print(tokenizer_model)
 
-    print("Normalizer setup.")
+    print(f"Normalizer setup: {unicode_norm}")
     tokenizer.normalizer = normalizers.Sequence([
         normalizers.Strip(),
-        normalizers.NFKD()
+        get_unicode_norm(unicode_norm),
     ])
 
     print("Pre-Tokenizer setup.")
@@ -187,11 +217,11 @@ def main(model_type: ModelType, vocab_size: int, output_dir: str):
     tokenizer_fast.save_pretrained(output_dir)
 
 
-
 if __name__ == '__main__':
     args = read_arguments()
     main(
         model_type=args.model_type,
         vocab_size=args.vocab_size,
         output_dir=args.output_dir,
+        unicode_norm=args.unicode_norm,
     )

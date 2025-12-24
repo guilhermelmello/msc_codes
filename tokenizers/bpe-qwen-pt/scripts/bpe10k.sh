@@ -2,7 +2,7 @@
 #PBS -N bpe10k
 #PBS -q par128
 #PBS -j oe
-#PBS -o logs/bpe10k.log
+#PBS -o logs/bpe10k.unicode.log
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -23,11 +23,37 @@ export TRANSFORMERS_OFFLINE=1
 
 # run python script
 echo "Running python script"
+
+echo "Running with NFC"
 python train.py \
     --model-type BPE \
     --vocab-size 10000 \
-    --output-dir models/bpe10k
+    --output-dir models/bpe10k-nfc \
+    --unicode-norm NFC
 
+
+echo "Running with NFD"
+python train.py \
+    --model-type BPE \
+    --vocab-size 10000 \
+    --output-dir models/bpe10k-nfd \
+    --unicode-norm NFD
+
+
+echo "Running with NFKC"
+python train.py \
+    --model-type BPE \
+    --vocab-size 10000 \
+    --output-dir models/bpe10k-nfkc \
+    --unicode-norm NFKC
+
+
+echo "Running with NFKD"
+python train.py \
+    --model-type BPE \
+    --vocab-size 10000 \
+    --output-dir models/bpe10k-nfkd \
+    --unicode-norm NFKD
 
 deactivate
 echo "Ending Time: $(date)"

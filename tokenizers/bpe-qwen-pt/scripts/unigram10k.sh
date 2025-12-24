@@ -2,7 +2,7 @@
 #PBS -N unigram10k
 #PBS -q par128
 #PBS -j oe
-#PBS -o logs/unigram10k.log
+#PBS -o logs/unigram10k.unicode.log
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -23,10 +23,37 @@ export TRANSFORMERS_OFFLINE=1
 
 # run python script
 echo "Running python script"
+
+echo "Running with NFC"
 python train.py \
     --model-type UNIGRAM \
     --vocab-size 10000 \
-    --output-dir models/unigram10k
+    --output-dir models/unigram10k-nfc \
+    --unicode-norm NFC
+
+
+echo "Running with NFD"
+python train.py \
+    --model-type UNIGRAM \
+    --vocab-size 10000 \
+    --output-dir models/unigram10k-nfd \
+    --unicode-norm NFD
+
+
+echo "Running with NFKC"
+python train.py \
+    --model-type UNIGRAM \
+    --vocab-size 10000 \
+    --output-dir models/unigram10k-nfkc \
+    --unicode-norm NFKC
+
+
+echo "Running with NFKD"
+python train.py \
+    --model-type UNIGRAM \
+    --vocab-size 10000 \
+    --output-dir models/unigram10k-nfkd \
+    --unicode-norm NFKD
 
 
 deactivate
