@@ -24,16 +24,25 @@
       "rstrip": false,
       "single_word": false,
       "special": true
+    },
+    "3": {
+      "content": "[UNK]",
+      "lstrip": false,
+      "normalized": false,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
     }
   },
   "clean_up_tokenization_spaces": true,
   "eos_token": "[EOS]",
-  "max_length": 2048,
+  "max_length": 1024,
   "model_max_length": 2048,
   "pad_token": "[PAD]",
   "sep_token": "[SEP]",
   "stride": 0,
   "tokenizer_class": "PreTrainedTokenizerFast",
   "truncation_side": "right",
-  "truncation_strategy": "longest_first"
+  "truncation_strategy": "longest_first",
+  "unk_token": "[UNK]"
 }
