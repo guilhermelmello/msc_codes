@@ -1,0 +1,79 @@
+Staring Time: Tue Dec 16 19:24:53 -03 2025
+Root directory /home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt
+Node: adagp04
+Sending data to /work/gmello
+sending incremental file list
+./
+data-00000-of-00003.arrow
+data-00001-of-00003.arrow
+data-00002-of-00003.arrow
+dataset_info.json
+state.json
+
+sent 1,265,393,186 bytes  received 114 bytes  101,231,464.00 bytes/sec
+total size is 1,265,083,914  speedup is 1.00
+Starting Causal Language Model Training.
+>>> Loading CLM Dataset from Disk
+>>> Creating train and test splits for hyperparameter search.
+DatasetDict({
+    train: Dataset({
+        features: ['input_ids', 'attention_mask'],
+        num_rows: 222006
+    })
+    test: Dataset({
+        features: ['input_ids', 'attention_mask'],
+        num_rows: 24668
+    })
+})
+>>> Loading Tokenizer
+PreTrainedTokenizerFast(name_or_path='guilhermelmello/tokenizer-bpe-pt-10k', vocab_size=10000, model_max_length=2048, is_fast=True, padding_side='right', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
+	0: AddedToken("[PAD]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	1: AddedToken("[SEP]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	2: AddedToken("[EOS]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+}
+)
+>>> Loading Model
+OptimizedModule(
+  (_orig_mod): Qwen3ForCausalLM(
+    (model): Qwen3Model(
+      (embed_tokens): Embedding(10000, 1024, padding_idx=0)
+      (layers): ModuleList(
+        (0-27): 28 x Qwen3DecoderLayer(
+          (self_attn): Qwen3Attention(
+            (q_proj): Linear(in_features=1024, out_features=2048, bias=False)
+            (k_proj): Linear(in_features=1024, out_features=1024, bias=False)
+            (v_proj): Linear(in_features=1024, out_features=1024, bias=False)
+            (o_proj): Linear(in_features=2048, out_features=1024, bias=False)
+            (q_norm): Qwen3RMSNorm((128,), eps=1e-06)
+            (k_norm): Qwen3RMSNorm((128,), eps=1e-06)
+          )
+          (mlp): Qwen3MLP(
+            (gate_proj): Linear(in_features=1024, out_features=3072, bias=False)
+            (up_proj): Linear(in_features=1024, out_features=3072, bias=False)
+            (down_proj): Linear(in_features=3072, out_features=1024, bias=False)
+            (act_fn): SiLUActivation()
+          )
+          (input_layernorm): Qwen3RMSNorm((1024,), eps=1e-06)
+          (post_attention_layernorm): Qwen3RMSNorm((1024,), eps=1e-06)
+        )
+      )
+      (norm): Qwen3RMSNorm((1024,), eps=1e-06)
+      (rotary_emb): Qwen3RotaryEmbedding()
+    )
+    (lm_head): Linear(in_features=1024, out_features=10000, bias=False)
+  )
+)
+>>> Model Training
+{'epoch': 1, 'loss': 7.204274007723565, 'val_loss': 7.093142023346304}
+{'epoch': 2, 'loss': 7.087825945627109, 'val_loss': 7.081205415045396}
+{'epoch': 3, 'loss': 7.083157210124607, 'val_loss': 7.079644941634241}
+{'epoch': 4, 'loss': 7.0826396853135485, 'val_loss': 7.079543612191959}
+{'epoch': 5, 'loss': 7.082585341994307, 'val_loss': 7.079543612191959}
+{'epoch': 6, 'loss': 7.082628108404252, 'val_loss': 7.079563878080415}
+{'epoch': 7, 'loss': 7.082645209765496, 'val_loss': 7.079543612191959}
+{'epoch': 8, 'loss': 7.0826708589723175, 'val_loss': 7.079563878080415}
+{'epoch': 9, 'loss': 7.08268085117813, 'val_loss': 7.079644941634241}
+{'epoch': 10, 'loss': 7.082687349785436, 'val_loss': 7.079604409857328}
+Saving model to ./models/qwen-pt-bpe
+final loss: 7.079543612191959
+Ending Time: Wed Dec 17 18:55:45 -03 2025

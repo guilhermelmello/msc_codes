@@ -1,0 +1,27 @@
+[I 2025-12-09 00:24:06,299] A new study created in memory with name: no-name-9db558ae-a0b2-4126-b4fa-1afc86617351
+[W 2025-12-09 00:24:22,123] Trial 0 failed with parameters: {'learning_rate': 1.3323239743481118e-06, 'batch_size': 16} because of the following error: TypeError("train_clm() got an unexpected keyword argument 'tokenizer'").
+Traceback (most recent call last):
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 205, in _run_trial
+    value_or_values = func(trial)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/src/hyperparameters.py", line 48, in optuna_objective
+    model = trainer.train_clm(
+TypeError: train_clm() got an unexpected keyword argument 'tokenizer'
+[W 2025-12-09 00:24:22,147] Trial 0 failed with value None.
+Traceback (most recent call last):
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/src/hyperparameters.py", line 159, in <module>
+    hparams = search(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/src/hyperparameters.py", line 77, in search
+    study.optimize(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/.venv/lib/python3.10/site-packages/optuna/study/study.py", line 490, in optimize
+    _optimize(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 67, in _optimize
+    _optimize_sequential(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 164, in _optimize_sequential
+    frozen_trial_id = _run_trial(study, func, catch)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 262, in _run_trial
+    raise func_err
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 205, in _run_trial
+    value_or_values = func(trial)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/src/hyperparameters.py", line 48, in optuna_objective
+    model = trainer.train_clm(
+TypeError: train_clm() got an unexpected keyword argument 'tokenizer'
