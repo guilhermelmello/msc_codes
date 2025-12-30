@@ -1,0 +1,62 @@
+Staring Time: Mon Dec 29 20:37:54 -03 2025
+Root directory /home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt
+Node: adano58
+Running BPE Tokenizer
+>>> Loading Raw Dataset
+Dataset({
+    features: ['meta', 'text'],
+    num_rows: 2108999
+})
+Dataset Fingerprint: f0702f0c08f2cc11
+DatasetDict({
+    train: Dataset({
+        features: ['meta', 'text'],
+        num_rows: 1898099
+    })
+    validation: Dataset({
+        features: ['meta', 'text'],
+        num_rows: 210900
+    })
+})
+Dataset Fingerprint:
+train 2d01fecad1ed61fa
+validation 161dad574fdc2e9b
+>>> Loading Tokenizer
+PreTrainedTokenizerFast(name_or_path='/home/lovelace/proj/proj877/gmello/msc_codes/tokenizers/bpe-qwen-pt/models/bpe8k-nfc', vocab_size=8000, model_max_length=2048, is_fast=True, padding_side='right', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'unk_token': '[UNK]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
+	0: AddedToken("[PAD]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	1: AddedToken("[SEP]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	2: AddedToken("[EOS]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	3: AddedToken("[UNK]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+}
+)
+>>> Creating dataset for Causal Language Model
+Dataset Tokenization
+DatasetDict({
+    train: Dataset({
+        features: ['input_ids', 'attention_mask', 'overflow_to_sample_mapping'],
+        num_rows: 1898099
+    })
+    validation: Dataset({
+        features: ['input_ids', 'attention_mask', 'overflow_to_sample_mapping'],
+        num_rows: 210900
+    })
+})
+Dataset Fingerprint:
+train c6957dcd09f52633
+validation 6706499d9ab3408c
+Reshaping dataset into sequences of 1024
+DatasetDict({
+    train: Dataset({
+        features: ['input_ids', 'attention_mask'],
+        num_rows: 1947279
+    })
+    validation: Dataset({
+        features: ['input_ids', 'attention_mask'],
+        num_rows: 222015
+    })
+})
+Dataset Fingerprint:
+train 57c72d708f0e441e
+validation ca6a746a321807c7
+saving dataset at datasets/clm-1024-bpe-pt-8k
+Ending Time: Mon Dec 29 21:22:55 -03 2025
