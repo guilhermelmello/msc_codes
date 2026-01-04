@@ -21,10 +21,10 @@ export TRANSFORMERS_OFFLINE=1
 
 echo "Sending data to /work/gmello"
 mkdir -p \
-    /work/gmello/datasets/clm-1024-unigram-pt-10k/validation 
+    /work/gmello/datasets/clm-1024-unigram-pt-8k/validation 
 rsync -av \
-    datasets/clm-1024-unigram-pt-10k/validation/ \
-    /work/gmello/datasets/clm-1024-unigram-pt-10k/validation 
+    datasets/clm-1024-unigram-pt-8k/validation/ \
+    /work/gmello/datasets/clm-1024-unigram-pt-8k/validation 
 
 
 echo "Starting Causal Language Model Training."

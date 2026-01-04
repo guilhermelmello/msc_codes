@@ -192,7 +192,7 @@ def evaluate_clm(model, tokenizer, dataset, batch_size):
 
 if __name__ == '__main__':
     print('>>> Loading CLM Dataset from Disk')
-    dataset = load_from_disk('/work/gmello/datasets/clm-1024-unigram-pt-10k/validation')
+    dataset = load_from_disk('/work/gmello/datasets/clm-1024-unigram-pt-8k/validation')
     assert isinstance(dataset, Dataset)
 
     print('>>> Creating train and test splits for hyperparameter search.')
@@ -200,7 +200,7 @@ if __name__ == '__main__':
     print(dataset)
 
     print('>>> Loading Tokenizer')
-    tokenizer = AutoTokenizer.from_pretrained('guilhermelmello/tokenizer-unigram-pt-10k')
+    tokenizer = AutoTokenizer.from_pretrained('/home/lovelace/proj/proj877/gmello/msc_codes/tokenizers/bpe-qwen-pt/models/unigram8k-nfc/')
     print(tokenizer)
 
     print('>>> Loading Model')
@@ -213,13 +213,19 @@ if __name__ == '__main__':
         train_dataset=dataset['train'],
         validation_dataset=dataset['test'],
         batch_size=16,
-        learning_rate=0.00001,
+        learning_rate=0.001,
         weight_decay=0.1,
         warmup_steps=100,
         n_epochs=10,
         num_workers=16,
-        max_steps=100,
     )
+
+    output_path = './models/qwen-pt-unigram8k-nfc'
+    print(f'Saving model to {output_path}')
+
+    os.makedirs(output_path)
+    model.save_pretrained(output_path)
+    tokenizer.save_pretrained(output_path)
 
     loss = evaluate_clm(
         model=model,
@@ -228,10 +234,3 @@ if __name__ == '__main__':
         batch_size=16,
     )
     print(f'final loss: {loss}')
-
-    output_path = './models/qwen-pt-unigram'
-    print(f'Saving model to {output_path}')
-
-    os.makedirs(output_path)
-    model.save_pretrained(output_path)
-    tokenizer.save_pretrained(output_path)

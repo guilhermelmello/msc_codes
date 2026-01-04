@@ -1,35 +1,27 @@
-Staring Time: Wed Dec 10 22:24:27 -03 2025
+Staring Time: Thu Jan  1 23:21:53 -03 2026
 Root directory /home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt
-Node: adagp04
+Node: adagp02
 Sending data to /work/gmello
 sending incremental file list
 ./
-cache-a14400cf7e5a01d0.arrow
-cache-daa0cd7201260ef0.arrow
-data-00000-of-00004.arrow
-data-00001-of-00004.arrow
-data-00002-of-00004.arrow
-data-00003-of-00004.arrow
-dataset_info.json
-state.json
 
-sent 1,709,837,699 bytes  received 171 bytes  83,406,725.37 bytes/sec
-total size is 1,709,419,701  speedup is 1.00
+sent 221 bytes  received 19 bytes  480.00 bytes/sec
+total size is 1,481,964,938  speedup is 6,174,853.91
 Starting Causal Language Model Training.
 >>> Loading CLM Dataset from Disk
 >>> Creating train and test splits for hyperparameter search.
 DatasetDict({
     train: Dataset({
         features: ['input_ids', 'attention_mask'],
-        num_rows: 299510
+        num_rows: 260068
     })
     test: Dataset({
         features: ['input_ids', 'attention_mask'],
-        num_rows: 33279
+        num_rows: 28897
     })
 })
 >>> Loading Tokenizer
-PreTrainedTokenizerFast(name_or_path='guilhermelmello/tokenizer-unigram-pt-10k', vocab_size=10000, model_max_length=2048, is_fast=True, padding_side='right', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'unk_token': '[UNK]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
+PreTrainedTokenizerFast(name_or_path='/home/lovelace/proj/proj877/gmello/msc_codes/tokenizers/bpe-qwen-pt/models/unigram8k-nfc/', vocab_size=8000, model_max_length=2048, is_fast=True, padding_side='right', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'unk_token': '[UNK]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
 	0: AddedToken("[PAD]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
 	1: AddedToken("[SEP]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
 	2: AddedToken("[EOS]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
@@ -40,7 +32,7 @@ PreTrainedTokenizerFast(name_or_path='guilhermelmello/tokenizer-unigram-pt-10k',
 OptimizedModule(
   (_orig_mod): Qwen3ForCausalLM(
     (model): Qwen3Model(
-      (embed_tokens): Embedding(10000, 1024, padding_idx=0)
+      (embed_tokens): Embedding(8000, 1024, padding_idx=0)
       (layers): ModuleList(
         (0-27): 28 x Qwen3DecoderLayer(
           (self_attn): Qwen3Attention(
@@ -64,20 +56,19 @@ OptimizedModule(
       (norm): Qwen3RMSNorm((1024,), eps=1e-06)
       (rotary_emb): Qwen3RotaryEmbedding()
     )
-    (lm_head): Linear(in_features=1024, out_features=10000, bias=False)
+    (lm_head): Linear(in_features=1024, out_features=8000, bias=False)
   )
 )
 >>> Model Training
-{'epoch': 1, 'loss': 5.498920110835988, 'val_loss': 5.4036508413461535}
-{'epoch': 2, 'loss': 5.398175048140379, 'val_loss': 5.397581129807692}
-{'epoch': 3, 'loss': 5.395566477658402, 'val_loss': 5.397115384615384}
-{'epoch': 4, 'loss': 5.395216095651317, 'val_loss': 5.396950120192308}
-{'epoch': 5, 'loss': 5.3951578034804415, 'val_loss': 5.396995192307692}
-{'epoch': 6, 'loss': 5.395167420638932, 'val_loss': 5.397010216346154}
-{'epoch': 7, 'loss': 5.395176820520662, 'val_loss': 5.396965144230769}
-{'epoch': 8, 'loss': 5.395208606276757, 'val_loss': 5.397010216346154}
-{'epoch': 9, 'loss': 5.395199640464579, 'val_loss': 5.397085336538462}
-{'epoch': 10, 'loss': 5.395192801086312, 'val_loss': 5.397010216346154}
-Saving model to ./models/qwen-pt-unigram
-final loss: 5.396950120192308
-Ending Time: Fri Dec 12 06:07:20 -03 2025
+{'epoch': 1, 'loss': 2.19431862696909, 'val_loss': 1.891446458218041}
+{'epoch': 2, 'loss': 1.8035937843305152, 'val_loss': 1.786135514665191}
+{'epoch': 3, 'loss': 1.6969594618167485, 'val_loss': 1.738819521306032}
+{'epoch': 4, 'loss': 1.6227024464745112, 'val_loss': 1.7138688087991145}
+{'epoch': 5, 'loss': 1.5607879538676879, 'val_loss': 1.699657581627006}
+{'epoch': 6, 'loss': 1.5032831699105271, 'val_loss': 1.6966657443276147}
+{'epoch': 7, 'loss': 1.4465061263391255, 'val_loss': 1.7047160348644161}
+{'epoch': 8, 'loss': 1.3969330407039675, 'val_loss': 1.7194590481460985}
+{'epoch': 9, 'loss': 1.3586281085667042, 'val_loss': 1.7349673146098505}
+{'epoch': 10, 'loss': 1.3381096267289507, 'val_loss': 1.7453436289429995}
+Saving model to ./models/qwen-pt-unigram8k-nfc
+Ending Time: Sat Jan  3 02:21:12 -03 2026
