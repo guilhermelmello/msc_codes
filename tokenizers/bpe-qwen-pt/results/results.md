@@ -1,8 +1,17 @@
-# Avaliação Semântica
+# Results
 
-VOCAB_SIZE: 10k
+Results from the semantic evaluation.
 
-## Derivações
+
+## Unicode Normalization
+
+First experiments, comparing the performance of unicode normalization methods. Only the affix results are considered in the following tables.
+
+Vocabulary config:
+- final size: 10k
+- initial alphabet: bytes
+
+### Derivations
 
 | Unigram | F1     | Prec.  | Recall | words  |
 |---------|--------|--------|--------|--------|
@@ -19,7 +28,7 @@ VOCAB_SIZE: 10k
 | NFKD    | 50.19% | 51.16% | 49.26% |  2.06% |
 
 
-## Flexões
+### Inflections
 
 | Unigram | F1     | Prec.  | Recall | words  |
 |---------|--------|--------|--------|--------|
@@ -36,16 +45,21 @@ VOCAB_SIZE: 10k
 | NFKD    | 21.23% | 20.85% | 21.63% |  0.75% |
 
 
-## Comentários
+### Comments
 
-- Os resultados do Unigram para Flexões está muito ruim, porém, derivações está interessante. No geral, BPE parece mais equilibrado para os dois casos de formação de palavras.
-- melhorias podem ser feitas na inicialização do vocabulário do unigram (caracteres e morfemas)
-    - morfemas de derivação não resultaram em alterações
-
+- Unigram have bad results for inflections, but shows a good performance on derivation. BPE lacks behind on derivations, but is more balanced on both word formation process.
+- Worse results were obtained when considering different initial alphabet, including characters and derivation morphemes. Results are available for [derivation](affixes_der.txt) and [inflection](affixes_inf.txt).
 
 
+## Final Results: Using NFC
 
-## Derivações (NFC)
+Based on previous results, NFC normalization was selected for further experimentation. The following results compare the performance of different vocabulary sizes, using only bytes as initial alphabet. Only the affix results are reported on the following tables, but complete evaluation logs are available for [BPE](bpe-nfc.txt) and [Unigram](unigram-nfc.txt).
+
+By default, the Unigram trainer uses `n_sub_iterations=2`, used to obtain the following results. Different values were tested (3 and 5), but no improvement was observed. Results are available [here](unigram10k3.md) and [here](unigram10k5.md)
+
+
+### Derivations
+
 
 | UNIGRAM | F1     | Prec.  | Recall |  words |
 |---------|--------|--------|--------|--------|
@@ -66,7 +80,7 @@ VOCAB_SIZE: 10k
 | 30K     | 52.20% | 70.34% | 41.49% |  9.57% |
 | 50K     | 54.91% | 75.73% | 43.07% | 15.58% |
 
-## Flexões (NFC)
+### Inflections
 
 | UNIGRAM | F1     | Prec.  | Recall |  words |
 |---------|--------|--------|--------|--------|
@@ -85,3 +99,8 @@ VOCAB_SIZE: 10k
 | 15K     | 55.21% | 57.25% | 53.32% |  0.94% |
 | 30K     | 54.60% | 58.61% | 51.11% |  2.16% |
 | 50K     | 55.48% | 62.47% | 49.89% |  3.70% |
+
+### Comments
+
+- BPE have a good influece by the size os its vocabulary, resulting in more activation of the whole-word route. This is an expected behavior of the BPE algorithm. The Unigram model does not follow this behavior, resulting in worse performance as more words are detected as a single token.
+- On deviration process, the Unigram shows a better performance, but the results are much worse on inflections. BPE show a better balance between both processes. The question that raises is: how much each process affects the performance on downstream tasks?
