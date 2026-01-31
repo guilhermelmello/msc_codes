@@ -1,3 +1,4 @@
+import argparse
 import os
 import torch
 import utils
@@ -10,7 +11,6 @@ from torch.nn import CrossEntropyLoss
 from tqdm.auto import tqdm
 from transformers import (
     AutoTokenizer,
-    DataCollatorForLanguageModeling,
     get_scheduler,
     PreTrainedModel,
 )
@@ -49,7 +49,7 @@ def train_clm(
     learning_rate: float,
     weight_decay: float,
     warmup_steps: int,
-    n_epochs: int,
+    num_epochs: int,
     num_workers: int=None,
 ):
     # dataloaders
@@ -66,6 +66,7 @@ def train_clm(
         validation_dataset, # type: ignore
         batch_size=batch_size,
         pin_memory=True,
+        num_workers=num_workers,
     )
 
     # optimizer and weight decay
@@ -73,7 +74,7 @@ def train_clm(
     optimizer = AdamW(optimizer_parameters, lr=learning_rate)
 
     # lr scheduler
-    num_training_steps = n_epochs * len(train_dataloader)
+    num_training_steps = num_epochs * len(train_dataloader)
     lr_scheduler = get_scheduler(
         name='linear',
         optimizer=optimizer,
@@ -91,10 +92,9 @@ def train_clm(
     best_model_state = {}
 
     # training loop
-    print('>>> Model Training')
     progress_bar = tqdm(range(num_training_steps))
-    for epoch in range(n_epochs):
-        progress_bar.set_description(f'Epoch {epoch+1}/{n_epochs}')
+    for epoch in range(num_epochs):
+        progress_bar.set_description(f'Epoch {epoch+1}/{num_epochs}')
 
         # start training mode
         model.train()
@@ -160,13 +160,18 @@ def train_clm(
     return model
 
 
-def evaluate_clm(model, tokenizer, dataset, batch_size):
+def evaluate_clm(model, tokenizer, dataset, batch_size, num_workers):
     device_type = 'cuda' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device_type)
     model.to(device)
-    
-    data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
-    dataloader = DataLoader(dataset, batch_size=batch_size, collate_fn=data_collator)
+
+    dataset.set_format('torch')
+    dataloader = DataLoader(
+        dataset,
+        batch_size=batch_size,
+        pin_memory=True,
+        num_workers=num_workers,
+    )
 
     total_loss = 0
     progress_bar = tqdm(range(len(dataloader)), leave=False)
@@ -190,47 +195,106 @@ def evaluate_clm(model, tokenizer, dataset, batch_size):
     return loss
 
 
+def _parse_arguments():
+    parser = argparse.ArgumentParser(description="Causal LM Pretraining")
+    parser.add_argument(
+        '--dataset-path', type=str, required=True,
+        help='Path of the tokenized dataset.'
+    )
+    parser.add_argument(
+        "--tokenizer-name", type=str, required=True,
+        help="Name or path of the tokenizer to load."
+    )
+    parser.add_argument(
+        "--model-name", type=str, required=True,
+        help="Name or path of the model config to load."
+    )
+    parser.add_argument(
+        "--save-path", type=str, required=True,
+        help="Local path to save pretrained model."
+    )
+    parser.add_argument(
+        "--init-mode", type=utils.InitMode, required=True,
+        help="Initializes a random model using base-config or default-config."
+    )
+    parser.add_argument(
+        "--batch-size", type=int, required=True,
+        help="Size of the training batch."
+    )
+    parser.add_argument(
+        "--learning-rate", type=float, required=True,
+        help="Learning rate value."
+    )
+    parser.add_argument(
+        "--weight-decay", type=float, required=True,
+        help="Weight decay value."
+    )
+    parser.add_argument(
+        "--warmup-steps", type=int, required=True,
+        help="Warmup steps value."
+    )
+    parser.add_argument(
+        "--num-epochs", type=int, required=True,
+        help="Number of training epochs."
+    )
+    parser.add_argument(
+        "--num-workers", type=int, required=True,
+        help="Number of workers for loading data in parallel."
+    )
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
-    print('>>> Loading CLM Dataset from Disk')
-    dataset = load_from_disk('/work/gmello/datasets/clm-1024-unigram-pt-8k/validation')
+    args = _parse_arguments()
+
+    print('>>> Loading CLM Dataset from Disk:', args.dataset_path)
+    dataset = load_from_disk(args.dataset_path)
     assert isinstance(dataset, Dataset)
 
-    print('>>> Creating train and test splits for hyperparameter search.')
+    print('>>> Creating train and test splits.')
     dataset = dataset.train_test_split(test_size=0.1, seed=42)
     print(dataset)
 
-    print('>>> Loading Tokenizer')
-    tokenizer = AutoTokenizer.from_pretrained('/home/lovelace/proj/proj877/gmello/msc_codes/tokenizers/bpe-qwen-pt/models/unigram8k-nfc/')
+    print('>>> Loading Tokenizer:', args.tokenizer_name)
+    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
     print(tokenizer)
 
-    print('>>> Loading Model')
-    model = utils.initialize_clm_from_config('Qwen/Qwen3-0.6B', tokenizer)
+    print('>>> Loading Model:', args.model_name)
+    model = utils.initialize_clm(
+        model_name=args.model_name,
+        tokenizer=tokenizer,
+        init_mode=args.init_mode
+    )
     model = torch.compile(model)
+    utils.print_model_size(model)
     print(model)
 
+    print('>>> Model Training')
     model = train_clm(
         model=model,
         train_dataset=dataset['train'],
         validation_dataset=dataset['test'],
-        batch_size=16,
-        learning_rate=0.001,
-        weight_decay=0.1,
-        warmup_steps=100,
-        n_epochs=10,
-        num_workers=16,
+        batch_size=args.batch_size,
+        learning_rate=args.learning_rate,
+        weight_decay=args.weight_decay,
+        warmup_steps=args.warmup_steps,
+        num_epochs=args.num_epochs,
+        num_workers=args.num_workers,
     )
 
-    output_path = './models/qwen-pt-unigram8k-nfc'
-    print(f'Saving model to {output_path}')
-
-    os.makedirs(output_path)
-    model.save_pretrained(output_path)
-    tokenizer.save_pretrained(output_path)
-
+    print('>>> Model Evaluation')
     loss = evaluate_clm(
         model=model,
         tokenizer=tokenizer,
         dataset=dataset['test'],
         batch_size=16,
+        num_workers=args.num_workers,
     )
     print(f'final loss: {loss}')
+
+    print(f'>>> Saving model to {args.save_path}')
+    os.makedirs(args.save_path, exist_ok=True)
+    model.save_pretrained(args.save_path)
+    tokenizer.save_pretrained(args.save_path)
+
+    print('Training completed with success.')

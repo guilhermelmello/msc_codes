@@ -28,7 +28,7 @@ rsync -av \
 
 
 echo "Starting Causal Language Model Training."
-python src/trainer.py
+python src/train_clm.py
 
 
 deactivate

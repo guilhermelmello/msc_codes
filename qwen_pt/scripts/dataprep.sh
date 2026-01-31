@@ -24,7 +24,7 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running Unigram Tokenizer"
 python src/dataprep.py \
     --save-path datasets/clm-1024-unigram-pt-8k \
-    --tokenizer-name /home/lovelace/proj/proj877/gmello/msc_codes/tokenizers/bpe-qwen-pt/models/unigram8k-nfc \
+    --tokenizer-name guilhermelmello/tokenizer-unigram-pt-8k \
     --max-seq-length 1024 \
     --batch-size 256 \
     --num-proc $NUM_PROC \
@@ -33,7 +33,7 @@ python src/dataprep.py \
 echo "Running BPE Tokenizer"
 python src/dataprep.py \
     --save-path datasets/clm-1024-bpe-pt-8k \
-    --tokenizer-name /home/lovelace/proj/proj877/gmello/msc_codes/tokenizers/bpe-qwen-pt/models/bpe8k-nfc \
+    --tokenizer-name guilhermelmello/tokenizer-bpe-pt-8k \
     --max-seq-length 1024 \
     --batch-size 512 \
     --num-proc $NUM_PROC \

@@ -11,28 +11,14 @@ STEPS = 1
 EPOCHS = 3
 
 
-def show_model_size(model):
-    print('Model Size')
-    param_size = 0
-    for param in model.parameters():
-        param_size += param.nelement() * param.element_size()
-    buffer_size = 0
-    for buffer in model.buffers():
-        buffer_size += buffer.nelement() * buffer.element_size()
-
-    size_all_mb = (param_size + buffer_size) / 1024**3
-    print('  Size: {:.2f} GB'.format(size_all_mb))
-
-    num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    print(f'Params: {num_params/1024**2:.2f}M')
-
-
 def main(
     model_name: str,
     tokenizer_name: str,
     batch_size: int,
     max_sequence_len: int,
     output_path: str,
+    num_workers: int,
+    init_config: utils.InitConfig,
 ):
     if(torch.cuda.is_available()):
         gpu = torch.cuda.get_device_properties()
@@ -46,8 +32,12 @@ def main(
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
 
     # load model from config
-    model = utils.initialize_clm_from_config(model_name, tokenizer)
-    show_model_size(model)
+    model = utils.initialize_clm(
+        model_name=model_name,
+        tokenizer=tokenizer,
+        init_config=init_config,
+    )
+    utils.print_model_size(model)
 
     # create dummy dataset
     dataset = Dataset.from_dict(
@@ -69,12 +59,11 @@ def main(
         train_dataset=dataset,
         validation_dataset=dataset,
         batch_size=batch_size,
-        n_epochs=EPOCHS,
         learning_rate=0.00001,
         weight_decay=0.1,
         warmup_steps=100,
-        num_workers=4,
-        max_steps=100,
+        num_epochs=EPOCHS,
+        num_workers=num_workers,
     )
 
     # Dump memory snapshot history to a file and stop recording
@@ -85,8 +74,10 @@ def main(
 if __name__ == '__main__':
     main(
         model_name='Qwen/Qwen3-0.6B',
-        tokenizer_name='guilhermelmello/tokenizer-unigram-pt-10k',
-        batch_size=16,
+        tokenizer_name='guilhermelmello/tokenizer-unigram-pt-8k',
+        num_workers=8,
+        batch_size=32,
         max_sequence_len=1024,
-        output_path="logs/gpu_profile.pkl"
+        output_path="logs/gpu_profile.pkl",
+        init_config=utils.InitConfig.BASE,
     )
