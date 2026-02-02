@@ -1,6 +1,7 @@
 #!/bin/bash
 #PBS -N mviz
 #PBS -q umagpu
+#PBS -l walltime=00:30:00
 #PBS -e logs/gpu_memory_viz.err
 #PBS -o logs/gpu_memory_viz.out
 

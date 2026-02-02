@@ -18,7 +18,7 @@ def main(
     max_sequence_len: int,
     output_path: str,
     num_workers: int,
-    init_config: utils.InitConfig,
+    init_mode: utils.InitMode,
 ):
     if(torch.cuda.is_available()):
         gpu = torch.cuda.get_device_properties()
@@ -35,7 +35,7 @@ def main(
     model = utils.initialize_clm(
         model_name=model_name,
         tokenizer=tokenizer,
-        init_config=init_config,
+        init_mode=init_mode,
     )
     utils.print_model_size(model)
 
@@ -79,5 +79,5 @@ if __name__ == '__main__':
         batch_size=32,
         max_sequence_len=1024,
         output_path="logs/gpu_profile.pkl",
-        init_config=utils.InitConfig.BASE,
+        init_mode=utils.InitMode.BASE_CONFIG,
     )
