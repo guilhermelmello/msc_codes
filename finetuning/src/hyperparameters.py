@@ -6,7 +6,7 @@ from transformers import (
     AutoModelForSequenceClassification,
     PreTrainedTokenizerBase,
 )
-from typing import Optional
+from typing import List, Optional
 
 import gc
 import optuna
@@ -23,8 +23,10 @@ def get_model_initializer(model_name: str, num_labels: int):
 
 def search(
     model_name: str,
-    n_trials: int,
-    n_epochs: int,
+    num_trials: int,
+    num_epochs: int,
+    lr_values: List[float],
+    batch_size_values: List[int],
     task: TaskBase,
     dataset: DatasetDict,
     tokenizer: PreTrainedTokenizerBase,
@@ -32,11 +34,11 @@ def search(
 ) -> dict[str, float]:
     '''Hyperparameter Search with Optuna.
 
-    `Trainer.hyperparameter_search` only returns the last epoch metric as
-    trial objective value. This behavior limits evaluation when model overfits
-    and last epoch results in worst metrics. This implementation allows a
-    custom objective implementation that loads the best model at the end of the
-    trial and report its evaluation metrics for the trial.
+    Optuna's `Trainer.hyperparameter_search` only returns the last epoch metric
+    as trial objective value. This behavior limits evaluation when model overfits
+    and last epoch results in worst metrics. This implementation allows a custom
+    objective implementation that loads the best model at the end of the search
+    and reports the evaluation metrics of best trial.
     '''
     if seed is not None:
         torch.manual_seed(seed)
@@ -47,8 +49,8 @@ def search(
         model = None
         try:
             # defines search space
-            lr = trial.suggest_float('learning_rate', 1e-6, 1e-1, log=True)
-            batch_size = trial.suggest_categorical('batch_size', [4, 8, 16])
+            lr = trial.suggest_categorical('learning_rate', lr_values)
+            batch_size = trial.suggest_categorical('batch_size', batch_size_values)
 
             print(f'Running with hyperparameters: {{')
             print(f'\tlearning_rate: {lr}')
@@ -74,7 +76,7 @@ def search(
                 tokenizer=tokenizer,
                 train_dataset=dataset['train'],
                 validation_dataset=dataset['validation'],
-                n_epochs=n_epochs,
+                num_epochs=num_epochs,
                 # best model definition
                 compute_metrics=task.compute_metrics,
                 objective_metric_name=task.objective_metric_name,
@@ -102,7 +104,7 @@ def search(
     study = optuna.create_study(direction=direction)
     study.optimize(
         optuna_objective,
-        n_trials=n_trials,
+        n_trials=num_trials,
         gc_after_trial=True,
     )
     return study.best_params

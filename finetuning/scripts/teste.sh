@@ -1,8 +1,8 @@
 #!/bin/bash
-#PBS -N teste_job
-#PBS -q testegpu
-#PBS -e logs/assin-rte/bert-base-uncased.err
-#PBS -o logs/assin-rte/bert-base-uncased.out
+#PBS -N teste
+#PBS -q miggpu24h
+#PBS -e logs/teste.err
+#PBS -o logs/teste.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -25,10 +25,11 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name assin-rte \
-    --model-name google-bert/bert-base-uncased \
-    --save-dir models/assin-rte/bert-base-uncased/ \
-    --n-trials 3 \
-    --n-epochs 5 \
+    --model-name guilhermelmello/qwen-pt-bpe-8k \
+    --num-hp-trials 3 \
+    --num-hp-epochs 5 \
+    --num-training-epochs 10 \
+    --save-dir models/teste/ \
     --seed 42
 
 

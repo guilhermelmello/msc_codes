@@ -3,7 +3,7 @@ from src import trainer
 from src import finetuning
 from src import hyperparameters
 from transformers import AutoTokenizer
-from typing import Optional
+from typing import List, Optional
 
 import argparse
 import os
@@ -19,57 +19,57 @@ def read_arguments():
         An object containing:
             - task_name (str): name of the downstream task (e.g. 'assin-rte')
             - model_name (str): model identifier from Hugging Face hub
-            - n_trials (int): number of hyperparameter trials
-            - n_epochs (int): number of training epochs
+            - num_hp_trials (int): number of hyperparameter trials
+            - num_hp_epochs (int): number of epochs for each hyperparameter trials
+            - num_training_epochs (int): number of training epochs
             - seed (Optional[int]): random seed for reproducibility
             - save_dir (Optional[str]): output directory for checkpoints
     """
     parser = argparse.ArgumentParser(
         description="Finetune a pre-trained model from HuggingFace's Hub on a given NLP task."
     )
-
     parser.add_argument(
         "--task-name",
         type=str,
         required=True,
         help="Name of the downstream task (e.g., 'assin-rte', 'assin-sts')."
     )
-
     parser.add_argument(
         "--model-name",
         type=str,
         required=True,
         help="Model name or path (e.g., 'neuralmind/bert-base-portuguese-cased')."
     )
-
     parser.add_argument(
-        "--n-trials",
+        "--num-hp-trials",
         type=int,
         default=3,
         help="Number of hyperparameter trials to run (default: 3)."
     )
-
     parser.add_argument(
-        "--n-epochs",
+        "--num-hp-epochs",
         type=int,
         default=5,
-        help="Number of epochs to train each model (default: 5)."
+        help="Number of epochs for each hyperparameter trial (default: 5)."
     )
-
+    parser.add_argument(
+        "--num-training-epochs",
+        type=int,
+        default=5,
+        help="Number of training epochs (default: 5)."
+    )
     parser.add_argument(
         "--seed",
         type=int,
         default=None,
         help="Random seed for reproducibility (default: None)."
     )
-
     parser.add_argument(
         "--save-dir",
         type=str,
         default=None,
         help="Directory to save model checkpoints (default: None). If 'None', the model wont be saved."
     )
-
     args = parser.parse_args()
     return args
 
@@ -77,8 +77,11 @@ def read_arguments():
 def run(
     task_name: str,
     model_name: str,
-    n_trials: int = 3,
-    n_epochs: int = 5,
+    hp_lr_values: List[float],
+    hp_bs_values: List[int],
+    num_hp_trials: int = 3,
+    num_hp_epochs: int = 5,
+    num_training_epochs: int = 5,
     seed: Optional[int]=None,
     save_dir: Optional[str]=None,
 ):
@@ -103,13 +106,17 @@ def run(
     hparams = hyperparameters.search(
         seed=seed,
         model_name=model_name,
-        n_trials=n_trials,
-        n_epochs=n_epochs,
+        num_trials=num_hp_trials,
+        num_epochs=num_hp_epochs,
+        lr_values=hp_lr_values,
+        batch_size_values=hp_bs_values,
         dataset=dataset,
         tokenizer=tokenizer,
         task=task,
     )
-    print('Selected Hyperparameters')
+
+    print('=== Results ========================================')
+    print('>>> Selected Hyperparameters')
     pprint.pprint(hparams)
 
     print('>>> Model Finetuning')
@@ -119,7 +126,7 @@ def run(
         model_name=model_name,
         dataset=dataset,
         tokenizer=tokenizer,
-        n_epochs=n_epochs,
+        num_epochs=num_training_epochs,
         hyperparameters=hparams,
     )
 
@@ -144,8 +151,11 @@ if __name__ == '__main__':
     run(
         task_name=args.task_name,
         model_name=args.model_name,
-        n_trials=args.n_trials,
-        n_epochs=args.n_epochs,
+        num_hp_trials=args.num_hp_trials,
+        num_hp_epochs=args.num_hp_epochs,
+        hp_lr_values=[1e-2, 1e-3, 1e-4, 1e-5, 1e-6],
+        hp_bs_values=[8, 16],
+        num_training_epochs=args.num_training_epochs,
         save_dir=args.save_dir,
         seed=args.seed,
     )

@@ -14,7 +14,7 @@ import torch
 
 def finetune(
     model_name: str,
-    n_epochs: int,
+    num_epochs: int,
     hyperparameters: dict,
     dataset: DatasetDict,
     task: TaskBase,
@@ -49,7 +49,7 @@ def finetune(
             tokenizer=tokenizer,
             train_dataset=dataset['train'],
             validation_dataset=dataset['validation'],
-            n_epochs=n_epochs,
+            num_epochs=num_epochs,
             # best model definition
             compute_metrics=task.compute_metrics,
             objective_metric_name=task.objective_metric_name,

@@ -24,7 +24,7 @@ def train(
     validation_dataset: Dataset,
     batch_size: int,
     learning_rate: float,
-    n_epochs: int,
+    num_epochs: int,
     compute_metrics: Optional[ComputeMetricsCallback] = None,
     objective_metric_name: str = 'val_loss',
     greater_is_better: bool = False,
@@ -38,7 +38,7 @@ def train(
 
     # optimizer and scheduler
     optimizer = AdamW(model.parameters(), lr=learning_rate)
-    num_training_steps = n_epochs * len(train_dataloader)
+    num_training_steps = num_epochs * len(train_dataloader)
     lr_scheduler = get_scheduler(
         name='linear',
         num_warmup_steps=0,
@@ -74,15 +74,16 @@ def train(
 
     # training loop
     progress_bar = tqdm(range(num_training_steps))
-    for epoch in range(n_epochs):
-        progress_bar.set_description(f'Epoch {epoch+1}/{n_epochs}')
+    for epoch in range(num_epochs):
+        progress_bar.set_description(f'Epoch {epoch+1}/{num_epochs}')
 
         # start training mode
         model.train()
         for batch in train_dataloader:
             batch = {k: v.to(device) for k, v in batch.items()}
             outputs = model(**batch)
-            loss = outputs.loss
+            # loss = outputs.loss
+            loss = loss_fn(outputs.logits, batch['labels'])
             loss.backward()
 
             optimizer.step()
