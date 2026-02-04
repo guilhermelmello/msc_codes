@@ -4,7 +4,7 @@ import torch
 import utils
 
 from copy import deepcopy
-from datasets import Dataset, load_from_disk
+from datasets import Dataset, DatasetDict, load_from_disk
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from torch.nn import CrossEntropyLoss
@@ -249,11 +249,11 @@ if __name__ == '__main__':
 
     print('>>> Loading CLM Dataset from Disk:', args.dataset_path)
     dataset = load_from_disk(args.dataset_path)
-    assert isinstance(dataset, Dataset)
+    assert isinstance(dataset, DatasetDict)
 
-    print('>>> Creating train and test splits.')
-    dataset = dataset.train_test_split(test_size=0.1, seed=42)
-    print(dataset)
+    # print('>>> Creating train and test splits.')
+    # dataset = dataset.train_test_split(test_size=0.1, seed=42)
+    # print(dataset)
 
     print('>>> Loading Tokenizer:', args.tokenizer_name)
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
@@ -273,7 +273,7 @@ if __name__ == '__main__':
     model = train_clm(
         model=model,
         train_dataset=dataset['train'],
-        validation_dataset=dataset['test'],
+        validation_dataset=dataset['validation'],
         batch_size=args.batch_size,
         learning_rate=args.learning_rate,
         weight_decay=args.weight_decay,
@@ -286,7 +286,7 @@ if __name__ == '__main__':
     loss = evaluate_clm(
         model=model,
         tokenizer=tokenizer,
-        dataset=dataset['test'],
+        dataset=dataset['validation'],
         batch_size=16,
         num_workers=args.num_workers,
     )

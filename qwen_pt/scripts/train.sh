@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N qbase-8k
 #PBS -q umagpu
-#PBS -e logs/train-qwen-pt-base-8k.err
-#PBS -o logs/train-qwen-pt-base-8k.out
+#PBS -e logs/train-qwen-pt-base-8k-full.err
+#PBS -o logs/train-qwen-pt-base-8k-full.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -23,7 +23,7 @@ export TRANSFORMERS_OFFLINE=1
 
 echo "RUNNING QWEN-BASE UNIGRAM 8K"
 echo "Sending data to /work/gmello"
-DATASET_PATH="datasets/clm-1024-unigram-pt-8k/validation/"
+DATASET_PATH="datasets/clm-1024-unigram-pt-8k/"
 DATASET_WPATH="/work/gmello/$DATASET_PATH"
 
 mkdir -p $DATASET_WPATH
@@ -35,19 +35,19 @@ python src/trainer.py \
     --tokenizer-name guilhermelmello/tokenizer-unigram-pt-8k \
     --init-mode base-config \
     --model-name Qwen/Qwen3-0.6B \
-    --save-path ./models/qwen-pt-base-unigram8k \
+    --save-path ./models/qwen-pt-base-unigram8k-full \
     --batch-size 32 \
-    --num-epochs 10 \
+    --num-epochs 3 \
     --num-workers 16 \
     --learning-rate 0.001 \
     --weight-decay 0.1 \
-    --warmup-steps 100
+    --warmup-steps 10000
 
 
 
 echo "RUNNING QWEN-BASE BPE 8K"
 echo "Sending data to /work/gmello"
-DATASET_PATH="datasets/clm-1024-bpe-pt-8k/validation/"
+DATASET_PATH="datasets/clm-1024-bpe-pt-8k/"
 DATASET_WPATH="/work/gmello/$DATASET_PATH"
 
 mkdir -p $DATASET_WPATH
@@ -59,13 +59,13 @@ python src/trainer.py \
     --tokenizer-name guilhermelmello/tokenizer-bpe-pt-8k \
     --init-mode base-config \
     --model-name Qwen/Qwen3-0.6B \
-    --save-path ./models/qwen-pt-base-bpe8k \
+    --save-path ./models/qwen-pt-base-bpe8k-full \
     --batch-size 32 \
-    --num-epochs 10 \
+    --num-epochs 3 \
     --num-workers 16 \
     --learning-rate 0.001 \
     --weight-decay 0.1 \
-    --warmup-steps 100
+    --warmup-steps 10000
 
 
 deactivate
