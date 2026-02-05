@@ -44,6 +44,9 @@ def finetune(
             num_labels=num_labels
         )
 
+        if model_name == 'Qwen/Qwen3-0.6B':
+            model.config.pad_token_id = tokenizer.pad_token_id # fix
+
         model = trainer.train(
             model=model,
             tokenizer=tokenizer,
