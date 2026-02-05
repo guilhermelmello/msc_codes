@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N a1-sts
 #PBS -q miggpu24h
-#PBS -e logs/assin-sts/qwen-pt-bpe-10k.err
-#PBS -o logs/assin-sts/qwen-pt-bpe-10k.out
+#PBS -e logs/assin-sts/albertina-100m.err
+#PBS -o logs/assin-sts/albertina-100m.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -25,10 +25,11 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name assin-sts \
-    --model-name ~/msc_codes/qwen_pt/models/qwen-pt-bpe \
-    --save-dir models/assin-sts/qwen-pt-bpe-10k/ \
-    --n-trials 10 \
-    --n-epochs 5 \
+    --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
+    --save-dir models/assin-sts/albertina-100m \
+    --num-hp-trials 10 \
+    --num-hp-epochs 3 \
+    --num-training-epochs 10 \
     --seed 42
 
 
