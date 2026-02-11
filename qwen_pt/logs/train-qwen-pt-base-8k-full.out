@@ -1,0 +1,196 @@
+Staring Time: Sun Feb  8 14:57:51 -03 2026
+Root directory /home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt
+Node: adagp05
+RUNNING QWEN-BASE UNIGRAM 8K
+Sending data to /work/gmello
+sending incremental file list
+./
+dataset_dict.json
+train/
+train/data-00000-of-00026.arrow
+train/data-00001-of-00026.arrow
+train/data-00002-of-00026.arrow
+train/data-00003-of-00026.arrow
+train/data-00004-of-00026.arrow
+train/data-00005-of-00026.arrow
+train/data-00006-of-00026.arrow
+train/data-00007-of-00026.arrow
+train/data-00008-of-00026.arrow
+train/data-00009-of-00026.arrow
+train/data-00010-of-00026.arrow
+train/data-00011-of-00026.arrow
+train/data-00012-of-00026.arrow
+train/data-00013-of-00026.arrow
+train/data-00014-of-00026.arrow
+train/data-00015-of-00026.arrow
+train/data-00016-of-00026.arrow
+train/data-00017-of-00026.arrow
+train/data-00018-of-00026.arrow
+train/data-00019-of-00026.arrow
+train/data-00020-of-00026.arrow
+train/data-00021-of-00026.arrow
+train/data-00022-of-00026.arrow
+train/data-00023-of-00026.arrow
+train/data-00024-of-00026.arrow
+train/data-00025-of-00026.arrow
+train/dataset_info.json
+train/state.json
+validation/
+validation/data-00000-of-00003.arrow
+validation/data-00001-of-00003.arrow
+validation/data-00002-of-00003.arrow
+validation/dataset_info.json
+validation/state.json
+
+sent 14,481,886,306 bytes  received 685 bytes  107,672,022.24 bytes/sec
+total size is 14,478,348,940  speedup is 1.00
+Running python script
+>>> Loading CLM Dataset from Disk: /work/gmello/datasets/clm-1024-unigram-pt-8k/
+>>> Loading Tokenizer: guilhermelmello/tokenizer-unigram-pt-8k
+PreTrainedTokenizerFast(name_or_path='guilhermelmello/tokenizer-unigram-pt-8k', vocab_size=8000, model_max_length=2048, is_fast=True, padding_side='left', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'unk_token': '[UNK]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
+	0: AddedToken("[PAD]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	1: AddedToken("[SEP]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	2: AddedToken("[EOS]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	3: AddedToken("[UNK]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+}
+)
+>>> Loading Model: Qwen/Qwen3-0.6B
+Initializing random CLM with BASE size.
+Total Trainable Params: 196,964,352
+Model size (MB): 375.68
+Vocab Size: 8000
+L: 12
+H: 1024
+A: 16
+OptimizedModule(
+  (_orig_mod): Qwen3ForCausalLM(
+    (model): Qwen3Model(
+      (embed_tokens): Embedding(8000, 1024, padding_idx=0)
+      (layers): ModuleList(
+        (0-11): 12 x Qwen3DecoderLayer(
+          (self_attn): Qwen3Attention(
+            (q_proj): Linear(in_features=1024, out_features=2048, bias=False)
+            (k_proj): Linear(in_features=1024, out_features=1024, bias=False)
+            (v_proj): Linear(in_features=1024, out_features=1024, bias=False)
+            (o_proj): Linear(in_features=2048, out_features=1024, bias=False)
+            (q_norm): Qwen3RMSNorm((128,), eps=1e-06)
+            (k_norm): Qwen3RMSNorm((128,), eps=1e-06)
+          )
+          (mlp): Qwen3MLP(
+            (gate_proj): Linear(in_features=1024, out_features=3072, bias=False)
+            (up_proj): Linear(in_features=1024, out_features=3072, bias=False)
+            (down_proj): Linear(in_features=3072, out_features=1024, bias=False)
+            (act_fn): SiLUActivation()
+          )
+          (input_layernorm): Qwen3RMSNorm((1024,), eps=1e-06)
+          (post_attention_layernorm): Qwen3RMSNorm((1024,), eps=1e-06)
+        )
+      )
+      (norm): Qwen3RMSNorm((1024,), eps=1e-06)
+      (rotary_emb): Qwen3RotaryEmbedding()
+    )
+    (lm_head): Linear(in_features=1024, out_features=8000, bias=False)
+  )
+)
+>>> Model Training
+{'epoch': 1, 'loss': 1.9295422099848214, 'val_loss': 1.7099371479141292}
+{'epoch': 2, 'loss': 1.6587081565708817, 'val_loss': 1.6399715433299191}
+{'epoch': 3, 'loss': 1.606421454245262, 'val_loss': 1.6261433058700587}
+>>> Model Evaluation
+final loss: 1.6261772306566982
+>>> Saving model to ./models/qwen-pt-base-unigram8k-full
+Training completed with success.
+RUNNING QWEN-BASE BPE 8K
+Sending data to /work/gmello
+sending incremental file list
+./
+dataset_dict.json
+train/
+train/data-00000-of-00020.arrow
+train/data-00001-of-00020.arrow
+train/data-00002-of-00020.arrow
+train/data-00003-of-00020.arrow
+train/data-00004-of-00020.arrow
+train/data-00005-of-00020.arrow
+train/data-00006-of-00020.arrow
+train/data-00007-of-00020.arrow
+train/data-00008-of-00020.arrow
+train/data-00009-of-00020.arrow
+train/data-00010-of-00020.arrow
+train/data-00011-of-00020.arrow
+train/data-00012-of-00020.arrow
+train/data-00013-of-00020.arrow
+train/data-00014-of-00020.arrow
+train/data-00015-of-00020.arrow
+train/data-00016-of-00020.arrow
+train/data-00017-of-00020.arrow
+train/data-00018-of-00020.arrow
+train/data-00019-of-00020.arrow
+train/dataset_info.json
+train/state.json
+validation/
+validation/data-00000-of-00003.arrow
+validation/data-00001-of-00003.arrow
+validation/data-00002-of-00003.arrow
+validation/dataset_info.json
+validation/state.json
+
+sent 11,127,660,354 bytes  received 571 bytes  78,088,848.60 bytes/sec
+total size is 11,124,942,186  speedup is 1.00
+Running python script
+>>> Loading CLM Dataset from Disk: /work/gmello/datasets/clm-1024-bpe-pt-8k/
+>>> Loading Tokenizer: guilhermelmello/tokenizer-bpe-pt-8k
+PreTrainedTokenizerFast(name_or_path='guilhermelmello/tokenizer-bpe-pt-8k', vocab_size=8000, model_max_length=2048, is_fast=True, padding_side='left', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'unk_token': '[UNK]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
+	0: AddedToken("[PAD]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	1: AddedToken("[SEP]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	2: AddedToken("[EOS]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	3: AddedToken("[UNK]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+}
+)
+>>> Loading Model: Qwen/Qwen3-0.6B
+Initializing random CLM with BASE size.
+Total Trainable Params: 196,964,352
+Model size (MB): 375.68
+Vocab Size: 8000
+L: 12
+H: 1024
+A: 16
+OptimizedModule(
+  (_orig_mod): Qwen3ForCausalLM(
+    (model): Qwen3Model(
+      (embed_tokens): Embedding(8000, 1024, padding_idx=0)
+      (layers): ModuleList(
+        (0-11): 12 x Qwen3DecoderLayer(
+          (self_attn): Qwen3Attention(
+            (q_proj): Linear(in_features=1024, out_features=2048, bias=False)
+            (k_proj): Linear(in_features=1024, out_features=1024, bias=False)
+            (v_proj): Linear(in_features=1024, out_features=1024, bias=False)
+            (o_proj): Linear(in_features=2048, out_features=1024, bias=False)
+            (q_norm): Qwen3RMSNorm((128,), eps=1e-06)
+            (k_norm): Qwen3RMSNorm((128,), eps=1e-06)
+          )
+          (mlp): Qwen3MLP(
+            (gate_proj): Linear(in_features=1024, out_features=3072, bias=False)
+            (up_proj): Linear(in_features=1024, out_features=3072, bias=False)
+            (down_proj): Linear(in_features=3072, out_features=1024, bias=False)
+            (act_fn): SiLUActivation()
+          )
+          (input_layernorm): Qwen3RMSNorm((1024,), eps=1e-06)
+          (post_attention_layernorm): Qwen3RMSNorm((1024,), eps=1e-06)
+        )
+      )
+      (norm): Qwen3RMSNorm((1024,), eps=1e-06)
+      (rotary_emb): Qwen3RotaryEmbedding()
+    )
+    (lm_head): Linear(in_features=1024, out_features=8000, bias=False)
+  )
+)
+>>> Model Training
+{'epoch': 1, 'loss': 2.4853674876998055, 'val_loss': 2.1708818283366966}
+{'epoch': 2, 'loss': 2.0991970340441557, 'val_loss': 2.074076692389287}
+{'epoch': 3, 'loss': 2.023598567376898, 'val_loss': 2.050293778094822}
+>>> Model Evaluation
+final loss: 2.0502611579796053
+>>> Saving model to ./models/qwen-pt-base-bpe8k-full
+Training completed with success.
+Ending Time: Wed Feb 11 02:11:51 -03 2026

@@ -1,0 +1,18 @@
+Staring Time: Sun Feb  8 14:51:49 -03 2026
+Root directory /home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt
+Node: adagp05
+Running python script
+GPU: NVIDIA A100-PCIE-40GB
+39.49 GB
+
+Initializing random CLM with BASE size.
+Total Trainable Params: 196,964,352
+Model size (MB): 375.68
+Vocab Size: 8000
+L: 12
+H: 1024
+A: 16
+{'epoch': 1, 'loss': 9.19115161895752, 'val_loss': 9.1875}
+{'epoch': 2, 'loss': 9.19115161895752, 'val_loss': 9.1875}
+{'epoch': 3, 'loss': 9.191195487976074, 'val_loss': 9.1875}
+Ending Time: Sun Feb  8 14:57:47 -03 2026
