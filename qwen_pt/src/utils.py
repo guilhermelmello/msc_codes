@@ -38,10 +38,11 @@ def initialize_clm(model_name, tokenizer, init_mode: InitMode):
         )
         return AutoModelForCausalLM.from_config(model_config)
 
+    if init_mode == InitMode.PRETRAINED:
+        print('Initializin CLM from pretrained model')
+        return AutoModelForCausalLM.from_pretrained(model_name)
+
     raise NotImplementedError
-    # if init_config == InitConfig.PRETRAINED:
-    #     print('Initializing CLM from PRETRAINED model.')
-    #     return AutoModelForCausalLM.from_pretrained(model_name)
 
 
 def print_model_size(model):
