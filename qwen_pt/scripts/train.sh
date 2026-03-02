@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N qbase-8k
 #PBS -q umagpu
-#PBS -e logs/train-qwen-pt-base-8k-full-2.err
-#PBS -o logs/train-qwen-pt-base-8k-full-2.out
+#PBS -e logs/train-qwen-pt-base-8k-full-3.err
+#PBS -o logs/train-qwen-pt-base-8k-full-3.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -47,9 +47,9 @@ echo "Running python script"
 python src/trainer.py \
     --dataset-path $DATASET_WPATH \
     --init-mode pretrained \
-    --tokenizer-name ./models/qwen-pt-base-unigram8k-full-1 \
-    --model-name ./models/qwen-pt-base-unigram8k-full-1 \
-    --save-path ./models/qwen-pt-base-unigram8k-full-2 \
+    --tokenizer-name ./models/qwen-pt-base-unigram8k-full-2 \
+    --model-name ./models/qwen-pt-base-unigram8k-full-2 \
+    --save-path ./models/qwen-pt-base-unigram8k-full-3 \
     --batch-size 32 \
     --num-epochs 3 \
     --num-workers 16 \
@@ -85,9 +85,9 @@ echo "Running python script"
 python src/trainer.py \
     --dataset-path $DATASET_WPATH \
     --init-mode pretrained \
-    --tokenizer-name ./models/qwen-pt-base-bpe8k-full-1 \
-    --model-name ./models/qwen-pt-base-bpe8k-full-1 \
-    --save-path ./models/qwen-pt-base-bpe8k-full-2 \
+    --tokenizer-name ./models/qwen-pt-base-bpe8k-full-2 \
+    --model-name ./models/qwen-pt-base-bpe8k-full-2 \
+    --save-path ./models/qwen-pt-base-bpe8k-full-3 \
     --batch-size 32 \
     --num-epochs 3 \
     --num-workers 16 \
