@@ -25,7 +25,7 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name assin-rte \
-    --model-name guilhermelmello/qwen-pt-bpe-8k \
+    --model-name Qwen/Qwen3-0.6B \
     --num-hp-trials 3 \
     --num-hp-epochs 5 \
     --num-training-epochs 10 \

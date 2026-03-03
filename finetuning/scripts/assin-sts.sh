@@ -27,8 +27,8 @@ python main.py \
     --task-name assin-sts \
     --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
     --save-dir models/assin-sts/albertina-100m \
-    --num-hp-trials 10 \
-    --num-hp-epochs 3 \
+    --num-hp-trials 12 \
+    --num-hp-epochs 5 \
     --num-training-epochs 10 \
     --seed 42
 

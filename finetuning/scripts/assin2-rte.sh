@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N a2-rte
-#PBS -q miggpu
+#PBS -q miggpu24h
 #PBS -e logs/assin2-rte/albertina-100m.err
 #PBS -o logs/assin2-rte/albertina-100m.out
 
@@ -27,8 +27,8 @@ python main.py \
     --task-name assin2-rte \
     --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
     --save-dir models/assin2-rte/albertina-100m \
-    --num-hp-trials 10 \
-    --num-hp-epochs 3 \
+    --num-hp-trials 12 \
+    --num-hp-epochs 5 \
     --num-training-epochs 10 \
     --seed 42
 
