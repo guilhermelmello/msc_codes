@@ -149,6 +149,11 @@ def train(
             best_model_state = deepcopy(model.state_dict())
             best_model_metric = epoch_metric
 
+    # Problems with optimization metric may result in empty model state.
+    # When metric is always nan, the best model is never updated.
+    if not best_model_state:
+        return model
+
     model.load_state_dict(best_model_state)
     del best_model_state
 

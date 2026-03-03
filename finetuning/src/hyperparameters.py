@@ -7,6 +7,7 @@ from transformers import (
     PreTrainedTokenizerBase,
 )
 from typing import List, Optional
+from copy import deepcopy
 
 import gc
 import optuna
@@ -43,10 +44,26 @@ def search(
     if seed is not None:
         torch.manual_seed(seed)
 
+    # target
+    label_feature = dataset['train'].features['label']
+    is_classification = isinstance(label_feature, ClassLabel)
+    if is_classification:
+        num_labels = dataset['train'].features['label'].num_classes
+    else:
+        num_labels = 1
+
+    # model initialization
+    print("Initializing seed model")
+    seed_model = task.load_pretrained_model(
+        model_name=model_name,
+        num_labels=num_labels,
+    )
+
+    if model_name == 'Qwen/Qwen3-0.6B':
+        seed_model.config.pad_token_id = tokenizer.pad_token_id # fix
+
     def optuna_objective(trial: Trial):
         print(f'=== Trial {trial.number}', '=' * 40)
-
-        model = None
         try:
             # defines search space
             lr = trial.suggest_categorical('learning_rate', lr_values)
@@ -57,25 +74,8 @@ def search(
             print(f'\tbatch_size: {batch_size}')
             print(f'}}')
 
-            # target
-            label_feature = dataset['train'].features['label']
-            is_classification = isinstance(label_feature, ClassLabel)
-            if is_classification:
-                num_labels = dataset['train'].features['label'].num_classes
-            else:
-                num_labels = 1
-
-            # model initialization
-            model = task.load_pretrained_model(
-                model_name=model_name,
-                num_labels=num_labels,
-            )
-
-            if model_name == 'Qwen/Qwen3-0.6B':
-                model.config.pad_token_id = tokenizer.pad_token_id # fix
-
             model = trainer.train(
-                model=model,
+                model=deepcopy(seed_model),
                 tokenizer=tokenizer,
                 train_dataset=dataset['train'],
                 validation_dataset=dataset['validation'],
