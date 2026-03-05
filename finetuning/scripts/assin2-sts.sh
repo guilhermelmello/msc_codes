@@ -25,7 +25,7 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name assin2-sts \
-    --model-name gPORTULAN/albertina-100m-portuguese-ptbr-encoder \
+    --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
     --save-dir models/assin2-sts/albertina-100m \
     --num-hp-trials 12 \
     --num-hp-epochs 5 \
