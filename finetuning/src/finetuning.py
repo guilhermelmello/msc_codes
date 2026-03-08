@@ -3,7 +3,7 @@ Finetuning script
 """
 from . import trainer
 from .tasks import TaskBase
-from datasets import ClassLabel, DatasetDict
+from datasets import DatasetDict
 from transformers import PreTrainedTokenizerBase
 from typing import Optional
 
@@ -30,19 +30,8 @@ def finetune(
     lr = hyperparameters['learning_rate']
 
     try:
-        # target
-        label_feature = dataset['train'].features['label']
-        is_classification = isinstance(label_feature, ClassLabel)
-        if is_classification:
-            num_labels = dataset['train'].features['label'].num_classes
-        else:
-            num_labels = 1
-
         # load pretrained model
-        model = task.load_pretrained_model(
-            model_name=model_name,
-            num_labels=num_labels
-        )
+        model = task.load_pretrained_model(model_name=model_name)
 
         if model_name == 'Qwen/Qwen3-0.6B':
             model.config.pad_token_id = tokenizer.pad_token_id # fix

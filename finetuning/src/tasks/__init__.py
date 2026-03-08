@@ -12,6 +12,8 @@ from transformers import (
 from .task_base import TaskBase
 from . import assin
 from . import assin2
+from . import hatebr
+from . import plue
 
 
 _tasks_map = {
@@ -19,8 +21,8 @@ _tasks_map = {
     'assin-sts': assin.SemanticTextualSimilarity,
     'assin2-rte': assin2.RecognisingTextualEntailment,
     'assin2-sts': assin2.SemanticTextualSimilarity,
-    # 'bpsad_polarity': load_bpsad_polarity,
-    # 'bpsad_rating': load_bpsad_rating,
+    'hatebr-offensive': hatebr.OffensiveLanguageDetection,
+    'plue-rte': plue.RecognisingTextualEntailment,
 }
 
 

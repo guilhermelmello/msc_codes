@@ -44,20 +44,9 @@ def search(
     if seed is not None:
         torch.manual_seed(seed)
 
-    # target
-    label_feature = dataset['train'].features['label']
-    is_classification = isinstance(label_feature, ClassLabel)
-    if is_classification:
-        num_labels = dataset['train'].features['label'].num_classes
-    else:
-        num_labels = 1
-
     # model initialization
     print("Initializing seed model")
-    seed_model = task.load_pretrained_model(
-        model_name=model_name,
-        num_labels=num_labels,
-    )
+    seed_model = task.load_pretrained_model(model_name=model_name)
 
     if model_name == 'Qwen/Qwen3-0.6B':
         seed_model.config.pad_token_id = tokenizer.pad_token_id # fix

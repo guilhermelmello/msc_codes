@@ -57,10 +57,10 @@ class RecognisingTextualEntailment(TaskBase):
     def is_maximization(self) -> bool:
         return True
 
-    def load_pretrained_model(self, model_name: str, num_labels: int) -> PreTrainedModel:
+    def load_pretrained_model(self, model_name: str) -> PreTrainedModel:
         return AutoModelForSequenceClassification.from_pretrained(
             pretrained_model_name_or_path=model_name,
-            num_labels=num_labels,
+            num_labels=3,
         )
 
 
@@ -103,8 +103,8 @@ class SemanticTextualSimilarity(TaskBase):
     def is_maximization(self) -> bool:
         return True
     
-    def load_pretrained_model(self, model_name: str, num_labels: int) -> PreTrainedModel:
+    def load_pretrained_model(self, model_name: str) -> PreTrainedModel:
         return AutoModelForSequenceClassification.from_pretrained(
             pretrained_model_name_or_path=model_name,
-            num_labels=num_labels,
+            num_labels=1,
         )
