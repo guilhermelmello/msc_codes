@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N a2-sts
 #PBS -q miggpu24h
-#PBS -e logs/assin2-sts/albertina-100m.err
-#PBS -o logs/assin2-sts/albertina-100m.out
+#PBS -e logs/assin2-sts/ttl-460m.err
+#PBS -o logs/assin2-sts/ttl-460m.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -25,8 +25,8 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name assin2-sts \
-    --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
-    --save-dir models/assin2-sts/albertina-100m \
+    --model-name nicholasKluge/TeenyTinyLlama-460m \
+    --save-dir models/assin2-sts/ttl-460m \
     --num-hp-trials 12 \
     --num-hp-epochs 5 \
     --num-training-epochs 10 \
