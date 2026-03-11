@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N hatebr-o
 #PBS -q miggpu24h
-#PBS -e logs/hatebr-offensive/qwen-pt-base-bpe-8k.err
-#PBS -o logs/hatebr-offensive/qwen-pt-base-bpe-8k.out
+#PBS -e logs/hatebr-offensive/albertina-100m.err
+#PBS -o logs/hatebr-offensive/albertina-100m.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -25,9 +25,11 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name hatebr-offensive \
-    --model-name guilhermelmello/qwen-pt-base-bpe-8k \
-    --save-dir models/hatebr-offensive/qwen-pt-base-bpe-8k \
-    --num-hp-trials 12 \
+    --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
+    --save-dir models/hatebr-offensive/albertina-100m \
+    --hp-learning-rate 5e-3 5e-4 5e-5 5e-6 \
+    --hp-batch-size 4 8 \
+    --num-hp-trials 8 \
     --num-hp-epochs 5 \
     --num-training-epochs 10 \
     --seed 42
