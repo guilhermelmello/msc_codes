@@ -70,6 +70,20 @@ def read_arguments():
         default=None,
         help="Directory to save model checkpoints (default: None). If 'None', the model wont be saved."
     )
+    parser.add_argument(
+        '--hp-learning-rate',
+        nargs='*',
+        type=float,
+        help='A list of float values for hyperparameter search.',
+        default=[5e-3, 5e-4, 5e-5, 5e-6],
+    )
+    parser.add_argument(
+        '--hp-batch-size',
+        nargs='*',
+        type=int,
+        help='A list of integers values for hyperparameter search.',
+        default=[8, 16, 32],
+    )
     args = parser.parse_args()
     return args
 
@@ -153,8 +167,8 @@ if __name__ == '__main__':
         model_name=args.model_name,
         num_hp_trials=args.num_hp_trials,
         num_hp_epochs=args.num_hp_epochs,
-        hp_lr_values=[5e-3, 5e-4, 5e-5, 5e-6],
-        hp_bs_values=[8, 16, 32],
+        hp_lr_values=args.hp_learning_rate,
+        hp_bs_values=args.hp_batch_size,
         num_training_epochs=args.num_training_epochs,
         save_dir=args.save_dir,
         seed=args.seed,
