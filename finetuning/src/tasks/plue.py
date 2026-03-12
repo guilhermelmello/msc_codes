@@ -9,8 +9,8 @@ from transformers import PreTrainedModel
 import evaluate
 
 
-class RecognisingTextualEntailment(TaskBase):
-    '''PLUE dataset for Recognising Textual Entailment (RTE).'''
+class RecognizingTextualEntailment(TaskBase):
+    '''PLUE dataset for Recognizing Textual Entailment (RTE).'''
 
     def __init__(self) -> None:
         self._f1_metric = evaluate.load('f1')
@@ -23,6 +23,10 @@ class RecognisingTextualEntailment(TaskBase):
     @TaskBase.filtered_columns
     def load_dataset(self, split : Optional[str] = None):
         dataset = load_dataset('dlb/plue', 'RTE', split=split)
+
+        # fix example
+        dataset['train'] = dataset['train'].map(self._fix_example)
+
         dataset = dataset.class_encode_column('label')
         dataset['validation'] = dataset.pop('dev')
 
@@ -31,6 +35,17 @@ class RecognisingTextualEntailment(TaskBase):
             'sentence1': 'text',
             'sentence2': 'text_pair',
         })
+
+    def _fix_example(self, example):
+        if example['index'] == 2164:
+            sentences = example['sentence1'].split('\t')
+            return {
+                'sentence1': sentences[0],
+                'sentence2': sentences[1],
+                'label': example['sentence2']
+            }
+        else:
+            return example
 
     def compute_metrics(self, eval_pred: Optional[EvalPrediction]=None) -> dict[str, float] | None:
         if eval_pred is None:

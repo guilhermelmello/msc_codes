@@ -84,6 +84,12 @@ def read_arguments():
         help='A list of integers values for hyperparameter search.',
         default=[8, 16, 32],
     )
+    parser.add_argument(
+        '--skip-test-eval',
+        action='store_true',
+        default=False,
+        help='When passed as argument, skips the evaluation on test dataset.'
+    )
     args = parser.parse_args()
     return args
 
@@ -98,6 +104,7 @@ def run(
     num_training_epochs: int = 5,
     seed: Optional[int]=None,
     save_dir: Optional[str]=None,
+    skip_test_eval: bool = False,
 ):
     print(f'>>> Running Task: {task_name}')
     task = tasks.load_task(task_name)
@@ -151,13 +158,16 @@ def run(
         tokenizer.save_pretrained(save_dir)
 
     print('>>> Results on Test Dataset')
-    results = trainer.evaluate(
-        model=model,
-        tokenizer=tokenizer,
-        dataset=dataset['test'],
-        compute_metrics=task.compute_metrics,
-    )
-    pprint.pprint(results)
+    if skip_test_eval:
+        print('Skipping evaluation on test dataset (Private Test)')
+    else:
+        results = trainer.evaluate(
+            model=model,
+            tokenizer=tokenizer,
+            dataset=dataset['test'],
+            compute_metrics=task.compute_metrics,
+        )
+        pprint.pprint(results)
 
 
 if __name__ == '__main__':
@@ -172,4 +182,5 @@ if __name__ == '__main__':
         num_training_epochs=args.num_training_epochs,
         save_dir=args.save_dir,
         seed=args.seed,
+        skip_test_eval=args.skip_test_eval,
     )

@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N plue-rte
-#PBS -q testegpu
+#PBS -q miggpu24h
 #PBS -e logs/plue-rte/qwen-pt-base-bpe-8k.err
 #PBS -o logs/plue-rte/qwen-pt-base-bpe-8k.out
 
@@ -27,9 +27,12 @@ python main.py \
     --task-name plue-rte \
     --model-name guilhermelmello/qwen-pt-base-bpe-8k \
     --save-dir models/plue-rte/qwen-pt-base-bpe-8k \
+    --hp-learning-rate 5e-3 5e-4 5e-5 5e-6 \
+    --hp-batch-size 4 8 16 \
     --num-hp-trials 12 \
     --num-hp-epochs 5 \
     --num-training-epochs 10 \
+    --skip-test-eval \
     --seed 42
 
 
