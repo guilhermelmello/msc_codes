@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N a1-rte
 #PBS -q miggpu24h
-#PBS -e logs/assin-rte/ttl-460m.err
-#PBS -o logs/assin-rte/ttl-460m.out
+#PBS -e logs/assin-rte/bertimbau-large.err
+#PBS -o logs/assin-rte/bertimbau-large.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -25,8 +25,8 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name assin-rte \
-    --model-name nicholasKluge/TeenyTinyLlama-460m \
-    --save-dir models/assin-rte/ttl-460m \
+    --model-name neuralmind/bert-large-portuguese-cased \
+    --save-dir models/assin-rte/bertimbau-large \
     --num-hp-trials 12 \
     --num-hp-epochs 5 \
     --num-training-epochs 10 \
