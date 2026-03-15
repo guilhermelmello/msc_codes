@@ -22,6 +22,7 @@ _tasks_map = {
     'assin2-rte': assin2.RecognisingTextualEntailment,
     'assin2-sts': assin2.SemanticTextualSimilarity,
     'hatebr-offensive': hatebr.OffensiveLanguageDetection,
+    'hatebr-hate': hatebr.HateSpeechDetection,
     'plue-rte': plue.RecognizingTextualEntailment,
 }
 
