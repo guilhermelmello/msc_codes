@@ -1,3 +1,13 @@
+# MODELS
+
+qwen-pt-base-unigram-8k guilhermelmello/qwen-pt-base-unigram-8k
+qwen-pt-base-bpe-8k     guilhermelmello/qwen-pt-base-bpe-8k
+albertina-100m          PORTULAN/albertina-100m-portuguese-ptbr-encoder
+bertimbau-base          neuralmind/bert-base-portuguese-cased
+bertimbau-large         neuralmind/bert-large-portuguese-cased
+ttl-160m                nicholasKluge/TeenyTinyLlama-160m
+ttl-460m                nicholasKluge/TeenyTinyLlama-460m
+
 # VALIDATION
 
 ## ASSIN-RTE
@@ -40,7 +50,7 @@ bertimbau-large         {'loss':  7.800637733459473, 'mse': 0.8255508279107396, 
 ttl-160m                {'loss':  7.712226789474487, 'mse': 0.8509338292426646, 'pearsonr': 0.7090601661567368}
 ttl-460m                {'loss':  7.706326526641845, 'mse': 0.8378874536424850, 'pearsonr': 0.7463324651720226}
 
-## HATEBR
+## HATEBR-OFFENSIVE-LANGUAGE
 
 qwen-pt-base-unigram-8k {'f1': 0.9196387570794429, 'loss': 0.204905217679749}
 qwen-pt-base-bpe-8k     {'f1': 0.9241056302939711, 'loss': 0.386062242936350}
@@ -49,6 +59,27 @@ bertimbau-base          {'f1': 0.9285486443381180, 'loss': 0.419222071491198}
 bertimbau-large         {'f1': 0.9383869139162817, 'loss': 0.309882917755645}
 ttl-160m                {'f1': 0.9098213566815663, 'loss': 0.434511037814419}
 ttl-460m                {'f1': 0.9330352338305998, 'loss': 0.213013658994944}
+
+## HATEBR-HATE-SPEECH
+
+qwen-pt-base-unigram-8k {'f1': 0.8642913902806035, 'loss': 0.3550173878894254}
+qwen-pt-base-bpe-8k     {'f1': 0.8730885755862496, 'loss': 0.3724935657591453}
+albertina-100m          {'f1': 0.8351486605828672, 'loss': 0.3849389718912009}
+bertimbau-base          {'f1': 0.8504273504273504, 'loss': 0.4704934780851805}
+bertimbau-large         
+ttl-160m                {'f1': 0.8385492971834383, 'loss': 0.2715505949188290}
+ttl-460m                {'f1': 0.8503909427151669, 'loss': 0.2942065685501348}
+
+## PLUE-RTE
+
+qwen-pt-base-unigram-8k {'accuracy': 0.6137184115523465, 'f1': 0.610796685619739, 'loss': 1.270848372917528}
+qwen-pt-base-bpe-8k     {'accuracy': 0.6353790613718412, 'f1': 0.634158461156225, 'loss': 2.408486052971024}
+albertina-100m          
+bertimbau-base          
+bertimbau-large         
+ttl-160m                {'accuracy': 0.6353790613718412, 'f1': 0.634445271974181, 'loss': 1.1995638508874156}
+ttl-460m                
+
 
 # TEST
 
@@ -92,7 +123,7 @@ bertimbau-large         {'loss': 19.59321536269842, 'mse': 1.0548054050188990, '
 ttl-160m                {'loss': 18.72409152672961, 'mse': 1.0767523598427566, 'pearsonr': 0.6119540400841965}
 ttl-460m                {'loss': 18.49882795919779, 'mse': 1.0311919258057310, 'pearsonr': 0.6956606368857454}
 
-## HATEBR
+## HATEBR-OFFENSIVE-LANGUAGE
 
 qwen-pt-base-unigram-8k {'f1': 0.8999997959179509, 'loss': 0.2416319667867252}  * max batch size = 8
 qwen-pt-base-bpe-8k     {'f1': 0.9157058562999156, 'loss': 0.3763829595669189}
@@ -101,3 +132,23 @@ bertimbau-base          {'f1': 0.9142463376040018, 'loss': 0.3902473818134084}
 bertimbau-large         {'f1': 0.9249913893176513, 'loss': 0.3360386834582979}
 ttl-160m                {'f1': 0.9071155604912464, 'loss': 0.4370277327819661}
 ttl-460m                {'f1': 0.9192853436571903, 'loss': 0.2730217934835569}  * max batch size = 8
+
+## HATEBR-HATE-SPEECH
+
+qwen-pt-base-unigram-8k {'f1': 0.8585471422611598, 'loss': 0.327181950655898}   * max batch size = 8
+qwen-pt-base-bpe-8k     {'f1': 0.8871149814546041, 'loss': 0.326590922042794}
+albertina-100m          {'f1': 0.8428237830070056, 'loss': 0.380224674434534}
+bertimbau-base          {'f1': 0.8627912186379928, 'loss': 0.442413617139016}
+bertimbau-large         -> script 2
+ttl-160m                {'f1': 0.8142602630681173, 'loss': 0.284677883471761}
+ttl-460m                {'f1': 0.8683810873747089, 'loss': 0.328360460471761}   * max batch size = 8
+
+## PLUE-RTE
+
+qwen-pt-base-unigram-8k ok
+qwen-pt-base-bpe-8k     ok
+albertina-100m          -> script 1
+bertimbau-base          -> script 3
+bertimbau-large         script 5
+ttl-160m                ok
+ttl-460m                -> script 4

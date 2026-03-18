@@ -1,8 +1,8 @@
 #!/bin/bash
-#PBS -N plue-rte
+#PBS -N hatebr-h
 #PBS -q miggpu24h
-#PBS -e logs/plue-rte/albertina-100m.err
-#PBS -o logs/plue-rte/albertina-100m.out
+#PBS -e logs/hatebr-hate/bertimbau-base.err
+#PBS -o logs/hatebr-hate/bertimbau-base.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -24,15 +24,14 @@ export TRANSFORMERS_OFFLINE=1
 # run python script
 echo "Running python script"
 python main.py \
-    --task-name plue-rte \
-    --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
-    --save-dir models/plue-rte/albertina-100m \
+    --task-name hatebr-hate \
+    --model-name neuralmind/bert-base-portuguese-cased \
+    --save-dir models/hatebr-hate/bertimbau-base \
     --hp-learning-rate 5e-3 5e-4 5e-5 5e-6 \
-    --hp-batch-size 4 8 16 \
+    --hp-batch-size 4 8 16\
     --num-hp-trials 12 \
     --num-hp-epochs 5 \
     --num-training-epochs 10 \
-    --skip-test-eval \
     --seed 42
 
 
