@@ -28,8 +28,8 @@ python main.py \
     --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
     --save-dir models/plue-rte/albertina-100m \
     --hp-learning-rate 5e-3 5e-4 5e-5 5e-6 \
-    --hp-batch-size 4 8 16 \
-    --num-hp-trials 12 \
+    --hp-batch-size 4 8 \
+    --num-hp-trials 8 \
     --num-hp-epochs 5 \
     --num-training-epochs 10 \
     --skip-test-eval \

@@ -66,7 +66,7 @@ qwen-pt-base-unigram-8k {'f1': 0.8642913902806035, 'loss': 0.3550173878894254}
 qwen-pt-base-bpe-8k     {'f1': 0.8730885755862496, 'loss': 0.3724935657591453}
 albertina-100m          {'f1': 0.8351486605828672, 'loss': 0.3849389718912009}
 bertimbau-base          {'f1': 0.8504273504273504, 'loss': 0.4704934780851805}
-bertimbau-large         
+bertimbau-large         {'f1': 0.8726315236978848, 'loss': 0.2977176001582328}
 ttl-160m                {'f1': 0.8385492971834383, 'loss': 0.2715505949188290}
 ttl-460m                {'f1': 0.8503909427151669, 'loss': 0.2942065685501348}
 
@@ -74,12 +74,21 @@ ttl-460m                {'f1': 0.8503909427151669, 'loss': 0.2942065685501348}
 
 qwen-pt-base-unigram-8k {'accuracy': 0.6137184115523465, 'f1': 0.610796685619739, 'loss': 1.270848372917528}
 qwen-pt-base-bpe-8k     {'accuracy': 0.6353790613718412, 'f1': 0.634158461156225, 'loss': 2.408486052971024}
-albertina-100m          
-bertimbau-base          
-bertimbau-large         
-ttl-160m                {'accuracy': 0.6353790613718412, 'f1': 0.634445271974181, 'loss': 1.1995638508874156}
-ttl-460m                
+albertina-100m          {'accuracy': 0.6750902527075813, 'f1': 0.666282929963589, 'loss': 1.281723993457181}
+bertimbau-base          {'accuracy': 0.6750902527075813, 'f1': 0.675052137643378, 'loss': 0.634049810657432}
+bertimbau-large         {'accuracy': 0.7184115523465704, 'f1': 0.717966791979949, 'loss': 1.088962078524840}
+ttl-160m                {'accuracy': 0.6353790613718412, 'f1': 0.634445271974181, 'loss': 1.199563850887415}
+ttl-460m                {'accuracy': 0.6678700361010831, 'f1': 0.665142436665615, 'loss': 1.130206772351523}
 
+## PLUE-WNLI
+
+qwen-pt-base-unigram-8k {'accuracy': 0.5633802816901409, 'f1': 0.3603603603603603, 'loss': 0.6868187273052}
+qwen-pt-base-bpe-8k     {'accuracy': 0.5633802816901409, 'f1': 0.3603603603603603, 'loss': 0.6925554342672}
+albertina-100m          {'accuracy': 0.5633802816901409, 'f1': 0.3603603603603603, 'loss': 0.6875793765968}
+bertimbau-base          {'accuracy': 0.5774647887323944, 'f1': 0.3948863636363636, 'loss': 0.6864199369726}
+bertimbau-large         {'accuracy': 0.5633802816901409, 'f1': 0.3603603603603603, 'loss': 0.6857532044531}
+ttl-160m                {'accuracy': 0.5633802816901409, 'f1': 0.3603603603603603, 'loss': 0.6913761991850}
+ttl-460m                {'accuracy': 0.5633802816901409, 'f1': 0.3603603603603603, 'loss': 0.6892500125186}
 
 # TEST
 
@@ -139,16 +148,26 @@ qwen-pt-base-unigram-8k {'f1': 0.8585471422611598, 'loss': 0.327181950655898}   
 qwen-pt-base-bpe-8k     {'f1': 0.8871149814546041, 'loss': 0.326590922042794}
 albertina-100m          {'f1': 0.8428237830070056, 'loss': 0.380224674434534}
 bertimbau-base          {'f1': 0.8627912186379928, 'loss': 0.442413617139016}
-bertimbau-large         -> script 2
+bertimbau-large         {'f1': 0.8596593108788231, 'loss': 0.330513884116496}
 ttl-160m                {'f1': 0.8142602630681173, 'loss': 0.284677883471761}
 ttl-460m                {'f1': 0.8683810873747089, 'loss': 0.328360460471761}   * max batch size = 8
 
 ## PLUE-RTE
 
+qwen-pt-base-unigram-8k ok      * max batch size = 8
+qwen-pt-base-bpe-8k     ok
+albertina-100m          ok      * max batch size = 8
+bertimbau-base          ok
+bertimbau-large         ok
+ttl-160m                ok
+ttl-460m                ok      * max batch size = 8
+
+## PLUE-WNLI
+
 qwen-pt-base-unigram-8k ok
 qwen-pt-base-bpe-8k     ok
-albertina-100m          -> script 1
-bertimbau-base          -> script 3
-bertimbau-large         script 5
+albertina-100m          ok
+bertimbau-base          ok
+bertimbau-large         ok
 ttl-160m                ok
-ttl-460m                -> script 4
+ttl-460m                ok
