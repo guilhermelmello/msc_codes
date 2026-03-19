@@ -35,6 +35,7 @@ cache_dataset('nilc-nlp/assin')
 cache_dataset('nilc-nlp/assin2')
 cache_dataset('ruanchaves/hatebr')
 cache_dataset('dlb/plue', name='RTE')
+cache_dataset('dlb/plue', name='WNLI')
 
 # MODELS
 cache_model('PORTULAN/albertina-100m-portuguese-ptbr-encoder')

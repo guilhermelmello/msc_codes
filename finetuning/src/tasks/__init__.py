@@ -24,6 +24,7 @@ _tasks_map = {
     'hatebr-offensive': hatebr.OffensiveLanguageDetection,
     'hatebr-hate': hatebr.HateSpeechDetection,
     'plue-rte': plue.RecognizingTextualEntailment,
+    'plue-wnli': plue.WinogradNLI,
 }
 
 
