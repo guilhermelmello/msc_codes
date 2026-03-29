@@ -1,0 +1,161 @@
+Staring Time: Sun Dec 21 10:02:35 -03 2025
+Root directory /home/lovelace/proj/proj877/gmello/msc_codes/finetuning
+Node: adagp03
+Running python script
+>>> Running Task: assin-sts
+>>> Loading Dataset
+DatasetDict({
+    train: Dataset({
+        features: ['text', 'text_pair', 'label'],
+        num_rows: 5000
+    })
+    test: Dataset({
+        features: ['text', 'text_pair', 'label'],
+        num_rows: 4000
+    })
+    validation: Dataset({
+        features: ['text', 'text_pair', 'label'],
+        num_rows: 1000
+    })
+})
+>>> Dataset Tokenization
+PreTrainedTokenizerFast(name_or_path='/home/lovelace/proj/proj877/gmello/msc_codes/qwen_pt/models/qwen-pt-bpe', vocab_size=10000, model_max_length=2048, is_fast=True, padding_side='left', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
+	0: AddedToken("[PAD]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	1: AddedToken("[SEP]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	2: AddedToken("[EOS]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+}
+)
+DatasetDict({
+    train: Dataset({
+        features: ['label', 'input_ids', 'token_type_ids', 'attention_mask'],
+        num_rows: 5000
+    })
+    test: Dataset({
+        features: ['label', 'input_ids', 'token_type_ids', 'attention_mask'],
+        num_rows: 4000
+    })
+    validation: Dataset({
+        features: ['label', 'input_ids', 'token_type_ids', 'attention_mask'],
+        num_rows: 1000
+    })
+})
+>>> Hyperparameter Search
+=== Trial 0 ========================================
+Running with hyperparameters: {
+	learning_rate: 2.9708564014638707e-06
+	batch_size: 8
+}
+{'epoch': 1, 'loss': 6.1347117865562435, 'val_loss': 6.668424005031586, 'val_mse': 0.8296233053682276, 'val_pearsonr': 0.03057302143487511}
+{'epoch': 2, 'loss': 6.10555023355484, 'val_loss': 6.719012426376342, 'val_mse': 0.8404621032424122, 'val_pearsonr': -0.0002510820614471769}
+{'epoch': 3, 'loss': 6.2473889261245725, 'val_loss': 6.890888610839844, 'val_mse': 0.8603327064098739, 'val_pearsonr': 0.019022125520402618}
+{'epoch': 4, 'loss': 6.070828680515289, 'val_loss': 6.619407916069031, 'val_mse': 0.8241502905370123, 'val_pearsonr': 0.06101652760365407}
+{'epoch': 5, 'loss': 5.971904726028442, 'val_loss': 6.559336527824402, 'val_mse': 0.8166295008480053, 'val_pearsonr': 0.05933085285741092}
+=== Trial 1 ========================================
+Running with hyperparameters: {
+	learning_rate: 1.3934572633905946e-06
+	batch_size: 8
+}
+{'epoch': 1, 'loss': 6.132261328697204, 'val_loss': 6.768018688201904, 'val_mse': 0.8464610561628014, 'val_pearsonr': -0.012836185434864091}
+{'epoch': 2, 'loss': 6.042762115478515, 'val_loss': 6.680547639846802, 'val_mse': 0.8340558252481939, 'val_pearsonr': -0.0031033665304589404}
+{'epoch': 3, 'loss': 6.066513445091248, 'val_loss': 6.648163640499115, 'val_mse': 0.8298201906098468, 'val_pearsonr': 0.007309640347791371}
+{'epoch': 4, 'loss': 6.039254813575744, 'val_loss': 6.623163900375366, 'val_mse': 0.8247966505405873, 'val_pearsonr': 0.01883162565905872}
+{'epoch': 5, 'loss': 5.975440266418457, 'val_loss': 6.590845611572266, 'val_mse': 0.8195501829896876, 'val_pearsonr': 0.031435945317065686}
+=== Trial 2 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.039109650053104676
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 24.300294221496582, 'val_loss': 26.050887504577638, 'val_mse': 1.6353280539533208, 'val_pearsonr': 0.026939675427816553}
+{'epoch': 2, 'loss': 11.959981301116944, 'val_loss': 13.032547870635986, 'val_mse': 0.8184299986607596, 'val_pearsonr': 0.08291214071624198}
+{'epoch': 3, 'loss': 12.20149838256836, 'val_loss': 13.190706756591798, 'val_mse': 0.8283746726559174, 'val_pearsonr': 0.08245698955778542}
+{'epoch': 4, 'loss': 14.447311093139648, 'val_loss': 15.206276329040527, 'val_mse': 0.9548838811453033, 'val_pearsonr': 0.08332114633927085}
+{'epoch': 5, 'loss': 12.043422689819336, 'val_loss': 13.183955688476562, 'val_mse': 0.8279449608266415, 'val_pearsonr': 0.08448449454242973}
+=== Trial 3 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.041064209905853466
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 12.664345936584473, 'val_loss': 13.914322113037109, 'val_mse': 0.8737632531468732, 'val_pearsonr': 0.01002664287475718}
+{'epoch': 2, 'loss': 14.622228103637696, 'val_loss': 15.373295372009277, 'val_mse': 0.965351413155269, 'val_pearsonr': 0.01847527387493731}
+{'epoch': 3, 'loss': 12.360098447418213, 'val_loss': 13.312448265075684, 'val_mse': 0.8358804572372983, 'val_pearsonr': 0.05617470764079969}
+{'epoch': 4, 'loss': 11.96040955581665, 'val_loss': 13.069006278991699, 'val_mse': 0.8206610692534162, 'val_pearsonr': 0.04625862204723285}
+{'epoch': 5, 'loss': 12.054340097808838, 'val_loss': 13.193864295959473, 'val_mse': 0.8284949021777459, 'val_pearsonr': 0.04043491231467215}
+=== Trial 4 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.033013209207669744
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 52.60823848876953, 'val_loss': 52.30725473022461, 'val_mse': 3.2832431979171486, 'val_pearsonr': -0.015682299938114}
+{'epoch': 2, 'loss': 12.255444389343262, 'val_loss': 13.233221252441407, 'val_mse': 0.8308496953733292, 'val_pearsonr': 0.02962819784373055}
+{'epoch': 3, 'loss': 12.234656678771973, 'val_loss': 13.212088798522949, 'val_mse': 0.8296539498251029, 'val_pearsonr': 0.021557879920178484}
+{'epoch': 4, 'loss': 11.978427882385255, 'val_loss': 13.037005638122558, 'val_mse': 0.8186664389798121, 'val_pearsonr': 0.03250134751231196}
+{'epoch': 5, 'loss': 11.960186961364746, 'val_loss': 13.032052742004394, 'val_mse': 0.818359096679292, 'val_pearsonr': 0.03248586511278166}
+=== Trial 5 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.0009851492866971164
+	batch_size: 4
+}
+{'epoch': 1, 'loss': 3.0368491134047506, 'val_loss': 3.3459342039823534, 'val_mse': 0.8362686942757986, 'val_pearsonr': 0.009142664158941721}
+{'epoch': 2, 'loss': 3.240047538995743, 'val_loss': 3.5794084317684174, 'val_mse': 0.8942818071822496, 'val_pearsonr': 0.04659718454227002}
+{'epoch': 3, 'loss': 3.103460815477371, 'val_loss': 3.3620560016036034, 'val_mse': 0.8393633661648705, 'val_pearsonr': 0.028698111122088886}
+{'epoch': 4, 'loss': 3.0964581416010857, 'val_loss': 3.4181659392118453, 'val_mse': 0.8531114104647506, 'val_pearsonr': 0.058755944736341076}
+{'epoch': 5, 'loss': 2.970089325606823, 'val_loss': 3.279277833521366, 'val_mse': 0.8171862011255575, 'val_pearsonr': 0.047878781129672685}
+=== Trial 6 ========================================
+Running with hyperparameters: {
+	learning_rate: 3.632252621647958e-06
+	batch_size: 4
+}
+{'epoch': 1, 'loss': 3.076661230480671, 'val_loss': 3.3775941772460936, 'val_mse': 0.8383703283974507, 'val_pearsonr': 0.09646195260367099}
+{'epoch': 2, 'loss': 3.1281594968438147, 'val_loss': 3.4468191747665404, 'val_mse': 0.848023974358166, 'val_pearsonr': 0.1582691075556721}
+{'epoch': 3, 'loss': 2.976024978637695, 'val_loss': 3.285281889677048, 'val_mse': 0.8095006035958426, 'val_pearsonr': 0.1771827658542507}
+{'epoch': 4, 'loss': 2.995119864875078, 'val_loss': 3.294950252056122, 'val_mse': 0.8096204350808196, 'val_pearsonr': 0.18867468396033796}
+{'epoch': 5, 'loss': 2.9548414498090745, 'val_loss': 3.2629908134937287, 'val_mse': 0.8013297402617656, 'val_pearsonr': 0.20083554268278572}
+=== Trial 7 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.05760312401475618
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 23.542493473815917, 'val_loss': 25.249808929443358, 'val_mse': 1.583553976671527, 'val_pearsonr': 0.03709335211726004}
+{'epoch': 2, 'loss': 13.778879107666016, 'val_loss': 14.584369308471679, 'val_mse': 0.9149683221815054, 'val_pearsonr': 0.04691704896727702}
+{'epoch': 3, 'loss': 12.199273280334472, 'val_loss': 13.183004920959473, 'val_mse': 0.8272909851283924, 'val_pearsonr': 0.059112527945355334}
+{'epoch': 4, 'loss': 14.843563026428223, 'val_loss': 15.57623355102539, 'val_mse': 0.9775836385151218, 'val_pearsonr': 0.07257774236390815}
+{'epoch': 5, 'loss': 11.96371361732483, 'val_loss': 13.048674667358398, 'val_mse': 0.8190273313427048, 'val_pearsonr': 0.07270431654715173}
+=== Trial 8 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.05867680796325001
+	batch_size: 4
+}
+{'epoch': 1, 'loss': 3.3023805997133255, 'val_loss': 3.5313486155867575, 'val_mse': 0.8827928656614789, 'val_pearsonr': 0.05744251024844883}
+{'epoch': 2, 'loss': 3.002062428534031, 'val_loss': 3.276625552535057, 'val_mse': 0.8191037855238895, 'val_pearsonr': 0.04137563736512714}
+{'epoch': 3, 'loss': 5.428138723546266, 'val_loss': 5.868858773231507, 'val_mse': 1.4668589438217141, 'val_pearsonr': 0.11091758829518837}
+{'epoch': 4, 'loss': 3.4623021790206434, 'val_loss': 3.6973684818148613, 'val_mse': 0.9211513509331455, 'val_pearsonr': 0.08947517298174447}
+{'epoch': 5, 'loss': 2.9550033439278605, 'val_loss': 3.2879129664301874, 'val_mse': 0.8079274256540844, 'val_pearsonr': 0.13411980490686992}
+=== Trial 9 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.00048809791771266525
+	batch_size: 8
+}
+{'epoch': 1, 'loss': 9.455529435539246, 'val_loss': 9.75838258743286, 'val_mse': 1.2207997747472015, 'val_pearsonr': -0.023316594481465502}
+{'epoch': 2, 'loss': 7.991331450748444, 'val_loss': 8.349086361885071, 'val_mse': 1.0430339787712546, 'val_pearsonr': 0.019914151356675423}
+{'epoch': 3, 'loss': 5.989712089538574, 'val_loss': 6.56427138710022, 'val_mse': 0.8218964554725909, 'val_pearsonr': -0.01902034068223795}
+{'epoch': 4, 'loss': 6.059550178432465, 'val_loss': 6.669659896850586, 'val_mse': 0.8339642366319306, 'val_pearsonr': 0.004503954543397545}
+{'epoch': 5, 'loss': 5.985778008079529, 'val_loss': 6.544957339286804, 'val_mse': 0.8183026500608176, 'val_pearsonr': 0.017175213270130028}
+=== Results ========================================
+>>> Selected Hyperparameters
+{'batch_size': 4, 'learning_rate': 3.632252621647958e-06}
+>>> Model Finetuning
+{'epoch': 1, 'loss': 3.16906252849102, 'val_loss': 3.3979660132825376, 'val_mse': 0.8445308565994782, 'val_pearsonr': 0.06517666807470829}
+{'epoch': 2, 'loss': 3.2392887779951094, 'val_loss': 3.5599683958292005, 'val_mse': 0.8827931450394066, 'val_pearsonr': 0.10889661774079798}
+{'epoch': 3, 'loss': 2.9945299535512926, 'val_loss': 3.30943479514122, 'val_mse': 0.8208533370383636, 'val_pearsonr': 0.125931857262628}
+{'epoch': 4, 'loss': 3.0214611638128757, 'val_loss': 3.3108276408314703, 'val_mse': 0.8192429816814532, 'val_pearsonr': 0.15415117344473106}
+{'epoch': 5, 'loss': 2.9568950655162336, 'val_loss': 3.26863021838665, 'val_mse': 0.8072740929699662, 'val_pearsonr': 0.17034480353961834}
+Best Model Results
+{'loss': 3.26863021838665,
+ 'mse': 0.8072740929699662,
+ 'pearsonr': 0.17034480353961834}
+Saving model and tokenizer at models/assin-sts/qwen-pt-bpe-10k/
+>>> Results on Test Dataset
+{'loss': 15.491665363311768,
+ 'mse': 0.9528445275110846,
+ 'pearsonr': 0.16801709080756286}
+Ending Time: Sun Dec 21 13:49:23 -03 2025

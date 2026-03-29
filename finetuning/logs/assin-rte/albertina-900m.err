@@ -1,0 +1,71 @@
+Using the latest cached version of the module from /home/lovelace/proj/proj877/gmello/.cache/huggingface/modules/evaluate_modules/metrics/evaluate-metric--f1/34c46321f42186df33a6260966e34a368f14868d9cc2ba47d142112e2800d233 (last modified on Sun Dec 14 17:24:58 2025) since it couldn't be found locally at evaluate-metric--f1, or remotely on the Hugging Face Hub.
+Using the latest cached version of the module from /home/lovelace/proj/proj877/gmello/.cache/huggingface/modules/evaluate_modules/metrics/evaluate-metric--accuracy/f887c0aab52c2d38e1f8a215681126379eca617f96c447638f751434e8e65b14 (last modified on Sun Dec 14 17:25:01 2025) since it couldn't be found locally at evaluate-metric--accuracy, or remotely on the Hugging Face Hub.
+Using the latest cached version of the dataset since nilc-nlp/assin couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'full' at /home/lovelace/proj/proj877/gmello/.cache/huggingface/datasets/nilc-nlp___assin/full/0.0.0/6535e48351178e07ade013b05b69f0e35cb28bbb (last modified on Fri Feb  6 19:56:46 2026).
+Map:   0%|          | 0/5000 [00:00<?, ? examples/s]Map:  20%|██        | 1000/5000 [00:00<00:00, 5047.41 examples/s]Map:  60%|██████    | 3000/5000 [00:00<00:00, 10936.91 examples/s]Map: 100%|██████████| 5000/5000 [00:00<00:00, 13481.92 examples/s]Map: 100%|██████████| 5000/5000 [00:00<00:00, 11712.69 examples/s]
+Map:   0%|          | 0/4000 [00:00<?, ? examples/s]Map:  50%|█████     | 2000/4000 [00:00<00:00, 18582.96 examples/s]Map: 100%|██████████| 4000/4000 [00:00<00:00, 18305.26 examples/s]Map: 100%|██████████| 4000/4000 [00:00<00:00, 17995.38 examples/s]
+Map:   0%|          | 0/1000 [00:00<?, ? examples/s]Map: 100%|██████████| 1000/1000 [00:00<00:00, 17286.83 examples/s]
+[I 2026-02-06 19:57:24,629] A new study created in memory with name: no-name-2f5f38e1-f8fc-479a-bd45-a4c80792a048
+Some weights of DebertaV2ForSequenceClassification were not initialized from the model checkpoint at PORTULAN/albertina-900m-portuguese-ptbr-encoder and are newly initialized: ['classifier.bias', 'classifier.weight', 'pooler.dense.bias', 'pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+  0%|          | 0/3125 [00:00<?, ?it/s]Epoch 1/5:   0%|          | 0/3125 [00:00<?, ?it/s]Epoch 1/5:   0%|          | 1/3125 [00:01<55:37,  1.07s/it]Epoch 1/5:   0%|          | 2/3125 [00:01<41:14,  1.26it/s]Epoch 1/5:   0%|          | 3/3125 [00:02<34:12,  1.52it/s]Epoch 1/5:   0%|          | 4/3125 [00:02<36:11,  1.44it/s]Epoch 1/5:   0%|          | 5/3125 [00:03<32:55,  1.58it/s]Epoch 1/5:   0%|          | 6/3125 [00:03<31:23,  1.66it/s]Epoch 1/5:   0%|          | 7/3125 [00:04<29:20,  1.77it/s]Epoch 1/5:   0%|          | 8/3125 [00:04<27:58,  1.86it/s]Epoch 1/5:   0%|          | 9/3125 [00:05<27:36,  1.88it/s]Epoch 1/5:   0%|          | 10/3125 [00:05<26:45,  1.94it/s]Epoch 1/5:   0%|          | 11/3125 [00:06<26:52,  1.93it/s]Epoch 1/5:   0%|          | 12/3125 [00:06<26:10,  1.98it/s]Epoch 1/5:   0%|          | 13/3125 [00:07<28:02,  1.85it/s]Epoch 1/5:   0%|          | 14/3125 [00:07<24:48,  2.09it/s]Epoch 1/5:   0%|          | 15/3125 [00:08<25:33,  2.03it/s]Epoch 1/5:   1%|          | 16/3125 [00:08<25:17,  2.05it/s]Epoch 1/5:   1%|          | 17/3125 [00:09<25:10,  2.06it/s]Epoch 1/5:   1%|          | 18/3125 [00:09<25:41,  2.02it/s][W 2026-02-06 19:57:37,251] Trial 0 failed with parameters: {'learning_rate': 1e-05, 'batch_size': 8} because of the following error: RuntimeError('NVML_SUCCESS == r INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/CUDACachingAllocator.cpp":1123, please report a bug to PyTorch. ').
+Traceback (most recent call last):
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 201, in _run_trial
+    value_or_values = func(trial)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/hyperparameters.py", line 77, in optuna_objective
+    model = trainer.train(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/trainer.py", line 89, in train
+    optimizer.step()
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/lr_scheduler.py", line 133, in wrapper
+    return func.__get__(opt, opt.__class__)(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/optimizer.py", line 517, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/optimizer.py", line 82, in _use_grad
+    ret = func(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/adam.py", line 247, in step
+    adam(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/optimizer.py", line 150, in maybe_fallback
+    return func(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/adam.py", line 953, in adam
+    func(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/adam.py", line 777, in _multi_tensor_adam
+    exp_avg_sq_sqrt = torch._foreach_sqrt(device_exp_avg_sqs)
+RuntimeError: NVML_SUCCESS == r INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/CUDACachingAllocator.cpp":1123, please report a bug to PyTorch. 
+[W 2026-02-06 19:57:37,332] Trial 0 failed with value None.
+Traceback (most recent call last):
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/main.py", line 151, in <module>
+    run(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/main.py", line 106, in run
+    hparams = hyperparameters.search(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/hyperparameters.py", line 108, in search
+    study.optimize(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/study.py", line 490, in optimize
+    _optimize(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 63, in _optimize
+    _optimize_sequential(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 160, in _optimize_sequential
+    frozen_trial_id = _run_trial(study, func, catch)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 258, in _run_trial
+    raise func_err
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 201, in _run_trial
+    value_or_values = func(trial)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/hyperparameters.py", line 77, in optuna_objective
+    model = trainer.train(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/trainer.py", line 89, in train
+    optimizer.step()
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/lr_scheduler.py", line 133, in wrapper
+    return func.__get__(opt, opt.__class__)(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/optimizer.py", line 517, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/optimizer.py", line 82, in _use_grad
+    ret = func(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/adam.py", line 247, in step
+    adam(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/optimizer.py", line 150, in maybe_fallback
+    return func(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/adam.py", line 953, in adam
+    func(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/optim/adam.py", line 777, in _multi_tensor_adam
+    exp_avg_sq_sqrt = torch._foreach_sqrt(device_exp_avg_sqs)
+RuntimeError: NVML_SUCCESS == r INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/CUDACachingAllocator.cpp":1123, please report a bug to PyTorch. 
+Epoch 1/5:   1%|          | 18/3125 [00:11<32:14,  1.61it/s]

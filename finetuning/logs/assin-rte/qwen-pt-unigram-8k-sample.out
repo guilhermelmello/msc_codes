@@ -1,0 +1,158 @@
+Staring Time: Mon Jan  5 01:18:15 -03 2026
+Root directory /home/lovelace/proj/proj877/gmello/msc_codes/finetuning
+Node: adagp03
+Running python script
+>>> Running Task: assin-rte
+>>> Loading Dataset
+DatasetDict({
+    train: Dataset({
+        features: ['text', 'text_pair', 'label'],
+        num_rows: 5000
+    })
+    test: Dataset({
+        features: ['text', 'text_pair', 'label'],
+        num_rows: 4000
+    })
+    validation: Dataset({
+        features: ['text', 'text_pair', 'label'],
+        num_rows: 1000
+    })
+})
+>>> Dataset Tokenization
+PreTrainedTokenizerFast(name_or_path='guilhermelmello/qwen-pt-unigram-8k-sample', vocab_size=8000, model_max_length=2048, is_fast=True, padding_side='left', truncation_side='right', special_tokens={'eos_token': '[EOS]', 'unk_token': '[UNK]', 'sep_token': '[SEP]', 'pad_token': '[PAD]'}, clean_up_tokenization_spaces=True, added_tokens_decoder={
+	0: AddedToken("[PAD]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	1: AddedToken("[SEP]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	2: AddedToken("[EOS]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	3: AddedToken("[UNK]", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+}
+)
+DatasetDict({
+    train: Dataset({
+        features: ['label', 'input_ids', 'token_type_ids', 'attention_mask'],
+        num_rows: 5000
+    })
+    test: Dataset({
+        features: ['label', 'input_ids', 'token_type_ids', 'attention_mask'],
+        num_rows: 4000
+    })
+    validation: Dataset({
+        features: ['label', 'input_ids', 'token_type_ids', 'attention_mask'],
+        num_rows: 1000
+    })
+})
+>>> Hyperparameter Search
+=== Trial 0 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.0013114555991305802
+	batch_size: 4
+}
+{'epoch': 1, 'loss': 0.7328564599275589, 'val_loss': 0.7585949388742447, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.7280379664182663, 'val_loss': 0.7491390730142593, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 3, 'loss': 0.727011388015747, 'val_loss': 0.7520414233207703, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 4, 'loss': 0.7238876380205155, 'val_loss': 0.7488828054666519, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 5, 'loss': 0.723822255730629, 'val_loss': 0.7485269109010696, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+=== Trial 1 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.002810554912950667
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 0.7290209963798523, 'val_loss': 0.7595946598052978, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.7567802858352661, 'val_loss': 0.8041083552837371, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 3, 'loss': 0.5571130743980408, 'val_loss': 0.782015338897705, 'val_f1': 0.3202354147216578, 'val_accuracy': 0.71}
+{'epoch': 4, 'loss': 0.3343565545797348, 'val_loss': 0.9471321513652802, 'val_f1': 0.32268348045397227, 'val_accuracy': 0.687}
+{'epoch': 5, 'loss': 0.21934562245607375, 'val_loss': 1.1717924098968506, 'val_f1': 0.3510072969543147, 'val_accuracy': 0.658}
+=== Trial 2 ========================================
+Running with hyperparameters: {
+	learning_rate: 1.0792262282436734e-05
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 0.7103298334121704, 'val_loss': 0.7597945652008057, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.49280343170166013, 'val_loss': 0.7358732633590698, 'val_f1': 0.31778241339577296, 'val_accuracy': 0.721}
+{'epoch': 3, 'loss': 0.1588283403456211, 'val_loss': 0.9562822833061219, 'val_f1': 0.3643667846133101, 'val_accuracy': 0.65}
+{'epoch': 4, 'loss': 0.013145341061986983, 'val_loss': 1.5124733724594117, 'val_f1': 0.4032875227460879, 'val_accuracy': 0.657}
+{'epoch': 5, 'loss': 0.002551262177643366, 'val_loss': 1.7754562811851502, 'val_f1': 0.40232089837434226, 'val_accuracy': 0.676}
+=== Trial 3 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.0008743732729042485
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 0.7306997714996338, 'val_loss': 0.7721355094909668, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.5847437763690948, 'val_loss': 0.8005400152206421, 'val_f1': 0.3108835256551717, 'val_accuracy': 0.709}
+{'epoch': 3, 'loss': 0.4007120342731476, 'val_loss': 0.8064314832687378, 'val_f1': 0.3179606435916642, 'val_accuracy': 0.694}
+{'epoch': 4, 'loss': 0.17372073207497596, 'val_loss': 1.081072950363159, 'val_f1': 0.36087106809540276, 'val_accuracy': 0.687}
+{'epoch': 5, 'loss': 0.08900767963826656, 'val_loss': 1.584716456413269, 'val_f1': 0.3684354023880647, 'val_accuracy': 0.654}
+=== Trial 4 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.0011240564087567962
+	batch_size: 8
+}
+{'epoch': 1, 'loss': 0.7267068849086762, 'val_loss': 0.751634568452835, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.6873999801158905, 'val_loss': 0.7934565957784653, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 3, 'loss': 0.49573468272686005, 'val_loss': 0.7837026441097259, 'val_f1': 0.32606078241598824, 'val_accuracy': 0.695}
+{'epoch': 4, 'loss': 0.3301237002491951, 'val_loss': 0.8930825437903405, 'val_f1': 0.33314662125829003, 'val_accuracy': 0.673}
+{'epoch': 5, 'loss': 0.23170676224529743, 'val_loss': 1.1672977664619684, 'val_f1': 0.33406398127236886, 'val_accuracy': 0.642}
+=== Trial 5 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.0011523302581314425
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 0.7710331932067871, 'val_loss': 0.8022889375686646, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.6102715044975281, 'val_loss': 0.8153222522735596, 'val_f1': 0.35445276065697523, 'val_accuracy': 0.66}
+{'epoch': 3, 'loss': 0.4104806059360504, 'val_loss': 0.9001554536819458, 'val_f1': 0.3186366936984763, 'val_accuracy': 0.706}
+{'epoch': 4, 'loss': 0.21162853038311005, 'val_loss': 1.1786848177909852, 'val_f1': 0.348246696840854, 'val_accuracy': 0.677}
+{'epoch': 5, 'loss': 0.14652639230191708, 'val_loss': 1.6426991424560546, 'val_f1': 0.3474757111334699, 'val_accuracy': 0.639}
+=== Trial 6 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.00010213020137247014
+	batch_size: 16
+}
+{'epoch': 1, 'loss': 0.7400084980964661, 'val_loss': 0.7733024001121521, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.7225632187843323, 'val_loss': 0.7701850018501282, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 3, 'loss': 0.5452704777717591, 'val_loss': 0.8175307416915893, 'val_f1': 0.3646561788401743, 'val_accuracy': 0.633}
+{'epoch': 4, 'loss': 0.26546981551647186, 'val_loss': 1.0084006004333497, 'val_f1': 0.3673050364362953, 'val_accuracy': 0.622}
+{'epoch': 5, 'loss': 0.07308416630402208, 'val_loss': 1.4308937096595764, 'val_f1': 0.41289397395430183, 'val_accuracy': 0.675}
+=== Trial 7 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.0009736763073685909
+	batch_size: 4
+}
+{'epoch': 1, 'loss': 0.73438990316391, 'val_loss': 0.7654248954057693, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.7356999612808227, 'val_loss': 0.755874862909317, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 3, 'loss': 0.7247076623439789, 'val_loss': 0.753730667591095, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 4, 'loss': 0.531222127521038, 'val_loss': 0.8230385063290596, 'val_f1': 0.32115940015355815, 'val_accuracy': 0.697}
+{'epoch': 5, 'loss': 0.39350719864070416, 'val_loss': 0.9256928901970386, 'val_f1': 0.3354612886652546, 'val_accuracy': 0.668}
+=== Trial 8 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.0016271622177786442
+	batch_size: 4
+}
+{'epoch': 1, 'loss': 0.7361619904756546, 'val_loss': 0.7667597775459289, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.7502225111246109, 'val_loss': 0.7780591698288918, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 3, 'loss': 0.7216831410646438, 'val_loss': 0.7486987314224243, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 4, 'loss': 0.577644002354145, 'val_loss': 0.7721475231051445, 'val_f1': 0.30755421513715353, 'val_accuracy': 0.713}
+{'epoch': 5, 'loss': 0.4341884212732315, 'val_loss': 0.8425189055502414, 'val_f1': 0.35517326427426316, 'val_accuracy': 0.689}
+=== Trial 9 ========================================
+Running with hyperparameters: {
+	learning_rate: 0.0002250691800612872
+	batch_size: 8
+}
+{'epoch': 1, 'loss': 0.7418035234689713, 'val_loss': 0.77229161632061, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.6163694534301758, 'val_loss': 0.806434784412384, 'val_f1': 0.3566472790950382, 'val_accuracy': 0.629}
+{'epoch': 3, 'loss': 0.3051613862156868, 'val_loss': 0.8942301050424576, 'val_f1': 0.3387764162254518, 'val_accuracy': 0.7}
+{'epoch': 4, 'loss': 0.11239648908302188, 'val_loss': 1.2269627757072448, 'val_f1': 0.3637062718863607, 'val_accuracy': 0.611}
+{'epoch': 5, 'loss': 0.018332238684914775, 'val_loss': 1.9788909199927003, 'val_f1': 0.3981085428307543, 'val_accuracy': 0.633}
+=== Results ========================================
+>>> Selected Hyperparameters
+{'batch_size': 16, 'learning_rate': 0.00010213020137247014}
+>>> Model Finetuning
+{'epoch': 1, 'loss': 0.751885828781128, 'val_loss': 0.7756265983581543, 'val_f1': 0.2795199380565234, 'val_accuracy': 0.722}
+{'epoch': 2, 'loss': 0.6805720333099365, 'val_loss': 0.757715530872345, 'val_f1': 0.2796823552198334, 'val_accuracy': 0.722}
+{'epoch': 3, 'loss': 0.31042478449344635, 'val_loss': 0.9126349782943726, 'val_f1': 0.33884806661400346, 'val_accuracy': 0.674}
+{'epoch': 4, 'loss': 0.08423563694059849, 'val_loss': 1.0879769124984742, 'val_f1': 0.4066126043963374, 'val_accuracy': 0.674}
+{'epoch': 5, 'loss': 0.021719642270728947, 'val_loss': 1.663292986869812, 'val_f1': 0.4083952546501824, 'val_accuracy': 0.667}
+Best Model Results
+{'accuracy': 0.667, 'f1': 0.4083952546501824, 'loss': 1.663292986869812}
+Saving model and tokenizer at models/assin-rte/qwen-pt-unigram-8k-sample
+>>> Results on Test Dataset
+{'accuracy': 0.67175, 'f1': 0.3933067094790752, 'loss': 1.6136372165083885}
+Ending Time: Mon Jan  5 06:30:37 -03 2026

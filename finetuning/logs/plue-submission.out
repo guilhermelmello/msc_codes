@@ -1,0 +1,42 @@
+Staring Time: Sun Mar 29 06:39:45 -03 2026
+Root directory /home/lovelace/proj/proj877/gmello/msc_codes/finetuning
+Node: adagp03
+==================================
+Evaluating ttl-460m on RTE task
+>>> Loading Task
+{'index': Value(dtype='int64', id=None), 'sentence1': Value(dtype='string', id=None), 'sentence2': Value(dtype='string', id=None), 'label': ClassLabel(names=['entailment', 'not_entailment'], id=None)}
+Dataset({
+    features: ['index', 'text', 'text_pair', 'label'],
+    num_rows: 3000
+})
+>>> Loading Model
+>>> Dataset tokenization
+Dataset({
+    features: ['input_ids', 'attention_mask'],
+    num_rows: 3000
+})
+>>> Generating Predictions
+>>> Converting Labels
+>>> Creating Submition file
+Saving predictions at results/plue/ttl-460m/RTE.tsv
+DONE
+===================================
+Evaluating ttl-460m on WNLI task
+>>> Loading Task
+{'index': Value(dtype='int64', id=None), 'sentence1': Value(dtype='string', id=None), 'sentence2': Value(dtype='string', id=None), 'label': ClassLabel(names=['0', '1'], id=None)}
+Dataset({
+    features: ['index', 'text', 'text_pair', 'label'],
+    num_rows: 146
+})
+>>> Loading Model
+>>> Dataset tokenization
+Dataset({
+    features: ['input_ids', 'attention_mask'],
+    num_rows: 146
+})
+>>> Generating Predictions
+>>> Converting Labels
+>>> Creating Submition file
+Saving predictions at results/plue/ttl-460m/WNLI.tsv
+DONE
+Ending Time: Sun Mar 29 06:40:56 -03 2026

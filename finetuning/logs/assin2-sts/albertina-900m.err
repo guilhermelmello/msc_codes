@@ -1,0 +1,123 @@
+Using the latest cached version of the module from /home/lovelace/proj/proj877/gmello/.cache/huggingface/modules/evaluate_modules/metrics/evaluate-metric--mse/da2cea4856169707526b9109169d115d8940568f3f63cb29fd82c37d7b02fe58 (last modified on Wed Dec 17 20:20:13 2025) since it couldn't be found locally at evaluate-metric--mse, or remotely on the Hugging Face Hub.
+Using the latest cached version of the module from /home/lovelace/proj/proj877/gmello/.cache/huggingface/modules/evaluate_modules/metrics/evaluate-metric--pearsonr/8d6b0a22f3566acb3393787cce4044e72430074b8298c1bf0adddb6710a60e09 (last modified on Wed Dec 17 20:20:12 2025) since it couldn't be found locally at evaluate-metric--pearsonr, or remotely on the Hugging Face Hub.
+Using the latest cached version of the dataset since nilc-nlp/assin2 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /home/lovelace/proj/proj877/gmello/.cache/huggingface/datasets/nilc-nlp___assin2/default/0.0.0/0ff9c86779e06855536d8775ce5550550e1e5a2d (last modified on Fri Feb  6 10:28:58 2026).
+Map:   0%|          | 0/6500 [00:00<?, ? examples/s]Map:  62%|██████▏   | 4000/6500 [00:00<00:00, 25371.55 examples/s]Map: 100%|██████████| 6500/6500 [00:00<00:00, 25868.70 examples/s]
+Map:   0%|          | 0/2448 [00:00<?, ? examples/s]Map: 100%|██████████| 2448/2448 [00:00<00:00, 25077.74 examples/s]
+Map:   0%|          | 0/500 [00:00<?, ? examples/s]Map: 100%|██████████| 500/500 [00:00<00:00, 21151.95 examples/s]
+[I 2026-02-06 19:57:50,650] A new study created in memory with name: no-name-7ad43383-202f-4f87-b0cd-01ba1de6188b
+Some weights of DebertaV2ForSequenceClassification were not initialized from the model checkpoint at PORTULAN/albertina-900m-portuguese-ptbr-encoder and are newly initialized: ['classifier.bias', 'classifier.weight', 'pooler.dense.bias', 'pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+  0%|          | 0/2035 [00:00<?, ?it/s]Epoch 1/5:   0%|          | 0/2035 [00:00<?, ?it/s]Epoch 1/5:   0%|          | 1/2035 [00:00<31:54,  1.06it/s]Epoch 1/5:   0%|          | 2/2035 [00:01<27:29,  1.23it/s]Epoch 1/5:   0%|          | 3/2035 [00:02<26:02,  1.30it/s]Epoch 1/5:   0%|          | 4/2035 [00:03<28:45,  1.18it/s]Epoch 1/5:   0%|          | 5/2035 [00:04<30:31,  1.11it/s]Epoch 1/5:   0%|          | 6/2035 [00:04<25:23,  1.33it/s]Epoch 1/5:   0%|          | 7/2035 [00:05<25:32,  1.32it/s][W 2026-02-06 19:57:58,801] Trial 0 failed with parameters: {'learning_rate': 1e-06, 'batch_size': 16} because of the following error: RuntimeError('NVML_SUCCESS == r INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/CUDACachingAllocator.cpp":1123, please report a bug to PyTorch. ').
+Traceback (most recent call last):
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 201, in _run_trial
+    value_or_values = func(trial)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/hyperparameters.py", line 77, in optuna_objective
+    model = trainer.train(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/trainer.py", line 84, in train
+    outputs = model(**batch)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 1077, in forward
+    outputs = self.deberta(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 784, in forward
+    encoder_outputs = self.encoder(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 657, in forward
+    output_states, attn_weights = layer_module(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/modeling_layers.py", line 94, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 436, in forward
+    attention_output, att_matrix = self.attention(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 369, in forward
+    self_output, att_matrix = self.self(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 250, in forward
+    rel_att = self.disentangled_attention_bias(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 321, in disentangled_attention_bias
+    c2p_att = torch.bmm(query_layer, pos_key_layer.transpose(-1, -2))
+RuntimeError: NVML_SUCCESS == r INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/CUDACachingAllocator.cpp":1123, please report a bug to PyTorch. 
+[W 2026-02-06 19:57:58,802] Trial 0 failed with value None.
+Traceback (most recent call last):
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/main.py", line 151, in <module>
+    run(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/main.py", line 106, in run
+    hparams = hyperparameters.search(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/hyperparameters.py", line 108, in search
+    study.optimize(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/study.py", line 490, in optimize
+    _optimize(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 63, in _optimize
+    _optimize_sequential(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 160, in _optimize_sequential
+    frozen_trial_id = _run_trial(study, func, catch)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 258, in _run_trial
+    raise func_err
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/optuna/study/_optimize.py", line 201, in _run_trial
+    value_or_values = func(trial)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/hyperparameters.py", line 77, in optuna_objective
+    model = trainer.train(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/src/trainer.py", line 84, in train
+    outputs = model(**batch)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 1077, in forward
+    outputs = self.deberta(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 784, in forward
+    encoder_outputs = self.encoder(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 657, in forward
+    output_states, attn_weights = layer_module(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/modeling_layers.py", line 94, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 436, in forward
+    attention_output, att_matrix = self.attention(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 369, in forward
+    self_output, att_matrix = self.self(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 250, in forward
+    rel_att = self.disentangled_attention_bias(
+  File "/home/lovelace/proj/proj877/gmello/msc_codes/finetuning/.venv/lib/python3.10/site-packages/transformers/models/deberta_v2/modeling_deberta_v2.py", line 321, in disentangled_attention_bias
+    c2p_att = torch.bmm(query_layer, pos_key_layer.transpose(-1, -2))
+RuntimeError: NVML_SUCCESS == r INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/CUDACachingAllocator.cpp":1123, please report a bug to PyTorch. 
+Epoch 1/5:   0%|          | 7/2035 [00:06<32:17,  1.05it/s]
