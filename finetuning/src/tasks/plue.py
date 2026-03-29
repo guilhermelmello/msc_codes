@@ -7,6 +7,7 @@ from transformers import AutoModelForSequenceClassification
 from transformers import PreTrainedModel
 
 import evaluate
+import re
 
 
 class RecognizingTextualEntailment(TaskBase):
@@ -25,7 +26,8 @@ class RecognizingTextualEntailment(TaskBase):
         dataset = load_dataset('dlb/plue', 'RTE', split=split)
 
         # fix example
-        dataset['train'] = dataset['train'].map(self._fix_example)
+        dataset['train'] = dataset['train'].map(self._fix_train_example)
+        dataset['test'] = dataset['test'].map(self._fix_test_example, batched=True, batch_size=1)
 
         dataset = dataset.class_encode_column('label')
         dataset['validation'] = dataset.pop('dev')
@@ -36,7 +38,21 @@ class RecognizingTextualEntailment(TaskBase):
             'sentence2': 'text_pair',
         })
 
-    def _fix_example(self, example):
+    def load_test_dataset(self):
+        dataset = load_dataset('dlb/plue', 'RTE')
+
+        # fix example
+        dataset['train'] = dataset['train'].map(self._fix_train_example)
+        dataset['test'] = dataset['test'].map(self._fix_test_example, batched=True, batch_size=1)
+        dataset = dataset.class_encode_column('label')
+
+        # renamed columns
+        return dataset['train'].features, dataset['test'].rename_columns({
+            'sentence1': 'text',
+            'sentence2': 'text_pair',
+        })
+
+    def _fix_train_example(self, example):
         if example['index'] == 2164:
             sentences = example['sentence1'].split('\t')
             return {
@@ -46,6 +62,38 @@ class RecognizingTextualEntailment(TaskBase):
             }
         else:
             return example
+
+    def _fix_test_example(self, example):
+        if example['index'][0] == 1117:
+            return self._fix_test_1117(example)
+        else:
+            return example
+
+    def _fix_test_1117(self, example):
+        tsv_str = str(example['index'][0]) + '\t' + example['sentence1'][0] + '\t' + example['sentence2'][0]
+        splits = re.split('\n|\t', tsv_str)
+
+        index = []
+        sentence1 = []
+        sentence2 = []
+        label = []
+
+        it = iter(splits)
+        while True:
+            try:
+                index.append(int(next(it)))
+                sentence1.append(next(it))
+                sentence2.append(next(it))
+                label.append(None)
+            except StopIteration:
+                break
+
+        return {
+            'index': index,
+            'sentence1': sentence1,
+            'sentence2': sentence2,
+            'label': label,
+        }
 
     def compute_metrics(self, eval_pred: Optional[EvalPrediction]=None) -> dict[str, float] | None:
         if eval_pred is None:
@@ -100,6 +148,16 @@ class WinogradNLI(TaskBase):
 
         # renamed columns
         return dataset.rename_columns({
+            'sentence1': 'text',
+            'sentence2': 'text_pair',
+        })
+
+    def load_test_dataset(self):
+        dataset = load_dataset('dlb/plue', 'WNLI')
+        dataset = dataset.class_encode_column('label')
+
+        # renamed columns
+        return dataset['train'].features, dataset['test'].rename_columns({
             'sentence1': 'text',
             'sentence2': 'text_pair',
         })
