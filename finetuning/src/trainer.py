@@ -14,7 +14,7 @@ from transformers import (
     PreTrainedTokenizerBase,
 )
 from typing import Optional
-from .uitls import ComputeMetricsCallback
+from .utils import ComputeMetricsCallback
 
 
 def train(
