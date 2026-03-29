@@ -154,20 +154,20 @@ ttl-460m                {'f1': 0.8683810873747089, 'loss': 0.328360460471761}   
 
 ## PLUE-RTE
 
-qwen-pt-base-unigram-8k ok*      * max batch size = 8
-qwen-pt-base-bpe-8k     ok*
-albertina-100m          ok*      * max batch size = 8
-bertimbau-base          ok*
-bertimbau-large         ok*
-ttl-160m                ok*
-ttl-460m                ok*      * max batch size = 8
+qwen-pt-base-unigram-8k Accuracy	61.9      * max batch size = 8
+qwen-pt-base-bpe-8k     Accuracy	62.1
+albertina-100m          * max batch size = 8
+bertimbau-base          
+bertimbau-large         
+ttl-160m                
+ttl-460m                * max batch size = 8
 
 ## PLUE-WNLI
 
-qwen-pt-base-unigram-8k ok*
-qwen-pt-base-bpe-8k     ok*
-albertina-100m          ok*
-bertimbau-base          ok*
-bertimbau-large         ok*
-ttl-160m                ok*
-ttl-460m                ok*
+qwen-pt-base-unigram-8k Accuracy	65.1
+qwen-pt-base-bpe-8k     Accuracy	65.1
+albertina-100m          
+bertimbau-base          
+bertimbau-large         
+ttl-160m                
+ttl-460m                
