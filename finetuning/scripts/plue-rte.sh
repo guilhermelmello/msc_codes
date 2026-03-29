@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N plue-rte
 #PBS -q miggpu24h
-#PBS -e logs/plue-rte/albertina-100m.err
-#PBS -o logs/plue-rte/albertina-100m.out
+#PBS -e logs/plue-rte/ttl-460m.err
+#PBS -o logs/plue-rte/ttl-460m.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -25,8 +25,8 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name plue-rte \
-    --model-name PORTULAN/albertina-100m-portuguese-ptbr-encoder \
-    --save-dir models/plue-rte/albertina-100m \
+    --model-name nicholasKluge/TeenyTinyLlama-460m \
+    --save-dir models/plue-rte/ttl-460m \
     --hp-learning-rate 5e-3 5e-4 5e-5 5e-6 \
     --hp-batch-size 4 8 \
     --num-hp-trials 8 \

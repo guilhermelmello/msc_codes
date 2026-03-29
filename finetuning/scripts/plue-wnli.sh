@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N plue-wnli
-#PBS -q miggpu24h
-#PBS -e logs/plue-wnli/ttl-160m.err
-#PBS -o logs/plue-wnli/ttl-160m.out
+#PBS -q testegpu
+#PBS -e logs/plue-wnli/ttl-460m.err
+#PBS -o logs/plue-wnli/ttl-460m.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -25,8 +25,8 @@ export TRANSFORMERS_OFFLINE=1
 echo "Running python script"
 python main.py \
     --task-name plue-wnli \
-    --model-name nicholasKluge/TeenyTinyLlama-160m \
-    --save-dir models/plue-rte/ttl-160m \
+    --model-name nicholasKluge/TeenyTinyLlama-460m \
+    --save-dir models/plue-wnli/ttl-460m \
     --hp-learning-rate 5e-3 5e-4 5e-5 5e-6 \
     --hp-batch-size 4 8 16 \
     --num-hp-trials 12 \

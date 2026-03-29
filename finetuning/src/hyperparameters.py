@@ -54,6 +54,8 @@ def search(
     def optuna_objective(trial: Trial):
         print(f'=== Trial {trial.number}', '=' * 40)
         try:
+            model = deepcopy(seed_model)
+
             # defines search space
             lr = trial.suggest_categorical('learning_rate', lr_values)
             batch_size = trial.suggest_categorical('batch_size', batch_size_values)
@@ -64,7 +66,7 @@ def search(
             print(f'}}')
 
             model = trainer.train(
-                model=deepcopy(seed_model),
+                model=model,
                 tokenizer=tokenizer,
                 train_dataset=dataset['train'],
                 validation_dataset=dataset['validation'],
