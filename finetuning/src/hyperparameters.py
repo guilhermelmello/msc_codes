@@ -44,6 +44,10 @@ def search(
     if seed is not None:
         torch.manual_seed(seed)
 
+    print("Search Space:")
+    print("\tlearning rate:", lr_values)
+    print("\tbatch size:", batch_size_values)
+
     # model initialization
     print("Initializing seed model")
     seed_model = task.load_pretrained_model(model_name=model_name)
