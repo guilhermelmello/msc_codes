@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N a1-rte
 #PBS -q miggpu24h
-#PBS -e logs/assin-rte/bertimbau-large.err
-#PBS -o logs/assin-rte/bertimbau-large.out
+#PBS -e logs/assin-rte/bertimbau-large/seed-43.err
+#PBS -o logs/assin-rte/bertimbau-large/seed-43.out
 
 echo "Staring Time: $(date)"
 echo "Root directory $PBS_O_WORKDIR"
@@ -26,11 +26,13 @@ echo "Running python script"
 python main.py \
     --task-name assin-rte \
     --model-name neuralmind/bert-large-portuguese-cased \
-    --save-dir models/assin-rte/bertimbau-large \
+    --save-dir models/assin-rte/bertimbau-large/43 \
+    --hp-learning-rate 5e-3 5e-4 5e-5 5e-6 \
+    --hp-batch-size 8 16 32 \
     --num-hp-trials 12 \
     --num-hp-epochs 5 \
     --num-training-epochs 10 \
-    --seed 42
+    --seed 43
 
 
 deactivate
